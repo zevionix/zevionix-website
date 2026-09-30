@@ -3,8 +3,10 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Zevionix builds intelligent digital systems, AI solutions and scalable software.">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Zevionix builds intelligent digital systems, AI solutions, custom software, and scalable technology platforms.">
+<meta name="keywords" content="Zevionix, software engineering, artificial intelligence, computer vision, web development, technology">
+<meta name="author" content="Zevionix Technologies">
 <title>Zevionix | Technology. Intelligence. Impact.</title>
 
 <style>
@@ -37,7 +39,7 @@ body {
 }
 
 h1, h2, h3, h4 {
-    font-family: Manrope, sans-serif;
+    font-family: 'Manrope', sans-serif;
     color: var(--ink);
     line-height: 1.2;
     margin: 0 0 16px;
@@ -62,7 +64,7 @@ a {
 header {
     position: sticky;
     top: 0;
-    z-index: 9;
+    z-index: 100;
     background: #fffffff2;
     backdrop-filter: blur(15px);
     border-bottom: 1px solid var(--line);
@@ -76,7 +78,7 @@ nav {
 }
 
 .logo {
-    font: 800 27px Manrope;
+    font: 800 27px 'Manrope', sans-serif;
     color: var(--navy);
     letter-spacing: -1px;
 }
@@ -118,6 +120,7 @@ nav {
     border-radius: 8px;
     padding: 7px 12px;
     font-size: 22px;
+    cursor: pointer;
 }
 
 /* HERO */
@@ -130,7 +133,8 @@ nav {
         white;
 }
 
-.hero-grid, .split {
+.hero-grid,
+.split {
     display: grid;
     grid-template-columns: 1.1fr .9fr;
     gap: 50px;
@@ -177,12 +181,18 @@ nav {
     font-weight: 800;
     border: 1px solid transparent;
     cursor: pointer;
+    transition: .2s;
 }
 
 .primary {
     background: var(--blue);
     color: white;
     box-shadow: 0 10px 22px #2457e629;
+}
+
+.primary:hover {
+    background: #1747cf;
+    transform: translateY(-2px);
 }
 
 .secondary {
@@ -268,7 +278,7 @@ nav {
 .stat strong {
     display: block;
     color: var(--blue);
-    font: 800 29px Manrope;
+    font: 800 29px 'Manrope', sans-serif;
 }
 
 .stat span {
@@ -292,7 +302,9 @@ nav {
     color: #c8d2e8;
 }
 
-.dark h2, .dark h3, .dark h4 {
+.dark h2,
+.dark h3,
+.dark h4 {
     color: white;
 }
 
@@ -321,7 +333,8 @@ nav {
     gap: 18px;
 }
 
-.card, .panel {
+.card,
+.panel {
     background: white;
     border: 1px solid var(--line);
     border-radius: 15px;
@@ -368,10 +381,6 @@ nav {
     transform: translateY(-2px);
 }
 
-.panel h3 {
-    font-size: 22px;
-}
-
 /* CHECKLIST */
 
 .checks {
@@ -392,6 +401,10 @@ nav {
     color: var(--blue);
     margin-right: 10px;
     font-weight: 900;
+}
+
+.panel h3 {
+    font-size: 22px;
 }
 
 /* PARTNER */
@@ -504,7 +517,7 @@ nav {
     border-radius: 50%;
     background: linear-gradient(135deg, var(--blue), var(--violet));
     color: white;
-    font: 800 24px Manrope;
+    font: 800 24px 'Manrope', sans-serif;
 }
 
 .role {
@@ -548,8 +561,9 @@ nav {
     gap: 12px;
 }
 
-.form input, .form textarea {
-    font: 14px 'DM Sans';
+.form input,
+.form textarea {
+    font: 14px 'DM Sans', sans-serif;
     padding: 14px;
     border: 1px solid var(--line);
     border-radius: 8px;
@@ -617,7 +631,8 @@ nav {
     padding: 0;
 }
 
-.footer li, .footer p {
+.footer li,
+.footer p {
     font-size: 13px;
     margin-bottom: 8px;
 }
@@ -629,7 +644,7 @@ nav {
     font-size: 12px;
 }
 
-/* RESPONSIVE DESIGN */
+/* RESPONSIVE */
 
 @media(max-width: 900px) {
     .nav {
@@ -679,7 +694,9 @@ nav {
         padding: 65px 0;
     }
 
-    .hero-grid, .split, .contact-grid {
+    .hero-grid,
+    .split,
+    .contact-grid {
         grid-template-columns: 1fr;
     }
 
@@ -710,7 +727,8 @@ nav {
 }
 
 @media(max-width: 430px) {
-    .flow, .stats-grid {
+    .flow,
+    .stats-grid {
         grid-template-columns: 1fr;
     }
 
@@ -759,7 +777,11 @@ nav {
         <div>
             <span class="eyebrow">Enterprise technology & innovation</span>
 
-            <h1>Engineering the <span class="gradient">next generation</span> of digital systems.</h1>
+            <h1>
+                Engineering the
+                <span class="gradient">next generation</span>
+                of digital systems.
+            </h1>
 
             <p class="lead">
                 Zevionix brings together software engineering, artificial intelligence,
@@ -809,7 +831,10 @@ nav {
     <div class="wrap split">
         <div>
             <span class="eyebrow">About Zevionix</span>
-            <h2 class="section-title">Technology with purpose. Engineering with intent.</h2>
+            <h2 class="section-title">
+                Technology with purpose. Engineering with intent.
+            </h2>
+
             <p>
                 We create digital platforms and intelligent systems through disciplined
                 engineering, thoughtful architecture, and a commitment to solving
@@ -820,6 +845,7 @@ nav {
 
         <div class="panel">
             <h3>Our engineering principles</h3>
+
             <ul class="checks">
                 <li>Scalable and maintainable architecture</li>
                 <li>Intelligent automation and AI integration</li>
@@ -834,12 +860,17 @@ nav {
         <div class="partner">
             <span class="eyebrow">Strategic collaboration</span>
             <h3>Zevionix <strong>× Coralgenz Global</strong></h3>
+
             <p>
                 Working together on shared technology initiatives, co-development,
                 and broader engineering capabilities. Engagement scopes are defined
                 project by project.
             </p>
-            <a class="btn secondary" href="https://coralgenz.co.in/" target="_blank" rel="noopener">
+
+            <a class="btn secondary"
+               href="https://coralgenz.co.in/"
+               target="_blank"
+               rel="noopener">
                 Visit Coralgenz Global ↗
             </a>
         </div>
@@ -850,9 +881,11 @@ nav {
 
 <section class="section soft" id="services">
     <div class="wrap">
+
         <div class="center">
             <span class="eyebrow">What we do</span>
             <h2 class="section-title">Capabilities that move ideas forward</h2>
+
             <p>
                 A flexible set of technology services designed to help teams build,
                 modernize, and scale digital experiences.
@@ -861,57 +894,86 @@ nav {
 
         <div class="cards">
 
+            <!-- 01 CUSTOM SOFTWARE -->
+
             <article class="card">
                 <small>01 / SOFTWARE</small>
+
                 <h3>Custom Software Engineering</h3>
+
                 <p>
                     Scalable platforms, backend systems, APIs, and tailored applications
                     designed around operational needs.
                 </p>
+
+                <a class="card-link" href="custom-software.html">
+                    Explore Custom Software Engineering →
+                </a>
             </article>
+
+            <!-- 02 ARTIFICIAL INTELLIGENCE -->
 
             <article class="card">
                 <small>02 / AI</small>
+
                 <h3>Artificial Intelligence</h3>
+
                 <p>
                     AI pipelines, machine learning models, computer vision,
                     and automation workflows that support informed decisions.
                 </p>
+
                 <a class="card-link" href="ai-computer-vision.html">
                     Explore AI & Computer Vision →
                 </a>
             </article>
 
+            <!-- 03 WEB DEVELOPMENT -->
+
             <article class="card">
                 <small>03 / DIGITAL EXPERIENCE</small>
+
                 <h3>Web & Application Development</h3>
+
                 <p>
                     Responsive websites, modern interfaces, web applications,
                     and mobile-oriented experiences.
                 </p>
             </article>
 
+            <!-- 04 CLOUD AND DEVOPS -->
+
             <article class="card">
                 <small>04 / INFRASTRUCTURE</small>
+
                 <h3>Cloud & DevOps</h3>
+
                 <p>
                     Deployment workflows, infrastructure planning, CI/CD,
                     containerization, and cloud-ready architecture.
                 </p>
             </article>
 
+            <!-- 05 DATA ENGINEERING -->
+
             <article class="card">
                 <small>05 / DATA</small>
+
                 <h3>Data Engineering & Analytics</h3>
+
                 <p>
                     Data pipelines, database design, reporting interfaces,
                     and analytics foundations for structured insight.
                 </p>
             </article>
 
+            <!-- 06 RESEARCH AND DEVELOPMENT -->
+
             <article class="card">
                 <small>06 / INNOVATION</small>
+
                 <h3>Research & Product Development</h3>
+
                 <p>
                     Exploration of emerging technologies and purpose-built
                     products for real-world challenges.
@@ -926,21 +988,25 @@ nav {
 
 <section class="section" id="technology">
     <div class="wrap">
+
         <span class="eyebrow">Technical expertise</span>
+
         <h2 class="section-title">Technology without boundaries.</h2>
+
         <p>
             We choose tools based on each project's requirements:
             performance, scalability, maintainability, and fit.
         </p>
 
         <h3 style="margin-top:32px">Programming languages</h3>
-        <div class="tags"></div>
+        <div class="tags" id="languageTags"></div>
 
         <h3>Web & interface technologies</h3>
-        <div class="tags"></div>
+        <div class="tags" id="webTags"></div>
 
         <h3>Data formats & communication</h3>
-        <div class="tags"></div>
+        <div class="tags" id="formatTags"></div>
+
     </div>
 </section>
 
@@ -948,15 +1014,20 @@ nav {
 
 <section class="section dark" id="aura">
     <div class="wrap">
+
         <div class="split">
+
             <div>
                 <span class="eyebrow">Featured innovation</span>
+
                 <h2 class="section-title">Introducing AURA</h2>
+
                 <p>
                     AI Emergency Response & Smart Campus System. AURA is being
                     developed to connect camera-based event detection, verification,
                     alert coordination, and centralized incident monitoring.
                 </p>
+
                 <p style="font-size:12px;color:#c1cce1">
                     AURA is in development. Detection accuracy, deployment readiness,
                     and operational performance require further testing and validation.
@@ -965,19 +1036,29 @@ nav {
 
             <div class="aura-panel">
                 <div class="kicker">AURA COMMAND CENTER</div>
-                <h3 style="color:white;margin-top:12px">Incident monitoring</h3>
+
+                <h3 style="color:white;margin-top:12px">
+                    Incident monitoring
+                </h3>
+
                 <p>Example location: Block A · Corridor 1</p>
                 <p>Event: Possible fall detected</p>
                 <p>Status: Verification and response workflow</p>
                 <p>Interface: Central dashboard</p>
             </div>
+
         </div>
 
         <div style="margin-top:45px">
+
             <h2>From detection to response visibility</h2>
-            <p>AURA's proposed incident flow connects five functional stages.</p>
+
+            <p>
+                AURA's proposed incident flow connects five functional stages.
+            </p>
 
             <div class="flow">
+
                 <div class="step">
                     <b>01</b>
                     <h4>Camera</h4>
@@ -1007,6 +1088,7 @@ nav {
                     <h4>Dashboard</h4>
                     <p>Status and tracking</p>
                 </div>
+
             </div>
         </div>
     </div>
@@ -1016,9 +1098,14 @@ nav {
 
 <section class="section soft" id="team">
     <div class="wrap">
+
         <div class="center">
             <span class="eyebrow">Our leadership</span>
-            <h2 class="section-title">Leadership with a builder's mindset.</h2>
+
+            <h2 class="section-title">
+                Leadership with a builder's mindset.
+            </h2>
+
             <p>
                 Strategic direction and technical leadership supporting
                 Zevionix's engineering and innovation initiatives.
@@ -1026,10 +1113,14 @@ nav {
         </div>
 
         <div class="team">
+
             <article class="person">
                 <div class="avatar">MB</div>
+
                 <h3>Madhavan Balasubramani</h3>
+
                 <div class="role">Chief Executive Officer</div>
+
                 <p>
                     Leads strategic direction, partnerships, business development,
                     and organizational growth.
@@ -1038,18 +1129,23 @@ nav {
 
             <article class="person">
                 <div class="avatar">PK</div>
+
                 <h3>Praveen Kumar</h3>
+
                 <div class="role">Chief Technology Officer</div>
+
                 <p>
                     Guides engineering strategy, technical architecture,
                     development practices, and scalable technology platforms.
                 </p>
             </article>
+
         </div>
 
         <p style="text-align:center;font-size:12px;margin-top:20px">
             Additional team roles and profiles will be published as they are confirmed.
         </p>
+
     </div>
 </section>
 
@@ -1057,9 +1153,14 @@ nav {
 
 <section class="section" id="contact">
     <div class="wrap">
+
         <div class="center">
             <span class="eyebrow">Connect with us</span>
-            <h2 class="section-title">Let's build something meaningful.</h2>
+
+            <h2 class="section-title">
+                Let's build something meaningful.
+            </h2>
+
             <p>
                 Have a technology challenge, project idea, or collaboration opportunity?
                 Start a conversation with Zevionix.
@@ -1067,8 +1168,11 @@ nav {
         </div>
 
         <div class="contact-grid">
+
             <div class="info">
+
                 <h3>Start a conversation</h3>
+
                 <p>
                     We welcome discussions around software engineering,
                     AI innovation, digital products, and technology partnerships.
@@ -1076,12 +1180,16 @@ nav {
 
                 <div class="item">
                     <strong>Email</strong>
-                    <a href="mailto:zevionix.01@gmail.com">zevionix.01@gmail.com</a>
+                    <a href="mailto:zevionix.01@gmail.com">
+                        zevionix.01@gmail.com
+                    </a>
                 </div>
 
                 <div class="item">
                     <strong>Website</strong>
-                    <a href="https://www.zevionix.com/">www.zevionix.com</a>
+                    <a href="https://www.zevionix.com/">
+                        www.zevionix.com
+                    </a>
                 </div>
 
                 <div class="item">
@@ -1091,26 +1199,57 @@ nav {
 
                 <div class="item">
                     <strong>Social</strong>
-                    <a href="https://youtube.com/@zevionix?si=rdXH4xE">YouTube</a>
+                    <a href="https://youtube.com/@zevionix">YouTube</a>
                     ·
-                    <a href="https://www.instagram.com/zevionix.in?stkn=MTAzdm9pYWJudzl0MA==">Instagram</a>
+                    <a href="https://www.instagram.com/zevionix.in/">Instagram</a>
+                    ·
+                    <a href="https://www.linkedin.com/company/zevionix/">LinkedIn</a>
                 </div>
+
             </div>
 
             <div class="panel">
+
                 <h3>Send an enquiry</h3>
 
                 <form class="form" id="contactForm">
-                    <input id="name" placeholder="Your name" required>
-                    <input id="email" type="email" placeholder="Your email" required>
-                    <input id="subject" placeholder="Subject">
-                    <textarea id="message" placeholder="Tell us about your project..." required></textarea>
-                    <button class="btn primary" type="submit">Send enquiry →</button>
+
+                    <input
+                        id="name"
+                        type="text"
+                        placeholder="Your name"
+                        required
+                    >
+
+                    <input
+                        id="email"
+                        type="email"
+                        placeholder="Your email"
+                        required
+                    >
+
+                    <input
+                        id="subject"
+                        type="text"
+                        placeholder="Subject"
+                    >
+
+                    <textarea
+                        id="message"
+                        placeholder="Tell us about your project..."
+                        required
+                    ></textarea>
+
+                    <button class="btn primary" type="submit">
+                        Send enquiry →
+                    </button>
+
                 </form>
 
                 <p style="font-size:12px;margin-top:12px">
                     This form opens your default email application with the enquiry prepared.
                 </p>
+
             </div>
         </div>
     </div>
@@ -1120,11 +1259,18 @@ nav {
 
 <section class="cta">
     <div class="wrap cta-row">
+
         <div>
             <h2>Have an idea worth building?</h2>
-            <p>Let's discuss your technology challenge or collaboration opportunity.</p>
+            <p>
+                Let's discuss your technology challenge or collaboration opportunity.
+            </p>
         </div>
-        <a class="btn" href="#contact">Start a conversation →</a>
+
+        <a class="btn" href="#contact">
+            Start a conversation →
+        </a>
+
     </div>
 </section>
 
@@ -1134,9 +1280,14 @@ nav {
 
 <footer class="footer">
     <div class="wrap">
+
         <div class="footer-grid">
+
             <div>
-                <a class="logo" href="#home" style="color:white">zevionix<b>.</b></a>
+                <a class="logo" href="#home" style="color:white">
+                    zevionix<b>.</b>
+                </a>
+
                 <p>
                     Engineering intelligent digital ecosystems through software
                     engineering, AI innovation, and scalable technology architecture.
@@ -1145,6 +1296,7 @@ nav {
 
             <div>
                 <h4>Explore</h4>
+
                 <ul>
                     <li><a href="#about">About</a></li>
                     <li><a href="#services">Services</a></li>
@@ -1156,92 +1308,125 @@ nav {
 
             <div>
                 <h4>Connect</h4>
+
                 <ul>
-                    <li><a href="mailto:zevionix.01@gmail.com">zevionix.01@gmail.com</a></li>
-                    <li><a href="https://youtube.com/@zevionix?si=rdXH4xE">YouTube</a></li>
-                    <li><a href="https://www.instagram.com/zevionix.technologies?stkn=MTAzdm9pYWJudzl0MA==">Instagram</a></li>
+                    <li>
+                        <a href="mailto:zevionix.01@gmail.com">
+                            zevionix.01@gmail.com
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="https://youtube.com/@zevionix">YouTube</a>
+                    </li>
+
+                    <li>
+                        <a href="https://www.instagram.com/zevionix.in/">
+                            Instagram
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="https://www.linkedin.com/company/zevionix/">
+                            LinkedIn
+                        </a>
+                    </li>
                 </ul>
             </div>
+
         </div>
 
         <div class="footer-bottom">
             © <span id="year"></span> Zevionix Technologies. All rights reserved.
         </div>
+
     </div>
 </footer>
 
 <script>
-// MOBILE NAVIGATION
+
+/* MOBILE NAVIGATION */
 
 const toggle = document.querySelector('.toggle');
 const nav = document.querySelector('.nav');
 
 toggle.addEventListener('click', () => {
-    let open = nav.classList.toggle('open');
-    toggle.setAttribute('aria-expanded', String(open));
-    toggle.textContent = open ? '×' : '☰';
+    const isOpen = nav.classList.toggle('open');
+
+    toggle.setAttribute('aria-expanded', String(isOpen));
+    toggle.textContent = isOpen ? '×' : '☰';
 });
 
-nav.querySelectorAll('a').forEach(a => {
-    a.addEventListener('click', () => {
+nav.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
         nav.classList.remove('open');
         toggle.setAttribute('aria-expanded', 'false');
         toggle.textContent = '☰';
     });
 });
 
-// AUTOMATIC COPYRIGHT YEAR
+/* AUTOMATIC COPYRIGHT YEAR */
 
-document.getElementById('year').textContent = new Date().getFullYear();
+document.getElementById('year').textContent =
+    new Date().getFullYear();
 
-// TECHNOLOGY TAGS
+/* TECHNOLOGY TAGS */
 
-const languageItems = [
-    'Java', 'Python', 'R', 'C', 'C++', 'C#',
-    'JavaScript', 'TypeScript', 'PHP', 'Ruby',
-    'Go', 'Rust', 'Kotlin', 'Swift', 'Dart',
-    'Scala', 'SQL', 'Bash', 'PowerShell'
-];
+const technologyGroups = {
+    languageTags: [
+        'Java', 'Python', 'R', 'C', 'C++', 'C#',
+        'JavaScript', 'TypeScript', 'PHP', 'Ruby',
+        'Go', 'Rust', 'Kotlin', 'Swift', 'Dart',
+        'Scala', 'SQL', 'Bash', 'PowerShell'
+    ],
 
-const webItems = [
-    'HTML5', 'CSS3', 'SCSS', 'Tailwind CSS',
-    'Bootstrap', 'React', 'Angular', 'Vue.js',
-    'Next.js', 'Node.js', 'Express.js'
-];
+    webTags: [
+        'HTML5', 'CSS3', 'SCSS', 'Tailwind CSS',
+        'Bootstrap', 'React', 'Angular', 'Vue.js',
+        'Next.js', 'Node.js', 'Express.js'
+    ],
 
-const formatItems = [
-    'JSON', 'XML', 'YAML', 'CSV',
-    'TOML', 'Markdown', 'Protocol Buffers'
-];
+    formatTags: [
+        'JSON', 'XML', 'YAML', 'CSV',
+        'TOML', 'Markdown', 'Protocol Buffers'
+    ]
+};
 
-document.querySelectorAll('.tags').forEach((box, i) => {
-    const items = [languageItems, webItems, formatItems][i];
+Object.entries(technologyGroups).forEach(([id, items]) => {
+    const container = document.getElementById(id);
 
-    box.innerHTML = items
+    container.innerHTML = items
         .map(item => `<span class="tag">${item}</span>`)
         .join('');
 });
 
-// CONTACT FORM
+/* CONTACT FORM */
 
-document.getElementById('contactForm').addEventListener('submit', e => {
-    e.preventDefault();
+document.getElementById('contactForm').addEventListener('submit', event => {
+    event.preventDefault();
 
-    const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
-    const subject = document.getElementById('subject').value || 'Website enquiry';
-    const message = document.getElementById('message').value;
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const subject =
+        document.getElementById('subject').value.trim() ||
+        'Website enquiry';
+
+    const message = document.getElementById('message').value.trim();
 
     const body =
         'Name: ' + name +
         '\nEmail: ' + email +
         '\n\n' + message;
 
-    location.href =
-        `mailto:zevionix.01@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    const mailtoLink =
+        'mailto:zevionix.01@gmail.com' +
+        '?subject=' + encodeURIComponent(subject) +
+        '&body=' + encodeURIComponent(body);
+
+    window.location.href = mailtoLink;
 });
+
 </script>
 
 </body>
 </html>
-
