@@ -1,0 +1,866 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Zevionix provides cloud infrastructure planning, DevOps automation, CI/CD pipelines, containerization, and scalable deployment solutions.">
+<title>Cloud & DevOps | Zevionix Technologies</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
+
+:root {
+    --navy: #0b1530;
+    --ink: #111c38;
+    --muted: #62708a;
+    --blue: #2457e6;
+    --violet: #7856e8;
+    --pale: #f4f7fc;
+    --line: #e5eaf3;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 85px;
+}
+
+body {
+    margin: 0;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--muted);
+    line-height: 1.7;
+}
+
+h1, h2, h3, h4 {
+    font-family: Manrope, sans-serif;
+    color: var(--ink);
+    line-height: 1.2;
+    margin: 0 0 16px;
+}
+
+p {
+    margin: 0 0 16px;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.wrap {
+    width: min(1160px, 90%);
+    margin: auto;
+}
+
+/* HEADER */
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 9;
+    background: #fffffff2;
+    backdrop-filter: blur(15px);
+    border-bottom: 1px solid var(--line);
+}
+
+nav {
+    height: 76px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    font: 800 27px Manrope;
+    color: var(--navy);
+    letter-spacing: -1px;
+}
+
+.logo b {
+    color: var(--blue);
+}
+
+.nav {
+    display: flex;
+    gap: 23px;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav a {
+    font-size: 13px;
+    font-weight: 700;
+    color: #38445e;
+}
+
+.nav a:hover {
+    color: var(--blue);
+}
+
+.nav .contact-link {
+    background: var(--blue);
+    color: white;
+    padding: 11px 17px;
+    border-radius: 8px;
+}
+
+.toggle {
+    display: none;
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 7px 12px;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+/* HERO */
+
+.hero {
+    padding: 100px 0 90px;
+    background:
+        radial-gradient(ellipse at 85% 5%, #7856e822, transparent 35%),
+        radial-gradient(ellipse at 3% 95%, #2457e615, transparent 35%),
+        white;
+}
+
+.hero-grid {
+    display: grid;
+    grid-template-columns: 1.1fr .9fr;
+    gap: 50px;
+    align-items: center;
+}
+
+.eyebrow {
+    display: inline-block;
+    background: #edf2ff;
+    color: var(--blue);
+    border: 1px solid #e2eaff;
+    border-radius: 30px;
+    padding: 7px 14px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 19px;
+}
+
+.hero h1 {
+    font-size: clamp(42px, 5.5vw, 68px);
+    letter-spacing: -3px;
+}
+
+.gradient {
+    background: linear-gradient(100deg, var(--blue), var(--violet));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.lead {
+    font-size: 17px;
+    max-width: 640px;
+    margin-bottom: 28px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 13px 21px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 800;
+    border: 1px solid transparent;
+    cursor: pointer;
+}
+
+.primary {
+    background: var(--blue);
+    color: white;
+    box-shadow: 0 10px 22px #2457e629;
+}
+
+.secondary {
+    border-color: #dce3ef;
+    color: var(--ink);
+    margin-left: 8px;
+}
+
+.hero-card {
+    min-height: 350px;
+    padding: 32px;
+    border-radius: 23px;
+    background: linear-gradient(140deg, #101c3b, #243e85 65%, #6b50c7);
+    color: white;
+    box-shadow: 0 24px 65px #142b662e;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-card:after {
+    content: '';
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border: 1px solid #ffffff2b;
+    border-radius: 50%;
+    right: -100px;
+    top: -100px;
+    box-shadow: 0 0 0 45px #ffffff08, 0 0 0 90px #ffffff08;
+}
+
+.hero-card > * {
+    position: relative;
+    z-index: 1;
+}
+
+.kicker {
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: #b9c9ff;
+    font-weight: 700;
+}
+
+.hero-card h2 {
+    color: white;
+    font-size: 34px;
+    margin-top: 85px;
+}
+
+.hero-card p {
+    color: #d6def8;
+}
+
+.status {
+    background: #ffffff19;
+    border: 1px solid #ffffff30;
+    border-radius: 10px;
+    padding: 12px;
+    font-size: 12px;
+    color: white;
+}
+
+.status:before {
+    content: '●';
+    color: #56d6b0;
+    margin-right: 8px;
+}
+
+/* SECTIONS */
+
+.section {
+    padding: 85px 0;
+    scroll-margin-top: 76px;
+}
+
+.soft {
+    background: var(--pale);
+}
+
+.dark {
+    background: var(--navy);
+    color: #c8d2e8;
+}
+
+.dark h2, .dark h3, .dark h4 {
+    color: white;
+}
+
+.dark .eyebrow {
+    background: #ffffff12;
+    border-color: #ffffff20;
+    color: #b9c9ff;
+}
+
+.section-title {
+    font-size: clamp(30px, 4vw, 44px);
+    letter-spacing: -1.5px;
+}
+
+.center {
+    text-align: center;
+    max-width: 760px;
+    margin: 0 auto 38px;
+}
+
+/* CARDS */
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+.card, .panel {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 15px;
+    padding: 26px;
+    transition: .2s;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 35px #16327012;
+    border-color: #c8d5ff;
+}
+
+.card small {
+    color: var(--blue);
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.card h3 {
+    font-size: 19px;
+    margin: 12px 0;
+}
+
+.card p {
+    font-size: 14px;
+    margin: 0;
+}
+
+.panel h3 {
+    font-size: 22px;
+}
+
+/* CHECKLIST */
+
+.checks {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0 0;
+}
+
+.checks li {
+    padding: 9px 0;
+    border-bottom: 1px solid #f0f2f7;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.checks li:before {
+    content: '✓';
+    color: var(--blue);
+    margin-right: 10px;
+    font-weight: 900;
+}
+
+/* TECHNOLOGY */
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 20px 0 32px;
+}
+
+.tag {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 8px 14px;
+    color: #3e4b65;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+/* WORKFLOW */
+
+.flow {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-top: 30px;
+}
+
+.step {
+    background: #162442;
+    border: 1px solid #344260;
+    border-radius: 11px;
+    padding: 20px;
+    text-align: center;
+}
+
+.step b {
+    display: block;
+    color: #9eb4ff;
+    font-size: 11px;
+}
+
+.step h4 {
+    font-size: 15px;
+    margin: 10px 0;
+    color: white;
+}
+
+.step p {
+    font-size: 12px;
+    margin: 0;
+    color: #c0cce2;
+}
+
+/* CTA */
+
+.cta {
+    background: linear-gradient(110deg, #1747cf, #6549d2);
+    padding: 52px 0;
+    color: white;
+}
+
+.cta-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.cta h2 {
+    color: white;
+    font-size: 30px;
+    margin-bottom: 7px;
+}
+
+.cta p {
+    margin: 0;
+    color: #e0e7ff;
+}
+
+.cta .btn {
+    background: white;
+    color: #1945bd;
+}
+
+/* FOOTER */
+
+.footer {
+    background: var(--navy);
+    color: #b8c4dc;
+    padding: 35px 0 20px;
+}
+
+.footer-bottom {
+    text-align: center;
+    border-top: 1px solid #293653;
+    padding-top: 17px;
+    font-size: 12px;
+}
+
+/* RESPONSIVE */
+
+@media(max-width: 900px) {
+    .cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .flow {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media(max-width: 760px) {
+    .toggle {
+        display: block;
+    }
+
+    .nav {
+        display: none;
+        position: absolute;
+        top: 72px;
+        left: 0;
+        right: 0;
+        background: white;
+        padding: 20px 5%;
+        border-bottom: 1px solid var(--line);
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .nav.open {
+        display: flex;
+    }
+
+    .nav .contact-link {
+        text-align: center;
+    }
+
+    .hero {
+        padding: 65px 0;
+    }
+
+    .hero-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .section {
+        padding: 65px 0;
+    }
+
+    .cards {
+        grid-template-columns: 1fr;
+    }
+
+    .flow {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .cta-row {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}
+
+@media(max-width: 430px) {
+    .flow {
+        grid-template-columns: 1fr;
+    }
+
+    .hero h1 {
+        letter-spacing: -2px;
+    }
+
+    .secondary {
+        margin: 10px 0 0;
+    }
+
+    .actions .btn {
+        display: block;
+        text-align: center;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <nav class="wrap">
+        <a class="logo" href="index.html">zevionix<b>.</b></a>
+
+        <button class="toggle" aria-label="Open navigation" aria-expanded="false">☰</button>
+
+        <ul class="nav">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#about">About</a></li>
+            <li><a href="index.html#services">Services</a></li>
+            <li><a href="index.html#technology">Technology</a></li>
+            <li><a href="index.html#aura">AURA</a></li>
+            <li><a href="index.html#team">Leadership</a></li>
+            <li><a class="contact-link" href="index.html#contact">Contact</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+
+<!-- HERO -->
+
+<section class="hero">
+    <div class="wrap hero-grid">
+        <div>
+            <span class="eyebrow">04 / Infrastructure</span>
+
+            <h1>Cloud & <span class="gradient">DevOps</span></h1>
+
+            <p class="lead">
+                Deployment workflows, infrastructure planning, CI/CD,
+                containerization, and cloud-ready architecture.
+                We help teams streamline delivery and build reliable,
+                scalable technology environments.
+            </p>
+
+            <div class="actions">
+                <a class="btn primary" href="#services">Explore capabilities →</a>
+                <a class="btn secondary" href="index.html#services">Back to services</a>
+            </div>
+        </div>
+
+        <div class="hero-card">
+            <div class="kicker">ZEVIONIX INFRASTRUCTURE</div>
+            <h2>Deploy. Automate. Scale.</h2>
+            <p>Building dependable foundations for modern digital services.</p>
+            <div class="status">Cloud-ready engineering workflows</div>
+        </div>
+    </div>
+</section>
+
+<!-- OVERVIEW -->
+
+<section class="section">
+    <div class="wrap">
+        <div class="center">
+            <span class="eyebrow">Our approach</span>
+            <h2 class="section-title">Infrastructure built for dependable delivery.</h2>
+            <p>
+                Modern applications need more than code. They need reliable
+                environments, repeatable deployments, and operational practices
+                that support growth. Zevionix approaches cloud and DevOps with
+                an emphasis on automation, consistency, and maintainability.
+            </p>
+        </div>
+
+        <div class="cards">
+            <article class="card">
+                <small>01 / CLOUD</small>
+                <h3>Cloud Infrastructure Planning</h3>
+                <p>
+                    Plan environments and infrastructure components around
+                    application requirements, resource needs, and future growth.
+                </p>
+            </article>
+
+            <article class="card">
+                <small>02 / AUTOMATION</small>
+                <h3>CI/CD Pipelines</h3>
+                <p>
+                    Structure continuous integration and delivery workflows
+                    to automate builds, testing, and deployment activities.
+                </p>
+            </article>
+
+            <article class="card">
+                <small>03 / CONTAINERS</small>
+                <h3>Containerization</h3>
+                <p>
+                    Package applications and their dependencies into
+                    consistent environments for development and deployment.
+                </p>
+            </article>
+
+            <article class="card">
+                <small>04 / DEPLOYMENT</small>
+                <h3>Deployment Workflows</h3>
+                <p>
+                    Organize repeatable release processes that help teams
+                    deploy updates with greater consistency.
+                </p>
+            </article>
+
+            <article class="card">
+                <small>05 / OPERATIONS</small>
+                <h3>Monitoring & Reliability</h3>
+                <p>
+                    Establish monitoring and operational practices that help
+                    teams understand application health and investigate issues.
+                </p>
+            </article>
+
+            <article class="card">
+                <small>06 / ARCHITECTURE</small>
+                <h3>Cloud-Ready Architecture</h3>
+                <p>
+                    Design applications and services with scalability,
+                    maintainability, and deployment flexibility in mind.
+                </p>
+            </article>
+        </div>
+    </div>
+</section>
+
+<!-- BENEFITS -->
+
+<section class="section soft" id="services">
+    <div class="wrap">
+        <div class="split">
+            <div>
+                <span class="eyebrow">Engineering outcomes</span>
+                <h2 class="section-title">A more structured path from development to deployment.</h2>
+                <p>
+                    DevOps practices connect development and operations
+                    through shared workflows, automation, and continuous
+                    improvement. The specific tools and architecture depend
+                    on each project's needs.
+                </p>
+            </div>
+
+            <div class="panel">
+                <h3>Key focus areas</h3>
+                <ul class="checks">
+                    <li>Repeatable build and deployment processes</li>
+                    <li>Consistent development environments</li>
+                    <li>Automation of routine engineering tasks</li>
+                    <li>Scalable infrastructure planning</li>
+                    <li>Clearer release and operational workflows</li>
+                    <li>Maintainable cloud architecture</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- TECHNOLOGY -->
+
+<section class="section">
+    <div class="wrap">
+        <span class="eyebrow">Technology stack</span>
+        <h2 class="section-title">Tools for modern infrastructure.</h2>
+        <p>
+            We select technologies according to project requirements,
+            existing systems, and operational goals.
+        </p>
+
+        <h3 style="margin-top:32px">Cloud platforms</h3>
+        <div class="tags" id="cloudTags"></div>
+
+        <h3>DevOps & automation</h3>
+        <div class="tags" id="devopsTags"></div>
+
+        <h3>Containers & infrastructure</h3>
+        <div class="tags" id="containerTags"></div>
+    </div>
+</section>
+
+<!-- WORKFLOW -->
+
+<section class="section dark">
+    <div class="wrap">
+        <div class="center">
+            <span class="eyebrow">Our workflow</span>
+            <h2 class="section-title">From planning to continuous improvement.</h2>
+            <p>
+                A structured workflow helps teams understand infrastructure
+                requirements and improve delivery practices over time.
+            </p>
+        </div>
+
+        <div class="flow">
+            <div class="step">
+                <b>01</b>
+                <h4>Assess</h4>
+                <p>Understand application needs and existing infrastructure.</p>
+            </div>
+
+            <div class="step">
+                <b>02</b>
+                <h4>Design</h4>
+                <p>Plan environments, deployment architecture, and workflows.</p>
+            </div>
+
+            <div class="step">
+                <b>03</b>
+                <h4>Automate</h4>
+                <p>Configure pipelines and repeatable engineering processes.</p>
+            </div>
+
+            <div class="step">
+                <b>04</b>
+                <h4>Deploy</h4>
+                <p>Release applications through structured deployment steps.</p>
+            </div>
+
+            <div class="step">
+                <b>05</b>
+                <h4>Monitor</h4>
+                <p>Observe system behavior and identify operational issues.</p>
+            </div>
+
+            <div class="step">
+                <b>06</b>
+                <h4>Improve</h4>
+                <p>Refine infrastructure and delivery practices continuously.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CONTACT CTA -->
+
+<section class="cta">
+    <div class="wrap cta-row">
+        <div>
+            <h2>Ready to modernize your infrastructure?</h2>
+            <p>Let's discuss your cloud, deployment, or automation requirements.</p>
+        </div>
+
+        <a class="btn" href="index.html#contact">Start a conversation →</a>
+    </div>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+
+<footer class="footer">
+    <div class="wrap">
+        <div class="footer-bottom">
+            © <span id="year"></span> Zevionix Technologies. All rights reserved.
+            <br><br>
+            <a href="index.html">Return to Zevionix homepage</a>
+        </div>
+    </div>
+</footer>
+
+<script>
+// MOBILE NAVIGATION
+
+const toggle = document.querySelector('.toggle');
+const nav = document.querySelector('.nav');
+
+toggle.addEventListener('click', () => {
+    const open = nav.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.textContent = open ? '×' : '☰';
+});
+
+nav.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+        nav.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.textContent = '☰';
+    });
+});
+
+// AUTOMATIC COPYRIGHT YEAR
+
+document.getElementById('year').textContent = new Date().getFullYear();
+
+// TECHNOLOGY TAGS
+
+const technologies = {
+    cloudTags: [
+        'AWS',
+        'Microsoft Azure',
+        'Google Cloud',
+        'DigitalOcean',
+        'Cloudflare'
+    ],
+
+    devopsTags: [
+        'Git',
+        'GitHub',
+        'GitLab',
+        'Jenkins',
+        'GitHub Actions',
+        'Terraform',
+        'Ansible'
+    ],
+
+    containerTags: [
+        'Docker',
+        'Kubernetes',
+        'Linux',
+        'Nginx',
+        'Apache',
+        'Bash',
+        'PowerShell'
+    ]
+};
+
+Object.entries(technologies).forEach(([id, items]) => {
+    const container = document.getElementById(id);
+
+    container.innerHTML = items
+        .map(item => `<span class="tag">${item}</span>`)
+        .join('');
+});
+</script>
+
+</body>
+</html>
