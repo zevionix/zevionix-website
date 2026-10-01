@@ -48,6 +48,8 @@
           </div>
         </li>
         <li class="nav-item">
+        </li>
+        <li class="nav-item">
           <a href="aura.html" class="nav-link">AURA</a>
         </li>
         <li class="nav-item">
@@ -103,8 +105,23 @@
       </div>
 
       <div class="hero-visual">
-        <div class="hero-logo-showcase-card">
-          <img src="assets/images/logo.png" alt="Zevionix Technologies Logo" class="hero-main-logo">
+        <div class="hero-logo-wrapper">
+          <img src="assets/images/logo.png" alt="Zevionix Technologies" class="hero-main-logo">
+          <div class="hero-logo-caption">Intelligent Technology & Engineering</div>
+          <div class="floating-card top-card">
+            <div class="floating-icon"><i class="fas fa-handshake"></i></div>
+            <div>
+              <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">Global Alliance</div>
+              <div style="font-size: 0.88rem; font-weight: 800; color: var(--text-main);">Coralgenz Global Partner</div>
+            </div>
+          </div>
+          <div class="floating-card bottom-card">
+            <div class="floating-icon" style="background: var(--accent-emerald-subtle); color: var(--accent-emerald);"><i class="fas fa-layer-group"></i></div>
+            <div>
+              <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">Ecosystem Depth</div>
+              <div style="font-size: 0.88rem; font-weight: 800; color: var(--text-main);">120+ Technology Stacks</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -137,197 +154,95 @@
     <div class="container">
       <div class="showcase-split">
         <div class="showcase-content">
-          <div class="badge-pill">Enterprise Engineering</div>
+          <div class="badge-pill">About Zevionix</div>
           <h2>Technology with purpose. Engineering with intent.</h2>
           <p>
-            Zevionix Technologies is an enterprise technology and engineering venture focused on building intelligent digital solutions through custom software engineering, artificial intelligence, computer vision, automated data pipelines, and scalable cloud architectures.
+            Zevionix Technologies is an emerging technology and innovation venture focused on building intelligent digital solutions through software engineering, artificial intelligence, computer vision, automation, and modern system architecture.
           </p>
           <p>
-            We combine rigorous computer science fundamentals, agile delivery methodologies, and cutting-edge research to transform ambitious ideas into reliable, high-throughput applications that drive measurable operational transformation.
+            We combine technical expertise, creative problem-solving, and practical engineering to transform ideas into reliable, scalable applications that address real-world challenges and support digital transformation.
           </p>
-          <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 15px;">
-            <a href="about.html" class="btn btn-secondary">About Zevionix <i class="fas fa-arrow-right"></i></a>
-            <a href="service.html" class="btn btn-primary">Explore All Capabilities</a>
-          </div>
+          <a href="about.html" class="btn btn-secondary" style="margin-top: 10px;">Learn More About Us <i class="fas fa-arrow-right"></i></a>
         </div>
         
         <div class="tech-card" style="padding: 30px;">
-          <h3 style="font-size: 1.3rem; margin-bottom: 16px; color: var(--text-main);"><i class="fas fa-microchip" style="color: var(--primary); margin-right: 8px;"></i> Our Core Technical Principles</h3>
+          <h3 style="font-size: 1.3rem; margin-bottom: 16px; color: var(--text-main);">Our Engineering Principles</h3>
           <ul class="card-feature-list" style="margin-bottom: 0;">
-            <li><i class="fas fa-check-circle"></i> <strong>Architectural Scalability:</strong> Distributed microservices and maintainable domain-driven clean architectures.</li>
-            <li><i class="fas fa-check-circle"></i> <strong>Applied AI Innovation:</strong> Hardware-quantized deep learning models optimized for sub-50ms edge inference.</li>
-            <li><i class="fas fa-check-circle"></i> <strong>Zero-Trust Security:</strong> End-to-end encryption, role-based access, and air-gapped deployment readiness.</li>
-            <li><i class="fas fa-check-circle"></i> <strong>Cloud-Native Rigor:</strong> Multi-region Kubernetes orchestration, GitOps automation, and 99.99% uptime targets.</li>
-            <li><i class="fas fa-check-circle"></i> <strong>Continuous R&D Velocity:</strong> Active collaboration with Coralgenz Global on frontier technology research.</li>
+            <li><i class="fas fa-check-circle"></i> Scalable architecture and maintainable software systems</li>
+            <li><i class="fas fa-check-circle"></i> Intelligent automation and AI-driven innovation</li>
+            <li><i class="fas fa-check-circle"></i> Security-focused and reliable digital ecosystems</li>
+            <li><i class="fas fa-check-circle"></i> Performance optimisation and engineering excellence</li>
+            <li><i class="fas fa-check-circle"></i> Continuous research, learning, and collaboration</li>
           </ul>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Core Services Capabilities Section -->
+  <!-- Services Capabilities Grid -->
   <section class="section-bg-subtle" id="services">
     <div class="container">
       <div class="section-header">
-        <div class="badge-pill"><span class="pulse-dot"></span> Our Services & Solutions</div>
+        <div class="badge-pill">What We Do</div>
         <h2 class="section-title">Capabilities That Move Ideas Forward</h2>
         <p class="section-subtitle">
-          From mission-critical distributed backend systems to real-time computer vision and cloud infrastructure, Zevionix delivers integrated engineering depth across the modern stack.
+          From custom software engineering and artificial intelligence to cloud infrastructure, data intelligence, and product innovation, Zevionix delivers integrated technology capabilities.
         </p>
       </div>
 
       <div class="card-grid-3">
         <!-- 01 Custom Software Engineering -->
-        <div class="tech-card service-card">
-          <div class="service-image-box">
-            <img src="assets/images/software-dev.jpg" alt="Custom Software Engineering" class="tech-card-image">
-            <span class="service-num-badge">01 / SOFTWARE</span>
-          </div>
-          <h3 class="service-card-title">Custom Software Engineering</h3>
-          <p>We engineer scalable enterprise platforms, high-concurrency microservices, custom REST/gRPC APIs, and distributed architectures designed for fault-tolerance.</p>
-          <div class="service-pills">
-            <span>Distributed Systems</span><span>gRPC & REST</span><span>Clean Architecture</span>
-          </div>
-          <a href="software-development.html" class="card-link">Explore Software Engineering <i class="fas fa-arrow-right"></i></a>
+        <div class="tech-card">
+          <img src="assets/images/software-dev.jpg" alt="Custom Software Engineering" class="tech-card-image">
+          <small style="color: var(--primary); font-weight: 800; letter-spacing: 1px; font-size: 0.78rem;">01 / SOFTWARE</small>
+          <h3 style="margin: 8px 0 10px;">Custom Software Engineering</h3>
+          <p>We design and develop scalable software platforms, robust backend systems, custom APIs, and tailored applications that streamline operations and support long-term growth.</p>
+          <a href="software-development.html" class="card-link">Explore Software Engineering →</a>
         </div>
 
         <!-- 02 Artificial Intelligence -->
-        <div class="tech-card service-card">
-          <div class="service-image-box">
-            <img src="assets/images/ai-vision.jpg" alt="Artificial Intelligence & Computer Vision" class="tech-card-image">
-            <span class="service-num-badge">02 / APPLIED AI</span>
-          </div>
-          <h3 class="service-card-title">AI & Computer Vision</h3>
-          <p>We develop intelligent visual inspection pipelines, YOLO and Vision Transformer models, hardware-accelerated TensorRT inference, and edge automation.</p>
-          <div class="service-pills">
-            <span>YOLOv10 / ViT</span><span>TensorRT & ONNX</span><span>Edge Inference</span>
-          </div>
-          <a href="ai-computer-vision.html" class="card-link">Explore AI & Computer Vision <i class="fas fa-arrow-right"></i></a>
+        <div class="tech-card">
+          <img src="assets/images/ai-vision.jpg" alt="Artificial Intelligence & Computer Vision" class="tech-card-image">
+          <small style="color: var(--primary); font-weight: 800; letter-spacing: 1px; font-size: 0.78rem;">02 / AI</small>
+          <h3 style="margin: 8px 0 10px;">Artificial Intelligence</h3>
+          <p>We develop intelligent AI solutions, machine learning models, computer vision systems, and automation workflows that transform complex data into actionable insights.</p>
+          <a href="ai-computer-vision.html" class="card-link">Explore AI & Computer Vision →</a>
         </div>
 
         <!-- 03 Web & Application Development -->
-        <div class="tech-card service-card">
-          <div class="service-image-box">
-            <img src="assets/images/web-app-dev.jpg" alt="Web & Application Development" class="tech-card-image">
-            <span class="service-num-badge">03 / DIGITAL APPS</span>
-          </div>
-          <h3 class="service-card-title">Web & App Development</h3>
-          <p>We build responsive, ultra-fast web applications, intuitive design systems, and cross-platform mobile experiences with performance-first architecture.</p>
-          <div class="service-pills">
-            <span>React & Next.js</span><span>PWAs & Mobile</span><span>Design Systems</span>
-          </div>
-          <a href="web-application-development.html" class="card-link">Explore Web & App Development <i class="fas fa-arrow-right"></i></a>
+        <div class="tech-card">
+          <img src="assets/images/web-app-dev.jpg" alt="Web & Application Development" class="tech-card-image">
+          <small style="color: var(--primary); font-weight: 800; letter-spacing: 1px; font-size: 0.78rem;">03 / DIGITAL EXPERIENCE</small>
+          <h3 style="margin: 8px 0 10px;">Web & Application Development</h3>
+          <p>We build responsive websites, intuitive user interfaces, modern web applications, and mobile-friendly digital experiences that combine performance and accessibility.</p>
+          <a href="web-application-development.html" class="card-link">Explore Web & App Development →</a>
         </div>
 
         <!-- 04 Cloud & DevOps -->
-        <div class="tech-card service-card">
-          <div class="service-image-box">
-            <img src="assets/images/cloud-devops.jpg" alt="Cloud & DevOps" class="tech-card-image">
-            <span class="service-num-badge">04 / INFRASTRUCTURE</span>
-          </div>
-          <h3 class="service-card-title">Cloud & DevOps</h3>
-          <p>We automate deployment lifecycles through declarative Terraform IaC, multi-region Kubernetes clusters, GitOps pipelines, and continuous observability.</p>
-          <div class="service-pills">
-            <span>Kubernetes & Helm</span><span>Terraform GitOps</span><span>99.99% Uptime</span>
-          </div>
-          <a href="cloud-devops.html" class="card-link">Explore Cloud & DevOps <i class="fas fa-arrow-right"></i></a>
+        <div class="tech-card">
+          <img src="assets/images/cloud-devops.jpg" alt="Cloud & DevOps" class="tech-card-image">
+          <small style="color: var(--primary); font-weight: 800; letter-spacing: 1px; font-size: 0.78rem;">04 / INFRASTRUCTURE</small>
+          <h3 style="margin: 8px 0 10px;">Cloud & DevOps</h3>
+          <p>We streamline software delivery through automated deployment workflows, CI/CD pipelines, containerization, and cloud architectures built for reliability.</p>
+          <a href="cloud-devops.html" class="card-link">Explore Cloud & DevOps →</a>
         </div>
 
         <!-- 05 Data Engineering & Analytics -->
-        <div class="tech-card service-card">
-          <div class="service-image-box">
-            <img src="assets/images/data-engineering.jpg" alt="Data Engineering & Analytics" class="tech-card-image">
-            <span class="service-num-badge">05 / DATA PLATFORMS</span>
-          </div>
-          <h3 class="service-card-title">Data Engineering & Analytics</h3>
-          <p>We transform high-volume data streams into actionable intelligence through Apache Kafka event brokers, lakehouse pipelines, and analytics dashboards.</p>
-          <div class="service-pills">
-            <span>Kafka & Spark</span><span>Lakehouses (Iceberg)</span><span>Real-Time BI</span>
-          </div>
-          <a href="data-engineering.html" class="card-link">Explore Data Engineering <i class="fas fa-arrow-right"></i></a>
+        <div class="tech-card">
+          <img src="assets/images/data-engineering.jpg" alt="Data Engineering & Analytics" class="tech-card-image">
+          <small style="color: var(--primary); font-weight: 800; letter-spacing: 1px; font-size: 0.78rem;">05 / DATA</small>
+          <h3 style="margin: 8px 0 10px;">Data Engineering & Analytics</h3>
+          <p>We transform raw data into actionable intelligence through robust data pipelines, advanced analytics, visualization, and intelligent reporting systems.</p>
+          <a href="data-engineering.html" class="card-link">Explore Data Engineering & Analytics →</a>
         </div>
 
         <!-- 06 Research & Product Development -->
-        <div class="tech-card service-card">
-          <div class="service-image-box">
-            <img src="assets/images/research-rd.jpg" alt="Research & Product Development" class="tech-card-image">
-            <span class="service-num-badge">06 / DEEP TECH R&D</span>
-          </div>
-          <h3 class="service-card-title">Research & Product Prototyping</h3>
-          <p>We investigate emerging frontier algorithms, rapid hardware-software prototyping, and purpose-built experimental systems solving complex domain challenges.</p>
-          <div class="service-pills">
-            <span>Frontier Prototypes</span><span>Coralgenz Alliance</span><span>Hardware-Software</span>
-          </div>
-          <a href="research-product-development.html" class="card-link">Explore Research & Prototyping <i class="fas fa-arrow-right"></i></a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Industry Solutions Matrix -->
-  <section id="industries">
-    <div class="container">
-      <div class="section-header">
-        <div class="badge-pill">Domain Solutions</div>
-        <h2 class="section-title">Engineered for Critical Industry Sectors</h2>
-        <p class="section-subtitle">
-          We combine domain-specific knowledge with robust technology stacks to address specialized enterprise requirements.
-        </p>
-      </div>
-
-      <div class="industry-grid">
-        <div class="industry-card">
-          <div class="industry-icon"><i class="fas fa-shield-halved"></i></div>
-          <h3>Public Safety & Smart Campuses</h3>
-          <p>Autonomous camera-based incident detection, real-time fall recognition, access control, and centralized response dispatch systems.</p>
-          <div class="industry-tags">
-            <span>AURA Engine</span><span>Fall Detection</span><span>Zero-Trust Alerts</span>
-          </div>
-        </div>
-
-        <div class="industry-card">
-          <div class="industry-icon"><i class="fas fa-industry"></i></div>
-          <h3>Industrial Automation & QA</h3>
-          <p>High-speed visual defect identification on manufacturing assembly lines, predictive sensor telemetry, and hardware quantization.</p>
-          <div class="industry-tags">
-            <span>Edge AI</span><span>YOLOv10</span><span>TensorRT</span>
-          </div>
-        </div>
-
-        <div class="industry-card">
-          <div class="industry-icon"><i class="fas fa-chart-line"></i></div>
-          <h3>FinTech & Distributed Systems</h3>
-          <p>High-throughput transactional microservices, real-time fraud pattern detection, automated ledger reconciliation, and strict auditability.</p>
-          <div class="industry-tags">
-            <span>gRPC</span><span>Kafka Streaming</span><span>Clean Architecture</span>
-          </div>
-        </div>
-
-        <div class="industry-card">
-          <div class="industry-icon"><i class="fas fa-heart-pulse"></i></div>
-          <h3>Healthcare & Diagnostics AI</h3>
-          <p>HIPAA-ready diagnostic image segmentation, telemetry data normalization, and low-latency clinical alert synchronization.</p>
-          <div class="industry-tags">
-            <span>ViT Segmentation</span><span>Air-Gapped Cloud</span><span>FastAPI</span>
-          </div>
-        </div>
-
-        <div class="industry-card">
-          <div class="industry-icon"><i class="fas fa-truck-fast"></i></div>
-          <h3>Logistics & Spatial Tracking</h3>
-          <p>Multi-camera fleet tracking, automated optical character recognition for freight verification, and dynamic routing engines.</p>
-          <div class="industry-tags">
-            <span>Spatial CV</span><span>Event Brokers</span><span>PostgreSQL</span>
-          </div>
-        </div>
-
-        <div class="industry-card">
-          <div class="industry-icon"><i class="fas fa-cubes"></i></div>
-          <h3>Enterprise Cloud Platforms</h3>
-          <p>Modernization of monolithic enterprise workloads into scalable multi-tenant SaaS architectures with automated GitOps CI/CD.</p>
-          <div class="industry-tags">
-            <span>Kubernetes</span><span>Terraform</span><span>Next.js</span>
-          </div>
+        <div class="tech-card">
+          <img src="assets/images/research-rd.jpg" alt="Research & Product Development" class="tech-card-image">
+          <small style="color: var(--primary); font-weight: 800; letter-spacing: 1px; font-size: 0.78rem;">06 / INNOVATION</small>
+          <h3 style="margin: 8px 0 10px;">Research & Product Development</h3>
+          <p>We explore emerging technologies, develop innovative prototypes, and engineer purpose-built products that address real-world challenges through experimentation.</p>
+          <a href="research-product-development.html" class="card-link">Explore Research & Product Development →</a>
         </div>
       </div>
     </div>
@@ -341,102 +256,63 @@
           <div class="badge-pill">Featured Innovation</div>
           <h2>Introducing AURA</h2>
           <p>
-            AI Emergency Response & Smart Campus System. AURA is being developed to connect camera-based event detection, validation algorithms, automated emergency dispatch, and centralized incident monitoring.
+            AI Emergency Response & Smart Campus System. AURA is being developed to connect camera-based event detection, verification, alert coordination, and centralized incident monitoring.
           </p>
-          <p style="font-size: 0.86rem; color: var(--text-dim);">
-            AURA is currently in ongoing research & testing. Detection accuracy, edge deployment readiness, and operational benchmarks are actively validated across real-world campus scenarios.
+          <p style="font-size: 0.82rem; color: var(--text-dim);">
+            AURA is in development. Detection accuracy, deployment readiness, and operational performance require further testing and validation.
           </p>
           <a href="aura.html" class="btn btn-primary btn-sm" style="margin-top: 10px;">Explore AURA Architecture →</a>
         </div>
 
-        <div class="tech-card" style="padding: 26px; background: #0f172a; color: #fff; border: none; box-shadow: 0 10px 30px rgba(15, 23, 42, 0.25);">
+        <div class="tech-card" style="padding: 26px; background: #0f172a; color: #fff; border: none;">
           <small style="color: var(--accent-cyan); font-weight: 800; letter-spacing: 1.5px; font-size: 0.75rem;">AURA COMMAND CENTER</small>
           <h3 style="color: #fff; margin: 10px 0 14px; font-size: 1.25rem;">Incident Monitoring</h3>
           <p style="color: #cbd5e1; font-size: 0.88rem; margin-bottom: 6px;"><strong>Location:</strong> Block A · Corridor 1</p>
-          <p style="color: #cbd5e1; font-size: 0.88rem; margin-bottom: 6px;"><strong>Event:</strong> Possible fall detected (Confidence 94.2%)</p>
-          <p style="color: #cbd5e1; font-size: 0.88rem; margin-bottom: 6px;"><strong>Status:</strong> Verification and responder workflow</p>
-          <p style="color: #cbd5e1; font-size: 0.88rem; margin-bottom: 0;"><strong>Interface:</strong> Centralized real-time dashboard</p>
+          <p style="color: #cbd5e1; font-size: 0.88rem; margin-bottom: 6px;"><strong>Event:</strong> Possible fall detected</p>
+          <p style="color: #cbd5e1; font-size: 0.88rem; margin-bottom: 6px;"><strong>Status:</strong> Verification and response workflow</p>
+          <p style="color: #cbd5e1; font-size: 0.88rem; margin-bottom: 0;"><strong>Interface:</strong> Central dashboard</p>
         </div>
       </div>
 
       <div style="margin-top: 45px;">
         <h3 style="text-align: center; margin-bottom: 8px; font-size: 1.4rem;">From Detection to Response Visibility</h3>
         <p style="text-align: center; color: var(--text-muted); margin-bottom: 24px; font-size: 0.95rem;">
-          AURA's end-to-end incident flow connects five streamlined functional stages:
+          AURA's proposed incident flow connects five functional stages.
         </p>
 
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px;">
           <div class="tech-card" style="text-align: center; padding: 18px;">
-            <b style="color: var(--primary); font-size: 0.85rem;">STAGE 01</b>
-            <h4 style="margin: 6px 0 4px; font-size: 0.95rem;">Video Acquisition</h4>
-            <p style="font-size: 0.82rem; margin: 0; color: var(--text-muted);">RTSP & WebRTC stream ingest</p>
+            <b style="color: var(--primary); font-size: 0.82rem;">01</b>
+            <h4 style="margin: 6px 0 4px; font-size: 0.95rem;">Camera</h4>
+            <p style="font-size: 0.82rem; margin: 0; color: var(--text-muted);">Video acquisition</p>
           </div>
           <div class="tech-card" style="text-align: center; padding: 18px;">
-            <b style="color: var(--primary); font-size: 0.85rem;">STAGE 02</b>
-            <h4 style="margin: 6px 0 4px; font-size: 0.95rem;">AI Edge Detection</h4>
-            <p style="font-size: 0.82rem; margin: 0; color: var(--text-muted);">Real-time neural event analysis</p>
+            <b style="color: var(--primary); font-size: 0.82rem;">02</b>
+            <h4 style="margin: 6px 0 4px; font-size: 0.95rem;">AI Detection</h4>
+            <p style="font-size: 0.82rem; margin: 0; color: var(--text-muted);">Visual event analysis</p>
           </div>
           <div class="tech-card" style="text-align: center; padding: 18px;">
-            <b style="color: var(--primary); font-size: 0.85rem;">STAGE 03</b>
-            <h4 style="margin: 6px 0 4px; font-size: 0.95rem;">Automated Verification</h4>
-            <p style="font-size: 0.82rem; margin: 0; color: var(--text-muted);">Multi-frame confidence filtering</p>
+            <b style="color: var(--primary); font-size: 0.82rem;">03</b>
+            <h4 style="margin: 6px 0 4px; font-size: 0.95rem;">Verification</h4>
+            <p style="font-size: 0.82rem; margin: 0; color: var(--text-muted);">Incident validation</p>
           </div>
           <div class="tech-card" style="text-align: center; padding: 18px;">
-            <b style="color: var(--primary); font-size: 0.85rem;">STAGE 04</b>
-            <h4 style="margin: 6px 0 4px; font-size: 0.95rem;">Responder Alert</h4>
-            <p style="font-size: 0.82rem; margin: 0; color: var(--text-muted);">Zero-latency notification dispatch</p>
+            <b style="color: var(--primary); font-size: 0.82rem;">04</b>
+            <h4 style="margin: 6px 0 4px; font-size: 0.95rem;">Alert</h4>
+            <p style="font-size: 0.82rem; margin: 0; color: var(--text-muted);">Responder notification</p>
           </div>
           <div class="tech-card" style="text-align: center; padding: 18px;">
-            <b style="color: var(--primary); font-size: 0.85rem;">STAGE 05</b>
-            <h4 style="margin: 6px 0 4px; font-size: 0.95rem;">Command Dashboard</h4>
-            <p style="font-size: 0.82rem; margin: 0; color: var(--text-muted);">Centralized status & audit log</p>
+            <b style="color: var(--primary); font-size: 0.82rem;">05</b>
+            <h4 style="margin: 6px 0 4px; font-size: 0.95rem;">Dashboard</h4>
+            <p style="font-size: 0.82rem; margin: 0; color: var(--text-muted);">Status and tracking</p>
           </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Engineering Lifecycle & Delivery Methodology -->
-  <section id="methodology">
-    <div class="container">
-      <div class="section-header">
-        <div class="badge-pill">Execution Model</div>
-        <h2 class="section-title">The Zevionix Engineering Lifecycle</h2>
-        <p class="section-subtitle">
-          A disciplined, 4-stage engineering lifecycle designed to minimize technical risk, validate edge conditions early, and deploy production-grade software.
-        </p>
-      </div>
-
-      <div class="process-grid">
-        <div class="process-step-card">
-          <div class="step-num">01</div>
-          <h4>Discovery & Architecture</h4>
-          <p>We analyze domain models, system constraints, concurrency targets, and data flows to construct a comprehensive architectural blueprint.</p>
-        </div>
-
-        <div class="process-step-card">
-          <div class="step-num">02</div>
-          <h4>Rapid AI & Prototyping</h4>
-          <p>We build interactive prototypes, train and calibrate machine learning models, and test edge quantization benchmarks.</p>
-        </div>
-
-        <div class="process-step-card">
-          <div class="step-num">03</div>
-          <h4>Cloud & Edge Deployment</h4>
-          <p>We deploy distributed microservices on Kubernetes, configure CI/CD automation, and implement air-gapped security boundaries.</p>
-        </div>
-
-        <div class="process-step-card">
-          <div class="step-num">04</div>
-          <h4>Telemetry & SLA Support</h4>
-          <p>Continuous synthetic monitoring, OpenTelemetry tracing, automated self-healing, and proactive engineering maintenance.</p>
         </div>
       </div>
     </div>
   </section>
 
   <!-- Leadership Section -->
-  <section class="section-bg-subtle" id="leadership">
+  <section id="leadership">
     <div class="container">
       <div class="section-header">
         <div class="badge-pill">Our Leadership</div>
@@ -449,7 +325,7 @@
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 28px; max-width: 860px; margin: 0 auto;">
         
         <!-- Member 1: Madhavan Balasubramani -->
-        <div class="tech-card" style="text-align: center; padding: 32px 24px; align-items: center; background: #ffffff;">
+        <div class="tech-card" style="text-align: center; padding: 32px 24px; align-items: center;">
           <div style="width: 78px; height: 78px; border-radius: 50%; background: var(--gradient-primary); color: white; display: grid; place-items: center; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 24px; margin-bottom: 16px; box-shadow: 0 6px 16px rgba(37, 99, 235, 0.25);">
             MB
           </div>
@@ -467,7 +343,7 @@
         </div>
 
         <!-- Member 2: Praveen Kumar -->
-        <div class="tech-card" style="text-align: center; padding: 32px 24px; align-items: center; background: #ffffff;">
+        <div class="tech-card" style="text-align: center; padding: 32px 24px; align-items: center;">
           <div style="width: 78px; height: 78px; border-radius: 50%; background: var(--gradient-cyan-blue); color: white; display: grid; place-items: center; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 24px; margin-bottom: 16px; box-shadow: 0 6px 16px rgba(2, 132, 199, 0.25);">
             PK
           </div>
@@ -492,77 +368,12 @@
     </div>
   </section>
 
-  <!-- Interactive FAQ Section -->
-  <section id="faq">
-    <div class="container">
-      <div class="section-header">
-        <div class="badge-pill">Frequently Asked Questions</div>
-        <h2 class="section-title">Clarifying Answers for Technical Leaders</h2>
-        <p class="section-subtitle">
-          Understand how Zevionix Technologies approaches collaboration, system architecture, intellectual property, and enterprise execution.
-        </p>
-      </div>
-
-      <div class="faq-list">
-        <div class="faq-item">
-          <div class="faq-question">
-            <span>How does Zevionix Technologies structure engineering engagements?</span>
-            <i class="fas fa-plus faq-icon"></i>
-          </div>
-          <div class="faq-answer">
-            We offer dedicated engineering squads, milestone-based turnkey project delivery, and co-development models. Every engagement begins with an architectural discovery sprint to define API contracts, non-functional requirements, security postures, and delivery milestones.
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <div class="faq-question">
-            <span>What makes AURA distinct from standard video management systems?</span>
-            <i class="fas fa-plus faq-icon"></i>
-          </div>
-          <div class="faq-answer">
-            Standard video management systems require human monitoring and passive recording. AURA leverages edge-accelerated computer vision models (such as custom YOLO and Vision Transformers) to actively detect, verify, and coordinate automated alerts for critical events like falls or unauthorized breaches in real time.
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <div class="faq-question">
-            <span>How does the strategic partnership with Coralgenz Global benefit projects?</span>
-            <i class="fas fa-plus faq-icon"></i>
-          </div>
-          <div class="faq-answer">
-            Our strategic collaboration with Coralgenz Global expands our deep-tech research velocity, grants access to specialized international delivery resources, and ensures access to cutting-edge compiler, security, and enterprise infrastructure technologies.
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <div class="faq-question">
-            <span>Can Zevionix modernize legacy monolithic enterprise systems?</span>
-            <i class="fas fa-plus faq-icon"></i>
-          </div>
-          <div class="faq-answer">
-            Yes. We specialize in decoupling legacy monoliths into cloud-native microservices using strangler fig patterns, event-driven streaming with Apache Kafka, automated containerization with Docker/Kubernetes, and modern frontend design systems.
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <div class="faq-question">
-            <span>How is intellectual property and codebase ownership handled?</span>
-            <i class="fas fa-plus faq-icon"></i>
-          </div>
-          <div class="faq-answer">
-            All proprietary code, trained custom model weights, architectural blueprints, and artifacts developed for client engagements are 100% owned by the client upon completion with strict NDA and confidentiality guarantees.
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- CTA Section -->
   <section class="section-bg-subtle">
     <div class="container">
       <div class="cta-banner">
-        <h2>Have an ambitious idea worth building?</h2>
-        <p>Let's discuss your technology challenge, architectural requirements, or collaboration opportunity.</p>
+        <h2>Have an idea worth building?</h2>
+        <p>Let's discuss your technology challenge or collaboration opportunity.</p>
         <a href="contact.html" class="btn btn-cyan btn-lg">Start a Conversation <i class="fas fa-arrow-right"></i></a>
       </div>
     </div>
