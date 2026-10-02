@@ -1,152 +1,246 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AURA | AI Emergency Response System | Zevionix</title>
-<meta name="description" content="Discover AURA, Zevionix's AI emergency response and smart campus system.">
-<link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zevionix AURA | Autonomous Enterprise Intelligence Platform</title>
+  <meta name="description" content="AURA is Zevionix's flagship autonomous cognitive engine, combining real-time edge computer vision, predictive intelligence, and zero-trust agent meshes.">
+  
+    <!-- Favicons & Brand Assets -->
+  <link rel="icon" type="image/png" href="assets/images/favicon.png">
+  <link rel="apple-touch-icon" href="assets/images/icon-192.png">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-<header>
-<nav class="navbar container">
-<a href="index.html" class="logo">zevionix<span>.</span></a>
-<button class="menu-toggle" id="menuToggle">☰</button>
-<ul class="nav-links" id="navLinks">
-<li><a href="index.html">Home</a></li>
-<li><a href="about.html">About</a></li>
-<li><a href="services.html">Services</a></li>
-<li><a href="technology.html">Technology</a></li>
-<li><a class="active" href="aura.html">AURA</a></li>
-<li><a href="team.html">Our Team</a></li>
-<li><a class="nav-cta" href="contact.html">Contact</a></li>
-</ul>
-</nav>
-</header>
+  <div class="ambient-glow top-right"></div>
+  <div class="ambient-glow bottom-left cyan"></div>
 
-<main>
+  <!-- Header -->
+  <header>
+    <div class="container header-inner">
+      <a href="index.html" class="brand-logo">
+        <img src="assets/images/logo-icon.png" alt="Zevionix Technologies Logo" class="brand-logo-img">
+        <span>ZEVIONIX <span class="brand-highlight">TECHNOLOGIES</span></span>
+      </a>
 
-<section class="page-hero">
-<div class="container">
-<span class="eyebrow">Zevionix Innovation</span>
-<h1>AURA — <span class="gradient">Intelligent Safety.</span></h1>
-<p>
-AI Emergency Response & Smart Campus System.
-AURA combines computer vision, AI-based event verification,
-and automated emergency response to help create safer environments.
-</p>
-<div class="button-row">
-<a href="#architecture" class="btn btn-primary">Explore Architecture</a>
-<a href="contact.html" class="btn btn-outline">Enquire About AURA</a>
-</div>
-</div>
-</section>
+      <ul class="nav-menu">
+        <li class="nav-item">
+          <a href="index.html" class="nav-link">Home</a>
+        </li>
+        <li class="nav-item">
+          <a href="service.html" class="nav-link">Services <i class="fas fa-chevron-down" style="font-size: 0.65rem;"></i></a>
+          <div class="dropdown-menu">
+            <a href="ai-computer-vision.html" class="dropdown-item"><i class="fas fa-eye"></i> AI & Computer Vision</a>
+            <a href="software-development.html" class="dropdown-item"><i class="fas fa-code"></i> Software Engineering</a>
+            <a href="cloud-devops.html" class="dropdown-item"><i class="fas fa-cloud"></i> Cloud & DevOps</a>
+            <a href="data-engineering.html" class="dropdown-item"><i class="fas fa-database"></i> Data Engineering</a>
+            <a href="research-product-development.html" class="dropdown-item"><i class="fas fa-flask"></i> R&D & Deep Tech</a>
+            <a href="web-application-development.html" class="dropdown-item"><i class="fas fa-laptop-code"></i> Web Applications</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a href="aura.html" class="nav-link active">AURA Platform</a>
+        </li>
+        <li class="nav-item">
+          <a href="about.html" class="nav-link">About Us</a>
+        </li>
+        <li class="nav-item">
+          <a href="team.html" class="nav-link">Team</a>
+        </li>
+        <li class="nav-item">
+          <a href="contact.html" class="nav-link">Contact</a>
+        </li>
+      </ul>
 
-<section>
-<div class="container split">
-<div>
-<h2 class="section-title">What Is AURA?</h2>
-<p>
-AURA is an intelligent safety ecosystem designed to transform
-camera infrastructure into active monitoring networks.
-It aims to identify potential incidents, verify events,
-and coordinate alerts through a centralized dashboard.
-</p>
-<br>
-<p>
-The system is being developed for environments where timely
-awareness and coordinated response can support safety teams.
-</p>
-</div>
-<div class="visual-panel">
-<span>AURA COMMAND CENTER</span>
-<div>
-<h2>Incident Monitoring</h2>
-<p>CAM-01 · Block A · Corridor 1</p>
-<p>Detection · Verification · Response</p>
-</div>
-<p>System interface concept</p>
-</div>
-</div>
-</section>
+      <div class="nav-actions">
+        <a href="contact.html" class="btn btn-primary btn-sm">Schedule Briefing <i class="fas fa-arrow-right"></i></a>
+      </div>
 
-<section class="dark-section" id="architecture">
-<div class="container">
-<div class="center">
-<h2 class="section-title">AURA System Architecture</h2>
-<p class="section-intro">A connected workflow from visual detection to incident coordination.</p>
-</div>
+      <button class="mobile-toggle" aria-label="Toggle navigation">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+  </header>
 
-<div class="flow">
-<div class="flow-step"><span>01</span><h4>Camera</h4><p>Live video capture</p></div>
-<div class="flow-step"><span>02</span><h4>AI Detection</h4><p>Visual analysis</p></div>
-<div class="flow-step"><span>03</span><h4>Verification</h4><p>Event validation</p></div>
-<div class="flow-step"><span>04</span><h4>Alert</h4><p>Team notification</p></div>
-<div class="flow-step"><span>05</span><h4>Dashboard</h4><p>Incident tracking</p></div>
-</div>
-</div>
-</section>
+  <!-- Page Header -->
+  <section class="page-header">
+    <div class="container">
+      <div class="breadcrumbs">
+        <a href="index.html">Home</a>
+        <i class="fas fa-chevron-right" style="font-size: 0.65rem;"></i>
+        <span>Flagship Product</span>
+      </div>
+      <div class="badge-pill">Enterprise AI Flagship</div>
+      <h1>ZEVIONIX <span class="text-gradient">AURA</span> Core Platform</h1>
+      <p>
+        The unified autonomous cognitive layer that turns distributed video streams, sensor telemetry, and business events into self-optimizing operations.
+      </p>
+    </div>
+  </section>
 
-<section class="light-section">
-<div class="container">
-<div class="center">
-<h2 class="section-title">Core Capabilities</h2>
-<p class="section-intro">Designed to support safety teams with real-time information and structured response workflows.</p>
-</div>
-<div class="grid">
-<div class="card"><h3>Computer Vision</h3><p>Analyses visual streams to identify events of interest.</p></div>
-<div class="card"><h3>Event Verification</h3><p>Uses verification logic to assess potential incidents before escalation.</p></div>
-<div class="card"><h3>Automated Alerts</h3><p>Supports notification workflows for designated response personnel.</p></div>
-<div class="card"><h3>Central Dashboard</h3><p>Provides a unified interface for viewing and tracking incidents.</p></div>
-<div class="card"><h3>Location Context</h3><p>Associates incidents with configured camera and zone information.</p></div>
-<div class="card"><h3>Incident Records</h3><p>Supports structured status updates and event history.</p></div>
-</div>
-</div>
-</section>
+  <!-- Product Showcase Hero Split -->
+  <section>
+    <div class="container">
+      <div class="showcase-split">
+        <div class="showcase-content">
+          <div class="badge-pill">Autonomous Intelligence</div>
+          <h2>Perception, Reasoning, and Action in One Unified Mesh</h2>
+          <p>
+            AURA (Autonomous Unified Reasoning Architecture) is an enterprise AI engine engineered for environments requiring sub-millisecond decisions, air-gapped zero-trust security, and massive horizontal scaling.
+          </p>
+          <ul class="card-feature-list" style="margin: 20px 0 26px;">
+            <li><i class="fas fa-check-circle"></i> <strong>Universal Vision Ingest:</strong> Processes 100+ concurrent RTSP/CSI camera feeds with real-time YOLOv10 spatial parsing.</li>
+            <li><i class="fas fa-check-circle"></i> <strong>Autonomous Agent Swarms:</strong> Coordinated reasoning agents that detect operational drifts and execute remediations.</li>
+            <li><i class="fas fa-check-circle"></i> <strong>Edge-to-Cloud Federation:</strong> Syncs lightweight quantized models to edge gateways with central model orchestration.</li>
+            <li><i class="fas fa-check-circle"></i> <strong>Zero-Trust Cryptographic Vault:</strong> End-to-end payload encryption (AES-256-GCM) and hardware enclave security.</li>
+          </ul>
+          <a href="contact.html" class="btn btn-primary btn-lg">Request Enterprise AURA Demo <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div class="showcase-media">
+          <img src="assets/images/aura-platform.jpg" alt="AURA Platform Control Center">
+        </div>
+      </div>
+    </div>
+  </section>
 
-<section>
-<div class="container">
-<h2 class="section-title">Target Applications</h2>
-<div class="grid">
-<div class="card"><h3>Educational Campuses</h3><p>Safety monitoring across corridors, buildings, and shared spaces.</p></div>
-<div class="card"><h3>Corporate Facilities</h3><p>Incident awareness for offices and commercial environments.</p></div>
-<div class="card"><h3>Healthcare Environments</h3><p>Additional situational awareness in selected facility areas.</p></div>
-</div>
-</div>
-</section>
+  <!-- Core Modules Grid -->
+  <section class="section-bg-subtle">
+    <div class="container">
+      <div class="section-header">
+        <div class="badge-pill">Platform Architecture</div>
+        <h2 class="section-title">The Four Pillars of AURA</h2>
+        <p class="section-subtitle">
+          Built to be deployed on-premises in air-gapped hardware enclaves or as a multi-tenant cloud cluster.
+        </p>
+      </div>
 
-<section class="light-section">
-<div class="container">
-<h2 class="section-title">Technology Stack</h2>
-<div class="tag-list">
-<span class="tag">Python</span><span class="tag">YOLO</span><span class="tag">OpenCV</span><span class="tag">PyTorch</span><span class="tag">Flask</span><span class="tag">JavaScript</span><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">SQL</span><span class="tag">JSON</span>
-</div>
-</div>
-</section>
+      <div class="card-grid-4">
+        <div class="tech-card">
+          <div class="card-icon"><i class="fas fa-eye"></i></div>
+          <h3>AURA Vision</h3>
+          <p>Real-time spatial computing, automated bounding telemetry, sub-millimeter anomaly detection, and facial/object classification.</p>
+        </div>
 
-<section class="center">
-<div class="container">
-<h2 class="section-title">Interested in AURA?</h2>
-<p class="section-intro">Connect with Zevionix to discuss the project, collaboration, or future development.</p>
-<a href="contact.html" class="btn btn-primary">Contact Zevionix</a>
-</div>
-</section>
+        <div class="tech-card">
+          <div class="card-icon"><i class="fas fa-network-wired"></i></div>
+          <h3>AURA AgentMesh</h3>
+          <p>Self-coordinating LLM and reasoning agent swarms that orchestrate complex multi-step remediation workflows without human delay.</p>
+        </div>
 
-</main>
+        <div class="tech-card">
+          <div class="card-icon"><i class="fas fa-chart-line"></i></div>
+          <h3>AURA StreamPulse</h3>
+          <p>High-throughput real-time telemetry engine capable of querying 10M+ metrics/sec using columnar in-memory indexes.</p>
+        </div>
 
-<footer>
-<div class="container">
-<div class="footer-grid">
-<div><h4 class="logo">zevionix<span>.</span></h4><p>Technology. Intelligence. Impact.</p></div>
-<div><h4>Explore</h4><ul><li><a href="about.html">About</a></li><li><a href="services.html">Services</a></li><li><a href="technology.html">Technology</a></li></ul></div>
-<div><h4>Connect</h4><ul><li><a href="contact.html">Contact</a></li><li><a href="mailto:zevionix.01@gmail.com">Email</a></li></ul></div>
-</div>
-<div class="footer-bottom">© <span id="year"></span> Zevionix. All rights reserved.</div>
-</div>
-</footer>
+        <div class="tech-card">
+          <div class="card-icon"><i class="fas fa-shield-alt"></i></div>
+          <h3>AURA Shield</h3>
+          <p>Confidential computing hardware enclave protection for proprietary weights, tenant isolation, and immutable audit logging.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<script src="js/script.js"></script>
+  <!-- Interactive Technical Blueprint -->
+  <section>
+    <div class="container">
+      <div class="showcase-split reverse">
+        <div class="showcase-content">
+          <div class="badge-pill">Zero-Trust Telemetry</div>
+          <h2>Seamless Deployment Across Edge & Cloud</h2>
+          <p>
+            Deploy AURA as an orchestrated Kubernetes Helm chart on AWS, Azure, GCP, or bare-metal NVIDIA DGX servers with single-command deployment and automated health healing.
+          </p>
+          <div style="background: #0f172a; border: 1px solid var(--border-light); border-radius: 12px; padding: 18px; margin: 20px 0; color: #fff;" class="code-font">
+            <div style="color: var(--accent-cyan); font-size: 0.82rem; margin-bottom: 6px;">// Install AURA Enterprise Core SDK</div>
+            <div style="color: #f1f5f9; font-size: 0.88rem;">$ helm repo add zevionix https://charts.zevionix.ai</div>
+            <div style="color: #f1f5f9; font-size: 0.88rem;">$ helm install aura-mesh zevionix/aura-enterprise \</div>
+            <div style="color: #94a3b8; font-size: 0.84rem; padding-left: 16px;">--set telemetry.tls=true \</div>
+            <div style="color: #94a3b8; font-size: 0.84rem; padding-left: 16px;">--set vision.gpuAcceleration=nvidia-tensorrt</div>
+          </div>
+          <a href="service.html" class="btn btn-secondary">Explore All Services <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div class="showcase-media">
+          <img src="assets/images/aura-neural.jpg" alt="AURA Neural Model Mesh">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section-bg-subtle">
+    <div class="container">
+      <div class="cta-banner">
+        <h2>Experience AURA in Your Environment</h2>
+        <p>Schedule a customized live demonstration tailored to your enterprise architecture and data sources.</p>
+        <a href="contact.html" class="btn btn-cyan btn-lg">Request Live AURA Demo <i class="fas fa-arrow-right"></i></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <a href="index.html" class="brand-logo" style="margin-bottom: 14px;">
+            <img src="assets/images/logo-icon.png" alt="Zevionix Technologies Logo" class="brand-logo-img" style="height: 32px;">
+            <span>ZEVIONIX <span class="brand-highlight">TECHNOLOGIES</span></span>
+          </a>
+          <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 20px;">
+            Pioneering autonomous intelligence, computer vision engineering, and distributed cloud computing for modern global enterprises.
+          </p>
+          <div class="social-links">
+            <a href="https://linkedin.com" target="_blank" class="social-btn" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://github.com" target="_blank" class="social-btn" aria-label="GitHub"><i class="fab fa-github"></i></a>
+            <a href="https://twitter.com" target="_blank" class="social-btn" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h4>Capabilities</h4>
+          <ul class="footer-links">
+            <li><a href="ai-computer-vision.html">AI & Computer Vision</a></li>
+            <li><a href="software-development.html">Custom Software</a></li>
+            <li><a href="cloud-devops.html">Cloud & DevOps</a></li>
+            <li><a href="data-engineering.html">Data Engineering</a></li>
+            <li><a href="research-product-development.html">R&D & Deep Tech</a></li>
+            <li><a href="web-application-development.html">Web Applications</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Company</h4>
+          <ul class="footer-links">
+            <li><a href="about.html">About Zevionix</a></li>
+            <li><a href="aura.html">AURA Platform</a></li>
+            <li><a href="team.html">Leadership & Team</a></li>
+            <li><a href="contact.html">Contact Engineering</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Corporate Briefing</h4>
+          <p style="font-size: 0.86rem; color: var(--text-muted); margin-bottom: 14px;">
+            Receive our quarterly whitepapers on breakthrough AI architectures and high-throughput systems.
+          </p>
+          <div style="display: flex; gap: 8px;">
+            <input type="email" placeholder="work.email@enterprise.com" class="form-control" style="padding: 10px 14px; font-size: 0.88rem;">
+            <button class="btn btn-primary btn-sm" style="padding: 0 16px;"><i class="fas fa-paper-plane"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>&copy; 2026 Zevionix Technologies. All rights reserved.</div>
+        <div>Engineered with High-Throughput Standards & Zero-Trust Architecture.</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/script.js"></script>
 </body>
 </html>

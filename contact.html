@@ -1,113 +1,255 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Contact Us | Zevionix</title>
-<meta name="description" content="Contact Zevionix for technology services, partnerships, and project enquiries.">
-<link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us | Zevionix Technologies | Official Partner of Coralgenz Global</title>
+  <meta name="description" content="Connect with Zevionix Technologies. Have a technology challenge, project idea, or collaboration opportunity? Start a conversation with us.">
+  
+    <!-- Favicons & Brand Assets -->
+  <link rel="icon" type="image/png" href="assets/images/favicon.png">
+  <link rel="apple-touch-icon" href="assets/images/icon-192.png">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-<header>
-<nav class="navbar container">
-<a href="index.html" class="logo">zevionix<span>.</span></a>
-<button class="menu-toggle" id="menuToggle">☰</button>
-<ul class="nav-links" id="navLinks">
-<li><a href="index.html">Home</a></li>
-<li><a href="about.html">About</a></li>
-<li><a href="services.html">Services</a></li>
-<li><a href="technology.html">Technology</a></li>
-<li><a href="aura.html">AURA</a></li>
-<li><a href="team.html">Our Team</a></li>
-<li><a class="nav-cta active" href="contact.html">Contact</a></li>
-</ul>
-</nav>
-</header>
+  <div class="ambient-glow top-right"></div>
+  <div class="ambient-glow bottom-left cyan"></div>
 
-<main>
+  <!-- Header -->
+  <header>
+    <div class="container header-inner">
+      <a href="index.html" class="brand-logo">
+        <img src="assets/images/logo-icon.png" alt="Zevionix Technologies Logo" class="brand-logo-img">
+        <span>ZEVIONIX <span class="brand-highlight">TECHNOLOGIES</span></span>
+      </a>
 
-<section class="page-hero">
-<div class="container">
-<span class="eyebrow">Contact Zevionix</span>
-<h1>Let's Build <span class="gradient">Something Meaningful.</span></h1>
-<p>
-Have an idea, partnership opportunity, or technology challenge?
-We welcome conversations about software engineering,
-AI innovation, and digital product development.
-</p>
-</div>
-</section>
+      <ul class="nav-menu">
+        <li class="nav-item">
+          <a href="index.html" class="nav-link">Home</a>
+        </li>
+        <li class="nav-item">
+          <a href="about.html" class="nav-link">About</a>
+        </li>
+        <li class="nav-item">
+          <a href="service.html" class="nav-link">Services <i class="fas fa-chevron-down" style="font-size: 0.65rem;"></i></a>
+          <div class="dropdown-menu">
+            <a href="software-development.html" class="dropdown-item"><i class="fas fa-code"></i> Custom Software Engineering</a>
+            <a href="ai-computer-vision.html" class="dropdown-item"><i class="fas fa-eye"></i> Artificial Intelligence</a>
+            <a href="web-application-development.html" class="dropdown-item"><i class="fas fa-laptop-code"></i> Web & App Development</a>
+            <a href="cloud-devops.html" class="dropdown-item"><i class="fas fa-cloud"></i> Cloud & DevOps</a>
+            <a href="data-engineering.html" class="dropdown-item"><i class="fas fa-database"></i> Data Engineering & Analytics</a>
+            <a href="research-product-development.html" class="dropdown-item"><i class="fas fa-flask"></i> Research & Product Development</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a href="aura.html" class="nav-link">AURA</a>
+        </li>
+        <li class="nav-item">
+          <a href="team.html" class="nav-link">Leadership</a>
+        </li>
+        <li class="nav-item">
+          <a href="contact.html" class="nav-link active">Contact</a>
+        </li>
+      </ul>
 
-<section>
-<div class="container">
-<div class="contact-box">
+      <div class="nav-actions">
+        <a href="contact.html" class="btn btn-primary btn-sm">Start a Conversation <i class="fas fa-arrow-right"></i></a>
+      </div>
 
-<div>
-<h2 class="section-title">Get In Touch</h2>
-<p>
-Reach out to our team to discuss your requirements,
-collaboration opportunities, or project enquiries.
-</p>
+      <button class="mobile-toggle" aria-label="Toggle navigation">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+  </header>
 
-<br>
+  <!-- Page Header -->
+  <section class="page-header">
+    <div class="container">
+      <div class="breadcrumbs">
+        <a href="index.html">Home</a>
+        <i class="fas fa-chevron-right" style="font-size: 0.65rem;"></i>
+        <span>Connect with Us</span>
+      </div>
+      <div class="badge-pill">Connect with Us</div>
+      <h1>Let's Build Something <span class="text-gradient">Meaningful</span></h1>
+      <p>
+        Have a technology challenge, project idea, or collaboration opportunity? Start a conversation with Zevionix.
+      </p>
+    </div>
+  </section>
 
-<p><strong>Email</strong><br>
-<a href="mailto:zevionix.01@gmail.com">zevionix.01@gmail.com</a></p>
+  <!-- Contact Section -->
+  <section>
+    <div class="container">
+      <div class="contact-layout">
+        
+        <!-- Interactive Form -->
+        <div class="tech-card" style="padding: 30px;">
+          <h3 style="margin-bottom: 6px; color: var(--text-main);">Send an Enquiry</h3>
+          <p style="margin-bottom: 20px; font-size: 0.9rem; color: var(--text-muted);">
+            We welcome discussions around software engineering, AI innovation, digital products, and technology partnerships.
+          </p>
 
-<br>
+          <form id="contactForm">
+            <div class="form-group">
+              <label class="form-label" for="name">Your Name *</label>
+              <input type="text" id="name" class="form-control" placeholder="Your name" required>
+            </div>
 
-<p><strong>Website</strong><br>
-<a href="https://www.zevionix.com/">www.zevionix.com</a></p>
+            <div class="form-group">
+              <label class="form-label" for="email">Your Email *</label>
+              <input type="email" id="email" class="form-control" placeholder="name@domain.com" required>
+            </div>
 
-<br>
+            <div class="form-group">
+              <label class="form-label" for="subject">Subject</label>
+              <input type="text" id="subject" class="form-control" placeholder="Project Inquiry / Technology Collaboration">
+            </div>
 
-<p><strong>Location</strong><br>
-Coimbatore, Tamil Nadu, India</p>
+            <div class="form-group">
+              <label class="form-label" for="message">Tell Us About Your Project *</label>
+              <textarea id="message" class="form-control" placeholder="Describe your project scope, technical requirements, or partnership goals..." required></textarea>
+            </div>
 
-<br>
+            <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">
+              Send Enquiry <i class="fas fa-arrow-right" style="font-size: 0.82rem; margin-left: 6px;"></i>
+            </button>
+          </form>
+        </div>
 
-<p><strong>Strategic Partner</strong><br>
-Coralgenz Global</p>
+        <!-- Contact Info & Strategic Partner -->
+        <div>
+          <div class="contact-info-card">
+            <img src="assets/images/logo.png" alt="Zevionix Technologies Logo" style="height: 52px; margin-bottom: 16px; object-fit: contain;">
+            <h3 style="margin-bottom: 16px;">Start a Conversation</h3>
+            <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 20px;">
+              Direct contact channels for technical discovery and strategic collaborations.
+            </p>
 
-<br>
+            <div class="contact-item">
+              <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+              <div>
+                <strong style="color: var(--text-main); font-size: 0.9rem;">Email</strong>
+                <p style="font-size: 0.88rem; margin: 2px 0 0;">
+                  <a href="mailto:zevionix.01@gmail.com" style="color: var(--primary); font-weight: 600;">zevionix.01@gmail.com</a>
+                </p>
+              </div>
+            </div>
 
-<p><strong>Social Media</strong><br>
-<a href="https://youtube.com/@zevionix?si=rdXH4xE">YouTube</a><br>
-<a href="https://www.instagram.com/zevionix.in?stkn=MTAzdm9pYWJudzl0MA==">Instagram</a></p>
-</div>
+            <div class="contact-item">
+              <div class="contact-icon"><i class="fas fa-globe"></i></div>
+              <div>
+                <strong style="color: var(--text-main); font-size: 0.9rem;">Website</strong>
+                <p style="font-size: 0.88rem; margin: 2px 0 0;">
+                  <a href="https://www.zevionix.com/" target="_blank" style="color: var(--primary); font-weight: 600;">www.zevionix.com</a>
+                </p>
+              </div>
+            </div>
 
-<form class="contact-form"
-action="mailto:zevionix.01@gmail.com"
-method="post"
-enctype="text/plain">
+            <div class="contact-item">
+              <div class="contact-icon"><i class="fas fa-location-dot"></i></div>
+              <div>
+                <strong style="color: var(--text-main); font-size: 0.9rem;">Location</strong>
+                <p style="font-size: 0.88rem; color: var(--text-body); margin: 2px 0 0;">
+                  Coimbatore, Tamil Nadu, India
+                </p>
+              </div>
+            </div>
 
-<input type="text" name="Name" placeholder="Your Name" required>
-<input type="email" name="Email" placeholder="Your Email" required>
-<input type="text" name="Subject" placeholder="Subject">
-<textarea name="Message" placeholder="Tell us about your enquiry..." required></textarea>
-<button class="btn btn-primary" type="submit">Send Enquiry</button>
+            <div class="contact-item">
+              <div class="contact-icon"><i class="fas fa-share-nodes"></i></div>
+              <div>
+                <strong style="color: var(--text-main); font-size: 0.9rem;">Social Channels</strong>
+                <p style="font-size: 0.86rem; color: var(--text-body); margin: 4px 0 0;">
+                  <a href="https://youtube.com/@zevionix" target="_blank" style="color: var(--primary);">YouTube</a> · 
+                  <a href="https://www.instagram.com/zevionix.in/" target="_blank" style="color: var(--primary);">Instagram</a> · 
+                  <a href="https://www.linkedin.com/company/zevionix/" target="_blank" style="color: var(--primary);">LinkedIn</a>
+                </p>
+              </div>
+            </div>
 
-</form>
+            <div style="border-top: 1px solid var(--border-light); padding-top: 16px; margin-top: 18px;">
+              <div class="contact-item">
+                <div class="contact-icon" style="background: var(--primary-subtle); color: var(--primary);"><i class="fas fa-handshake"></i></div>
+                <div>
+                  <strong style="color: var(--text-main); font-size: 0.9rem;">Strategic Technology Partner</strong>
+                  <p style="font-size: 0.86rem; color: var(--text-muted); margin: 2px 0 0;">
+                    Official collaboration with <a href="https://coralgenz.co.in/" target="_blank" style="color: var(--primary); font-weight: 600;">Coralgenz Global</a>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
-</div>
-</div>
-</section>
+      </div>
+    </div>
+  </section>
 
-</main>
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <a href="index.html" class="brand-logo" style="margin-bottom: 14px;">
+            <img src="assets/images/logo-icon.png" alt="Zevionix Technologies Logo" class="brand-logo-img" style="height: 32px;">
+            <span>ZEVIONIX <span class="brand-highlight">TECHNOLOGIES</span></span>
+          </a>
+          <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 16px;">
+            Engineering intelligent digital ecosystems through software engineering, AI innovation, and scalable technology architecture.
+          </p>
+          <div class="social-links">
+            <a href="https://linkedin.com/company/zevionix/" target="_blank" class="social-btn" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://instagram.com/zevionix.in/" target="_blank" class="social-btn" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="https://youtube.com/@zevionix" target="_blank" class="social-btn" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
 
-<footer>
-<div class="container">
-<div class="footer-grid">
-<div><h4 class="logo">zevionix<span>.</span></h4><p>Technology. Intelligence. Impact.</p></div>
-<div><h4>Explore</h4><ul><li><a href="about.html">About</a></li><li><a href="services.html">Services</a></li><li><a href="aura.html">AURA</a></li></ul></div>
-<div><h4>Connect</h4><ul><li><a href="mailto:zevionix.01@gmail.com">Email</a></li><li><a href="https://youtube.com/@zevionix?si=rdXH4xE">YouTube</a></li><li><a href="https://www.instagram.com/zevionix.in?stkn=MTAzdm9pYWJudzl0MA==">Instagram</a></li></ul></div>
-</div>
-<div class="footer-bottom">© <span id="year"></span> Zevionix. All rights reserved.</div>
-</div>
-</footer>
+        <div class="footer-col">
+          <h4>Capabilities</h4>
+          <ul class="footer-links">
+            <li><a href="software-development.html">Custom Software</a></li>
+            <li><a href="ai-computer-vision.html">Artificial Intelligence</a></li>
+            <li><a href="web-application-development.html">Web & Apps</a></li>
+            <li><a href="cloud-devops.html">Cloud & DevOps</a></li>
+            <li><a href="data-engineering.html">Data Engineering</a></li>
+            <li><a href="research-product-development.html">Research & R&D</a></li>
+          </ul>
+        </div>
 
-<script src="js/script.js"></script>
+        <div class="footer-col">
+          <h4>Explore</h4>
+          <ul class="footer-links">
+            <li><a href="about.html">About Zevionix</a></li>
+            <li><a href="aura.html">AURA Platform</a></li>
+            <li><a href="team.html">Leadership</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Connect</h4>
+          <p style="font-size: 0.86rem; color: var(--text-muted); margin-bottom: 6px;">
+            <strong>Email:</strong> <a href="mailto:zevionix.01@gmail.com" style="color: var(--primary);">zevionix.01@gmail.com</a>
+          </p>
+          <p style="font-size: 0.86rem; color: var(--text-muted); margin-bottom: 10px;">
+            <strong>Location:</strong> Coimbatore, Tamil Nadu, India
+          </p>
+          <p style="font-size: 0.82rem; color: var(--text-dim);">
+            Official Partner: <a href="https://coralgenz.co.in/" target="_blank" style="color: var(--primary); font-weight: 600;">Coralgenz Global</a>
+          </p>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>&copy; 2026 Zevionix Technologies. All rights reserved.</div>
+        <div>Official Technology Partner of Coralgenz Global.</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/script.js"></script>
 </body>
 </html>

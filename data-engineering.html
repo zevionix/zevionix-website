@@ -1,747 +1,216 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Zevionix provides data engineering, analytics, database design, data pipelines, and reporting solutions.">
-<title>Data Engineering & Analytics | Zevionix</title>
-
-<style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
-
-:root {
-    --navy: #0b1530;
-    --ink: #111c38;
-    --muted: #62708a;
-    --blue: #2457e6;
-    --violet: #7856e8;
-    --pale: #f4f7fc;
-    --line: #e5eaf3;
-}
-
-* {
-    box-sizing: border-box;
-}
-
-html {
-    scroll-behavior: smooth;
-}
-
-body {
-    margin: 0;
-    font-family: 'DM Sans', sans-serif;
-    color: var(--muted);
-    line-height: 1.7;
-}
-
-h1, h2, h3, h4 {
-    font-family: 'Manrope', sans-serif;
-    color: var(--ink);
-    line-height: 1.2;
-}
-
-a {
-    text-decoration: none;
-    color: inherit;
-}
-
-.wrap {
-    width: min(1160px, 90%);
-    margin: auto;
-}
-
-/* HEADER */
-
-header {
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    background: #fffffff2;
-    backdrop-filter: blur(15px);
-    border-bottom: 1px solid var(--line);
-}
-
-nav {
-    min-height: 76px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.logo {
-    font: 800 27px 'Manrope', sans-serif;
-    color: var(--navy);
-    letter-spacing: -1px;
-}
-
-.logo b {
-    color: var(--blue);
-}
-
-.nav {
-    display: flex;
-    align-items: center;
-    gap: 24px;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-.nav a {
-    font-size: 13px;
-    font-weight: 700;
-    color: #38445e;
-}
-
-.nav a:hover {
-    color: var(--blue);
-}
-
-.nav .contact-link {
-    background: var(--blue);
-    color: white;
-    padding: 11px 17px;
-    border-radius: 8px;
-}
-
-/* HERO */
-
-.hero {
-    padding: 95px 0;
-    background:
-        radial-gradient(ellipse at 85% 5%, #7856e822, transparent 35%),
-        radial-gradient(ellipse at 3% 95%, #2457e615, transparent 35%),
-        white;
-}
-
-.hero-grid {
-    display: grid;
-    grid-template-columns: 1.1fr .9fr;
-    gap: 50px;
-    align-items: center;
-}
-
-.eyebrow {
-    display: inline-block;
-    background: #edf2ff;
-    color: var(--blue);
-    border: 1px solid #e2eaff;
-    border-radius: 30px;
-    padding: 7px 14px;
-    font-size: 11px;
-    font-weight: 800;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    margin-bottom: 19px;
-}
-
-h1 {
-    font-size: clamp(40px, 5vw, 65px);
-    letter-spacing: -2.5px;
-    margin: 0 0 20px;
-}
-
-.gradient {
-    background: linear-gradient(100deg, var(--blue), var(--violet));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-}
-
-.lead {
-    font-size: 17px;
-    max-width: 650px;
-    margin-bottom: 28px;
-}
-
-.btn {
-    display: inline-block;
-    padding: 13px 21px;
-    border-radius: 8px;
-    font-size: 13px;
-    font-weight: 800;
-    border: 1px solid transparent;
-    transition: .2s;
-}
-
-.primary {
-    background: var(--blue);
-    color: white;
-    box-shadow: 0 10px 22px #2457e629;
-}
-
-.primary:hover {
-    background: #1747cf;
-    transform: translateY(-2px);
-}
-
-.secondary {
-    border-color: #dce3ef;
-    color: var(--ink);
-    margin-left: 8px;
-}
-
-.secondary:hover {
-    border-color: var(--blue);
-    color: var(--blue);
-}
-
-/* HERO CARD */
-
-.hero-card {
-    min-height: 350px;
-    padding: 32px;
-    border-radius: 23px;
-    background: linear-gradient(140deg, #101c3b, #243e85 65%, #6b50c7);
-    color: white;
-    box-shadow: 0 24px 65px #142b662e;
-    position: relative;
-    overflow: hidden;
-}
-
-.hero-card:after {
-    content: '';
-    position: absolute;
-    width: 300px;
-    height: 300px;
-    border: 1px solid #ffffff2b;
-    border-radius: 50%;
-    right: -100px;
-    top: -100px;
-    box-shadow: 0 0 0 45px #ffffff08, 0 0 0 90px #ffffff08;
-}
-
-.hero-card > * {
-    position: relative;
-    z-index: 1;
-}
-
-.kicker {
-    font-size: 11px;
-    letter-spacing: 2px;
-    color: #b9c9ff;
-    font-weight: 700;
-}
-
-.hero-card h2 {
-    color: white;
-    font-size: 32px;
-    margin-top: 80px;
-}
-
-.hero-card p {
-    color: #d6def8;
-}
-
-.status {
-    background: #ffffff19;
-    border: 1px solid #ffffff30;
-    border-radius: 10px;
-    padding: 12px;
-    font-size: 12px;
-    color: white;
-}
-
-/* SECTIONS */
-
-.section {
-    padding: 80px 0;
-}
-
-.soft {
-    background: var(--pale);
-}
-
-.section-title {
-    font-size: clamp(30px, 4vw, 43px);
-    letter-spacing: -1.5px;
-    margin-bottom: 18px;
-}
-
-.center {
-    text-align: center;
-    max-width: 760px;
-    margin: 0 auto 40px;
-}
-
-/* CARDS */
-
-.cards {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 18px;
-}
-
-.card {
-    background: white;
-    border: 1px solid var(--line);
-    border-radius: 15px;
-    padding: 26px;
-    transition: .2s;
-}
-
-.card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 16px 35px #16327012;
-    border-color: #c8d5ff;
-}
-
-.card h3 {
-    font-size: 19px;
-    margin: 12px 0;
-}
-
-.card p {
-    font-size: 14px;
-    margin: 0;
-}
-
-.card small {
-    color: var(--blue);
-    font-weight: 800;
-    letter-spacing: 1px;
-}
-
-/* TECHNOLOGY TAGS */
-
-.tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin: 20px 0 30px;
-}
-
-.tag {
-    background: white;
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    padding: 8px 14px;
-    color: #3e4b65;
-    font-size: 13px;
-    font-weight: 700;
-}
-
-/* PROCESS */
-
-.process {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 15px;
-    margin-top: 30px;
-}
-
-.step {
-    background: white;
-    border: 1px solid var(--line);
-    border-radius: 12px;
-    padding: 22px;
-}
-
-.step b {
-    color: var(--blue);
-    font-size: 12px;
-}
-
-.step h3 {
-    font-size: 17px;
-    margin: 12px 0;
-}
-
-.step p {
-    font-size: 13px;
-    margin: 0;
-}
-
-/* CTA */
-
-.cta {
-    background: linear-gradient(110deg, #1747cf, #6549d2);
-    padding: 52px 0;
-    color: white;
-}
-
-.cta-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 20px;
-}
-
-.cta h2 {
-    color: white;
-    font-size: 30px;
-    margin: 0 0 7px;
-}
-
-.cta p {
-    margin: 0;
-    color: #e0e7ff;
-}
-
-.cta .btn {
-    background: white;
-    color: #1945bd;
-}
-
-/* FOOTER */
-
-.footer {
-    background: var(--navy);
-    color: #b8c4dc;
-    padding: 40px 0 20px;
-}
-
-.footer-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 20px;
-}
-
-.footer p {
-    font-size: 13px;
-}
-
-.footer-bottom {
-    text-align: center;
-    border-top: 1px solid #293653;
-    padding-top: 17px;
-    margin-top: 25px;
-    font-size: 12px;
-}
-
-/* RESPONSIVE */
-
-@media(max-width: 900px) {
-    .cards {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .process {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media(max-width: 760px) {
-    .hero {
-        padding: 65px 0;
-    }
-
-    .hero-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .cards {
-        grid-template-columns: 1fr;
-    }
-
-    .process {
-        grid-template-columns: 1fr;
-    }
-
-    .footer-content {
-        align-items: flex-start;
-        flex-direction: column;
-    }
-}
-
-@media(max-width: 430px) {
-    .secondary {
-        margin: 10px 0 0;
-    }
-
-    .hero .btn {
-        display: block;
-        text-align: center;
-        margin: 10px 0 0;
-    }
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enterprise Data Engineering & Lakehouse | Zevionix Technologies</title>
+  <meta name="description" content="Streaming analytics, real-time data ingestion, Apache Spark, Flink, Kafka, and modern Lakehouses by Zevionix.">
+  
+    <!-- Favicons & Brand Assets -->
+  <link rel="icon" type="image/png" href="assets/images/favicon.png">
+  <link rel="apple-touch-icon" href="assets/images/icon-192.png">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
 </head>
-
 <body>
 
-<header>
-    <nav class="wrap">
-        <a class="logo" href="index.html">zevionix<b>.</b></a>
+  <div class="ambient-glow top-right"></div>
+  <div class="ambient-glow bottom-left cyan"></div>
 
-        <ul class="nav">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="index.html#about">About</a></li>
-            <li><a href="index.html#services">Services</a></li>
-            <li><a href="index.html#technology">Technology</a></li>
-            <li><a href="index.html#aura">AURA</a></li>
-            <li><a href="index.html#team">Leadership</a></li>
-            <li><a class="contact-link" href="index.html#contact">Contact</a></li>
-        </ul>
-    </nav>
-</header>
+  <!-- Header -->
+  <header>
+    <div class="container header-inner">
+      <a href="index.html" class="brand-logo">
+        <img src="assets/images/logo-icon.png" alt="Zevionix Technologies Logo" class="brand-logo-img">
+        <span>ZEVIONIX <span class="brand-highlight">TECHNOLOGIES</span></span>
+      </a>
 
-<main>
+      <ul class="nav-menu">
+        <li class="nav-item">
+          <a href="index.html" class="nav-link">Home</a>
+        </li>
+        <li class="nav-item">
+          <a href="service.html" class="nav-link active">Services <i class="fas fa-chevron-down" style="font-size: 0.65rem;"></i></a>
+          <div class="dropdown-menu">
+            <a href="ai-computer-vision.html" class="dropdown-item"><i class="fas fa-eye"></i> AI & Computer Vision</a>
+            <a href="software-development.html" class="dropdown-item"><i class="fas fa-code"></i> Software Engineering</a>
+            <a href="cloud-devops.html" class="dropdown-item"><i class="fas fa-cloud"></i> Cloud & DevOps</a>
+            <a href="data-engineering.html" class="dropdown-item active"><i class="fas fa-database"></i> Data Engineering</a>
+            <a href="research-product-development.html" class="dropdown-item"><i class="fas fa-flask"></i> R&D & Deep Tech</a>
+            <a href="web-application-development.html" class="dropdown-item"><i class="fas fa-laptop-code"></i> Web Applications</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a href="aura.html" class="nav-link">AURA Platform</a>
+        </li>
+        <li class="nav-item">
+          <a href="about.html" class="nav-link">About Us</a>
+        </li>
+        <li class="nav-item">
+          <a href="team.html" class="nav-link">Team</a>
+        </li>
+        <li class="nav-item">
+          <a href="contact.html" class="nav-link">Contact</a>
+        </li>
+      </ul>
 
-<section class="hero">
-    <div class="wrap hero-grid">
+      <div class="nav-actions">
+        <a href="contact.html" class="btn btn-primary btn-sm">Schedule Briefing <i class="fas fa-arrow-right"></i></a>
+      </div>
 
-        <div>
-            <span class="eyebrow">05 / Data Engineering & Analytics</span>
-
-            <h1>Transforming data into <span class="gradient">meaningful insight.</span></h1>
-
-            <p class="lead">
-                Zevionix develops structured data systems, analytics foundations,
-                and reporting solutions that help organizations organize information,
-                understand performance, and support informed decision-making.
-            </p>
-
-            <a class="btn primary" href="index.html#contact">Discuss a Data Project →</a>
-            <a class="btn secondary" href="index.html#services">Back to Services</a>
-        </div>
-
-        <div class="hero-card">
-            <div class="kicker">ZEVIONIX / DATA SYSTEMS</div>
-            <h2>Structure. Analyze. Understand.</h2>
-            <p>Building reliable foundations for data-driven applications and operations.</p>
-            <div class="status">Data engineering and analytics capabilities</div>
-        </div>
-
+      <button class="mobile-toggle" aria-label="Toggle navigation">
+        <i class="fas fa-bars"></i>
+      </button>
     </div>
-</section>
+  </header>
 
-<section class="section">
-    <div class="wrap">
-        <div class="center">
-            <span class="eyebrow">Our capabilities</span>
-            <h2 class="section-title">Data solutions built for clarity and scale.</h2>
-            <p>
-                From data collection to reporting, we help create dependable
-                systems that make information more accessible and useful.
-            </p>
-        </div>
-
-        <div class="cards">
-
-            <article class="card">
-                <small>01 / PIPELINES</small>
-                <h3>Data Pipeline Development</h3>
-                <p>
-                    Design and implementation of workflows that collect,
-                    process, transform, and move data between systems.
-                </p>
-            </article>
-
-            <article class="card">
-                <small>02 / DATABASES</small>
-                <h3>Database Design</h3>
-                <p>
-                    Structured database architecture focused on data integrity,
-                    efficient queries, and maintainable storage.
-                </p>
-            </article>
-
-            <article class="card">
-                <small>03 / ANALYTICS</small>
-                <h3>Data Analysis</h3>
-                <p>
-                    Explore datasets, identify patterns, and prepare meaningful
-                    insights to support operational and business decisions.
-                </p>
-            </article>
-
-            <article class="card">
-                <small>04 / REPORTING</small>
-                <h3>Dashboards & Reporting</h3>
-                <p>
-                    Clear reporting interfaces that present key metrics,
-                    trends, and operational information.
-                </p>
-            </article>
-
-            <article class="card">
-                <small>05 / INTEGRATION</small>
-                <h3>Data Integration</h3>
-                <p>
-                    Connect data sources and applications to improve consistency
-                    and reduce fragmented information.
-                </p>
-            </article>
-
-            <article class="card">
-                <small>06 / QUALITY</small>
-                <h3>Data Quality & Governance</h3>
-                <p>
-                    Practical approaches to validation, consistency,
-                    documentation, and responsible data handling.
-                </p>
-            </article>
-
-        </div>
+  <!-- Page Header -->
+  <section class="page-header">
+    <div class="container">
+      <div class="breadcrumbs">
+        <a href="index.html">Home</a>
+        <i class="fas fa-chevron-right" style="font-size: 0.65rem;"></i>
+        <a href="service.html">Services</a>
+        <i class="fas fa-chevron-right" style="font-size: 0.65rem;"></i>
+        <span>Data Engineering</span>
+      </div>
+      <div class="badge-pill">High-Throughput Analytics</div>
+      <h1>Enterprise <span class="text-gradient">Data Engineering</span> & Lakehouse</h1>
+      <p>
+        Designing high-throughput streaming pipelines, real-time analytics engines, and AI-ready data meshes for petabyte-scale workloads.
+      </p>
     </div>
-</section>
+  </section>
 
-<section class="section soft">
-    <div class="wrap">
-        <span class="eyebrow">Technology stack</span>
-        <h2 class="section-title">Tools for modern data workflows.</h2>
-        <p>
-            Technology selection depends on project requirements,
-            data volume, infrastructure, and long-term maintainability.
+  <!-- Showcase -->
+  <section>
+    <div class="container">
+      <div class="showcase-split">
+        <div class="showcase-content">
+          <div class="badge-pill">Real-Time Data Fabric</div>
+          <h2>Streaming at Millisecond Latency</h2>
+          <p>
+            Batch ETL processes create hours of business lag. Zevionix builds unified streaming Lakehouse architectures powered by Apache Kafka, Apache Flink, and ClickHouse that process millions of events per second with instant analytical querying.
+          </p>
+          <ul class="card-feature-list" style="margin: 20px 0 26px;">
+            <li><i class="fas fa-check-circle"></i> <strong>Sub-Second Ingestion:</strong> Kafka & Flink stateful stream processing pipelines.</li>
+            <li><i class="fas fa-check-circle"></i> <strong>Lakehouse Architecture:</strong> Delta Lake, Iceberg, and Snowflake with ACID transactions.</li>
+            <li><i class="fas fa-check-circle"></i> <strong>AI Vector Databases:</strong> High-speed vector index ingestion (Milvus, Pinecone, Qdrant).</li>
+            <li><i class="fas fa-check-circle"></i> <strong>Data Governance:</strong> Automated schema registry, lineage tracking, and GDPR compliance.</li>
+          </ul>
+          <a href="contact.html" class="btn btn-primary">Design Data Architecture <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div class="showcase-media">
+          <img src="assets/images/data-engineering.jpg" alt="Data Analytics and Stream Dashboard">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pillars Grid -->
+  <section class="section-bg-subtle">
+    <div class="container">
+      <div class="section-header">
+        <div class="badge-pill">Data Solutions</div>
+        <h2 class="section-title">End-to-End Data Stack</h2>
+        <p class="section-subtitle">
+          From edge sensor ingestion to executive real-time intelligence dashboards.
         </p>
+      </div>
 
-        <h3 style="margin-top:30px">Languages & querying</h3>
-        <div class="tags">
-            <span class="tag">Python</span>
-            <span class="tag">SQL</span>
-            <span class="tag">R</span>
-            <span class="tag">Java</span>
+      <div class="card-grid-3">
+        <div class="tech-card">
+          <div class="card-icon"><i class="fas fa-stream"></i></div>
+          <h3>Real-Time Streaming Fabrics</h3>
+          <p>Continuous event streams, windowed aggregations, and complex event processing with Apache Flink, Spark Streaming, and Redpanda.</p>
         </div>
 
-        <h3>Databases & storage</h3>
-        <div class="tags">
-            <span class="tag">PostgreSQL</span>
-            <span class="tag">MySQL</span>
-            <span class="tag">SQLite</span>
-            <span class="tag">MongoDB</span>
-            <span class="tag">Redis</span>
+        <div class="tech-card">
+          <div class="card-icon"><i class="fas fa-layer-group"></i></div>
+          <h3>Modern Data Lakehouses</h3>
+          <p>Consolidating structured, semi-structured, and unstructured data into scalable, cost-effective columnar Lakehouses with sub-second queries.</p>
         </div>
 
-        <h3>Analytics & visualization</h3>
-        <div class="tags">
-            <span class="tag">Pandas</span>
-            <span class="tag">NumPy</span>
-            <span class="tag">Matplotlib</span>
-            <span class="tag">Power BI</span>
-            <span class="tag">Tableau</span>
+        <div class="tech-card">
+          <div class="card-icon"><i class="fas fa-brain"></i></div>
+          <h3>AI & Vector Pipelines</h3>
+          <p>Automated embeddings generation, semantic caching, vector search indexing, and real-time feature stores for machine learning models.</p>
         </div>
-
-        <h3>Data formats</h3>
-        <div class="tags">
-            <span class="tag">JSON</span>
-            <span class="tag">CSV</span>
-            <span class="tag">XML</span>
-            <span class="tag">Parquet</span>
-            <span class="tag">YAML</span>
-        </div>
+      </div>
     </div>
-</section>
+  </section>
 
-<section class="section">
-    <div class="wrap">
-        <div class="center">
-            <span class="eyebrow">Our approach</span>
-            <h2 class="section-title">From raw information to useful outcomes.</h2>
-            <p>
-                A structured process helps ensure data solutions are aligned
-                with real operational requirements.
-            </p>
-        </div>
-
-        <div class="process">
-            <div class="step">
-                <b>01</b>
-                <h3>Understand</h3>
-                <p>Identify data sources, requirements, and intended outcomes.</p>
-            </div>
-
-            <div class="step">
-                <b>02</b>
-                <h3>Organize</h3>
-                <p>Structure, clean, and prepare information for reliable use.</p>
-            </div>
-
-            <div class="step">
-                <b>03</b>
-                <h3>Analyze</h3>
-                <p>Explore patterns and develop meaningful metrics and reports.</p>
-            </div>
-
-            <div class="step">
-                <b>04</b>
-                <h3>Improve</h3>
-                <p>Validate results and refine systems as requirements evolve.</p>
-            </div>
-        </div>
+  <!-- CTA -->
+  <section>
+    <div class="container">
+      <div class="cta-banner">
+        <h2>Accelerate Your Enterprise Data Strategy</h2>
+        <p>Talk with our Lead Data Engineers to architect petabyte-scale real-time pipelines.</p>
+        <a href="contact.html" class="btn btn-cyan btn-lg">Schedule Data Consultation <i class="fas fa-arrow-right"></i></a>
+      </div>
     </div>
-</section>
+  </section>
 
-<section class="section soft">
-    <div class="wrap">
-        <div class="center">
-            <span class="eyebrow">Applications</span>
-            <h2 class="section-title">Where data engineering creates value.</h2>
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <a href="index.html" class="brand-logo" style="margin-bottom: 14px;">
+            <img src="assets/images/logo-icon.png" alt="Zevionix Technologies Logo" class="brand-logo-img" style="height: 32px;">
+            <span>ZEVIONIX <span class="brand-highlight">TECHNOLOGIES</span></span>
+          </a>
+          <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 20px;">
+            Pioneering autonomous intelligence, computer vision engineering, and distributed cloud computing for modern global enterprises.
+          </p>
+          <div class="social-links">
+            <a href="https://linkedin.com" target="_blank" class="social-btn" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://github.com" target="_blank" class="social-btn" aria-label="GitHub"><i class="fab fa-github"></i></a>
+            <a href="https://twitter.com" target="_blank" class="social-btn" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
+          </div>
         </div>
 
-        <div class="cards">
-            <article class="card">
-                <h3>Business Operations</h3>
-                <p>Reporting systems and operational metrics for better visibility.</p>
-            </article>
-
-            <article class="card">
-                <h3>Education</h3>
-                <p>Structured academic information, dashboards, and institutional analytics.</p>
-            </article>
-
-            <article class="card">
-                <h3>Smart Systems</h3>
-                <p>Data collection and analysis for connected devices and intelligent applications.</p>
-            </article>
-
-            <article class="card">
-                <h3>Digital Products</h3>
-                <p>Reliable data foundations for web platforms and software applications.</p>
-            </article>
-
-            <article class="card">
-                <h3>Research</h3>
-                <p>Data preparation and analysis workflows that support structured exploration.</p>
-            </article>
-
-            <article class="card">
-                <h3>Performance Monitoring</h3>
-                <p>Dashboards that help teams observe trends and track defined indicators.</p>
-            </article>
+        <div class="footer-col">
+          <h4>Capabilities</h4>
+          <ul class="footer-links">
+            <li><a href="ai-computer-vision.html">AI & Computer Vision</a></li>
+            <li><a href="software-development.html">Custom Software</a></li>
+            <li><a href="cloud-devops.html">Cloud & DevOps</a></li>
+            <li><a href="data-engineering.html">Data Engineering</a></li>
+            <li><a href="research-product-development.html">R&D & Deep Tech</a></li>
+            <li><a href="web-application-development.html">Web Applications</a></li>
+          </ul>
         </div>
+
+        <div class="footer-col">
+          <h4>Company</h4>
+          <ul class="footer-links">
+            <li><a href="about.html">About Zevionix</a></li>
+            <li><a href="aura.html">AURA Platform</a></li>
+            <li><a href="team.html">Leadership & Team</a></li>
+            <li><a href="contact.html">Contact Engineering</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Corporate Briefing</h4>
+          <p style="font-size: 0.86rem; color: var(--text-muted); margin-bottom: 14px;">
+            Receive our quarterly whitepapers on breakthrough AI architectures and high-throughput systems.
+          </p>
+          <div style="display: flex; gap: 8px;">
+            <input type="email" placeholder="work.email@enterprise.com" class="form-control" style="padding: 10px 14px; font-size: 0.88rem;">
+            <button class="btn btn-primary btn-sm" style="padding: 0 16px;"><i class="fas fa-paper-plane"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>&copy; 2026 Zevionix Technologies. All rights reserved.</div>
+        <div>Engineered with High-Throughput Standards & Zero-Trust Architecture.</div>
+      </div>
     </div>
-</section>
+  </footer>
 
-<section class="cta">
-    <div class="wrap cta-row">
-        <div>
-            <h2>Make your data more useful.</h2>
-            <p>Let's discuss your data engineering or analytics requirements.</p>
-        </div>
-
-        <a class="btn" href="index.html#contact">Start a Conversation →</a>
-    </div>
-</section>
-
-</main>
-
-<footer class="footer">
-    <div class="wrap">
-        <div class="footer-content">
-            <div>
-                <a class="logo" href="index.html" style="color:white">zevionix<b>.</b></a>
-                <p>Engineering intelligent digital ecosystems.</p>
-            </div>
-
-            <div>
-                <a href="index.html#services">All Services</a>
-                &nbsp; | &nbsp;
-                <a href="mailto:zevionix.01@gmail.com">Contact Zevionix</a>
-            </div>
-        </div>
-
-        <div class="footer-bottom">
-            © <span id="year"></span> Zevionix Technologies. All rights reserved.
-        </div>
-    </div>
-</footer>
-
-<script>
-document.getElementById('year').textContent = new Date().getFullYear();
-</script>
-
+  <script src="js/script.js"></script>
 </body>
 </html>

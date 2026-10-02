@@ -1,856 +1,216 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<meta name="description" content="Zevionix Research & Product Development explores emerging technologies, prototypes, intelligent systems, and purpose-built digital products.">
-
-<title>Research & Product Development | Zevionix</title>
-
-<style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
-
-:root {
-    --navy: #0b1530;
-    --ink: #111c38;
-    --muted: #62708a;
-    --blue: #2457e6;
-    --violet: #7856e8;
-    --pale: #f4f7fc;
-    --line: #e5eaf3;
-}
-
-* {
-    box-sizing: border-box;
-}
-
-html {
-    scroll-behavior: smooth;
-}
-
-body {
-    margin: 0;
-    font-family: 'DM Sans', sans-serif;
-    color: var(--muted);
-    line-height: 1.7;
-}
-
-h1, h2, h3, h4 {
-    font-family: 'Manrope', sans-serif;
-    color: var(--ink);
-    line-height: 1.2;
-}
-
-a {
-    text-decoration: none;
-    color: inherit;
-}
-
-.wrap {
-    width: min(1160px, 90%);
-    margin: auto;
-}
-
-/* HEADER */
-
-header {
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    background: #fffffff2;
-    backdrop-filter: blur(15px);
-    border-bottom: 1px solid var(--line);
-}
-
-nav {
-    min-height: 76px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.logo {
-    font: 800 27px 'Manrope', sans-serif;
-    color: var(--navy);
-    letter-spacing: -1px;
-}
-
-.logo b {
-    color: var(--blue);
-}
-
-.nav {
-    display: flex;
-    align-items: center;
-    gap: 24px;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-.nav a {
-    font-size: 13px;
-    font-weight: 700;
-    color: #38445e;
-}
-
-.nav a:hover {
-    color: var(--blue);
-}
-
-.nav .contact-link {
-    background: var(--blue);
-    color: white;
-    padding: 11px 17px;
-    border-radius: 8px;
-}
-
-/* HERO */
-
-.hero {
-    padding: 95px 0;
-    background:
-        radial-gradient(ellipse at 85% 5%, #7856e822, transparent 35%),
-        radial-gradient(ellipse at 3% 95%, #2457e615, transparent 35%),
-        white;
-}
-
-.hero-grid {
-    display: grid;
-    grid-template-columns: 1.1fr .9fr;
-    gap: 50px;
-    align-items: center;
-}
-
-.eyebrow {
-    display: inline-block;
-    background: #edf2ff;
-    color: var(--blue);
-    border: 1px solid #e2eaff;
-    border-radius: 30px;
-    padding: 7px 14px;
-    font-size: 11px;
-    font-weight: 800;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    margin-bottom: 19px;
-}
-
-h1 {
-    font-size: clamp(40px, 5vw, 65px);
-    letter-spacing: -2.5px;
-    margin: 0 0 20px;
-}
-
-.gradient {
-    background: linear-gradient(100deg, var(--blue), var(--violet));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-}
-
-.lead {
-    font-size: 17px;
-    max-width: 650px;
-    margin-bottom: 28px;
-}
-
-.btn {
-    display: inline-block;
-    padding: 13px 21px;
-    border-radius: 8px;
-    font-size: 13px;
-    font-weight: 800;
-    border: 1px solid transparent;
-    transition: .2s;
-}
-
-.primary {
-    background: var(--blue);
-    color: white;
-    box-shadow: 0 10px 22px #2457e629;
-}
-
-.primary:hover {
-    background: #1747cf;
-    transform: translateY(-2px);
-}
-
-.secondary {
-    border-color: #dce3ef;
-    color: var(--ink);
-    margin-left: 8px;
-}
-
-.secondary:hover {
-    border-color: var(--blue);
-    color: var(--blue);
-}
-
-/* HERO CARD */
-
-.hero-card {
-    min-height: 350px;
-    padding: 32px;
-    border-radius: 23px;
-    background: linear-gradient(140deg, #101c3b, #243e85 65%, #6b50c7);
-    color: white;
-    box-shadow: 0 24px 65px #142b662e;
-    position: relative;
-    overflow: hidden;
-}
-
-.hero-card:after {
-    content: '';
-    position: absolute;
-    width: 300px;
-    height: 300px;
-    border: 1px solid #ffffff2b;
-    border-radius: 50%;
-    right: -100px;
-    top: -100px;
-    box-shadow: 0 0 0 45px #ffffff08, 0 0 0 90px #ffffff08;
-}
-
-.hero-card > * {
-    position: relative;
-    z-index: 1;
-}
-
-.kicker {
-    font-size: 11px;
-    letter-spacing: 2px;
-    color: #b9c9ff;
-    font-weight: 700;
-}
-
-.hero-card h2 {
-    color: white;
-    font-size: 32px;
-    margin-top: 80px;
-}
-
-.hero-card p {
-    color: #d6def8;
-}
-
-.status {
-    background: #ffffff19;
-    border: 1px solid #ffffff30;
-    border-radius: 10px;
-    padding: 12px;
-    font-size: 12px;
-    color: white;
-}
-
-/* SECTIONS */
-
-.section {
-    padding: 80px 0;
-}
-
-.soft {
-    background: var(--pale);
-}
-
-.section-title {
-    font-size: clamp(30px, 4vw, 43px);
-    letter-spacing: -1.5px;
-    margin-bottom: 18px;
-}
-
-.center {
-    text-align: center;
-    max-width: 760px;
-    margin: 0 auto 40px;
-}
-
-/* CARDS */
-
-.cards {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 18px;
-}
-
-.card {
-    background: white;
-    border: 1px solid var(--line);
-    border-radius: 15px;
-    padding: 26px;
-    transition: .2s;
-}
-
-.card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 16px 35px #16327012;
-    border-color: #c8d5ff;
-}
-
-.card h3 {
-    font-size: 19px;
-    margin: 12px 0;
-}
-
-.card p {
-    font-size: 14px;
-    margin: 0;
-}
-
-.card small {
-    color: var(--blue);
-    font-weight: 800;
-    letter-spacing: 1px;
-}
-
-/* TAGS */
-
-.tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin: 20px 0 30px;
-}
-
-.tag {
-    background: white;
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    padding: 8px 14px;
-    color: #3e4b65;
-    font-size: 13px;
-    font-weight: 700;
-}
-
-/* PROCESS */
-
-.process {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 15px;
-    margin-top: 30px;
-}
-
-.step {
-    background: white;
-    border: 1px solid var(--line);
-    border-radius: 12px;
-    padding: 22px;
-}
-
-.step b {
-    color: var(--blue);
-    font-size: 12px;
-}
-
-.step h3 {
-    font-size: 17px;
-    margin: 12px 0;
-}
-
-.step p {
-    font-size: 13px;
-    margin: 0;
-}
-
-/* CTA */
-
-.cta {
-    background: linear-gradient(110deg, #1747cf, #6549d2);
-    padding: 52px 0;
-    color: white;
-}
-
-.cta-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 20px;
-}
-
-.cta h2 {
-    color: white;
-    font-size: 30px;
-    margin: 0 0 7px;
-}
-
-.cta p {
-    margin: 0;
-    color: #e0e7ff;
-}
-
-.cta .btn {
-    background: white;
-    color: #1945bd;
-}
-
-/* FOOTER */
-
-.footer {
-    background: var(--navy);
-    color: #b8c4dc;
-    padding: 40px 0 20px;
-}
-
-.footer-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 20px;
-}
-
-.footer p {
-    font-size: 13px;
-}
-
-.footer-bottom {
-    text-align: center;
-    border-top: 1px solid #293653;
-    padding-top: 17px;
-    margin-top: 25px;
-    font-size: 12px;
-}
-
-/* RESPONSIVE */
-
-@media(max-width: 900px) {
-    .cards {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .process {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media(max-width: 760px) {
-    .hero {
-        padding: 65px 0;
-    }
-
-    .hero-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .cards {
-        grid-template-columns: 1fr;
-    }
-
-    .process {
-        grid-template-columns: 1fr;
-    }
-
-    .footer-content {
-        align-items: flex-start;
-        flex-direction: column;
-    }
-}
-
-@media(max-width: 430px) {
-    .secondary {
-        margin: 10px 0 0;
-    }
-
-    .hero .btn {
-        display: block;
-        text-align: center;
-        margin: 10px 0 0;
-    }
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>R&D & Deep Tech Product Prototyping | Zevionix Technologies</title>
+  <meta name="description" content="Translating breakthrough algorithmic research into defensible intellectual property, patents, and production hardware-software prototypes.">
+  
+    <!-- Favicons & Brand Assets -->
+  <link rel="icon" type="image/png" href="assets/images/favicon.png">
+  <link rel="apple-touch-icon" href="assets/images/icon-192.png">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
 </head>
-
 <body>
 
-<header>
-    <nav class="wrap">
-        <a class="logo" href="index.html">zevionix<b>.</b></a>
+  <div class="ambient-glow top-right"></div>
+  <div class="ambient-glow bottom-left cyan"></div>
 
-        <ul class="nav">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="index.html#about">About</a></li>
-            <li><a href="index.html#services">Services</a></li>
-            <li><a href="index.html#technology">Technology</a></li>
-            <li><a href="index.html#aura">AURA</a></li>
-            <li><a href="index.html#team">Leadership</a></li>
-            <li><a class="contact-link" href="index.html#contact">Contact</a></li>
-        </ul>
-    </nav>
-</header>
+  <!-- Header -->
+  <header>
+    <div class="container header-inner">
+      <a href="index.html" class="brand-logo">
+        <img src="assets/images/logo-icon.png" alt="Zevionix Technologies Logo" class="brand-logo-img">
+        <span>ZEVIONIX <span class="brand-highlight">TECHNOLOGIES</span></span>
+      </a>
 
-<main>
+      <ul class="nav-menu">
+        <li class="nav-item">
+          <a href="index.html" class="nav-link">Home</a>
+        </li>
+        <li class="nav-item">
+          <a href="service.html" class="nav-link active">Services <i class="fas fa-chevron-down" style="font-size: 0.65rem;"></i></a>
+          <div class="dropdown-menu">
+            <a href="ai-computer-vision.html" class="dropdown-item"><i class="fas fa-eye"></i> AI & Computer Vision</a>
+            <a href="software-development.html" class="dropdown-item"><i class="fas fa-code"></i> Software Engineering</a>
+            <a href="cloud-devops.html" class="dropdown-item"><i class="fas fa-cloud"></i> Cloud & DevOps</a>
+            <a href="data-engineering.html" class="dropdown-item"><i class="fas fa-database"></i> Data Engineering</a>
+            <a href="research-product-development.html" class="dropdown-item active"><i class="fas fa-flask"></i> R&D & Deep Tech</a>
+            <a href="web-application-development.html" class="dropdown-item"><i class="fas fa-laptop-code"></i> Web Applications</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a href="aura.html" class="nav-link">AURA Platform</a>
+        </li>
+        <li class="nav-item">
+          <a href="about.html" class="nav-link">About Us</a>
+        </li>
+        <li class="nav-item">
+          <a href="team.html" class="nav-link">Team</a>
+        </li>
+        <li class="nav-item">
+          <a href="contact.html" class="nav-link">Contact</a>
+        </li>
+      </ul>
 
-<!-- HERO -->
+      <div class="nav-actions">
+        <a href="contact.html" class="btn btn-primary btn-sm">Schedule Briefing <i class="fas fa-arrow-right"></i></a>
+      </div>
 
-<section class="hero">
-    <div class="wrap hero-grid">
-
-        <div>
-            <span class="eyebrow">06 / Innovation</span>
-
-            <h1>
-                Exploring ideas.
-                <span class="gradient">Building what's next.</span>
-            </h1>
-
-            <p class="lead">
-                Zevionix explores emerging technologies and develops
-                purpose-built products for real-world challenges.
-                Through research, experimentation, prototyping, and
-                iterative engineering, we turn concepts into practical
-                digital solutions.
-            </p>
-
-            <a class="btn primary" href="index.html#contact">
-                Discuss an Innovation Project →
-            </a>
-
-            <a class="btn secondary" href="index.html#services">
-                Back to Services
-            </a>
-        </div>
-
-        <div class="hero-card">
-            <div class="kicker">ZEVIONIX / INNOVATION LAB</div>
-
-            <h2>Explore. Experiment. Engineer.</h2>
-
-            <p>
-                Advancing ideas through structured research,
-                creative problem-solving, and practical development.
-            </p>
-
-            <div class="status">
-                Research-driven product development
-            </div>
-        </div>
-
+      <button class="mobile-toggle" aria-label="Toggle navigation">
+        <i class="fas fa-bars"></i>
+      </button>
     </div>
-</section>
+  </header>
 
-<!-- CAPABILITIES -->
-
-<section class="section">
-    <div class="wrap">
-
-        <div class="center">
-            <span class="eyebrow">Our capabilities</span>
-
-            <h2 class="section-title">
-                From emerging ideas to practical innovation.
-            </h2>
-
-            <p>
-                We investigate possibilities, validate concepts, and
-                develop technology solutions aligned with real needs.
-            </p>
-        </div>
-
-        <div class="cards">
-
-            <article class="card">
-                <small>01 / RESEARCH</small>
-                <h3>Technology Research</h3>
-                <p>
-                    Explore emerging technologies, technical approaches,
-                    and opportunities for meaningful digital innovation.
-                </p>
-            </article>
-
-            <article class="card">
-                <small>02 / DISCOVERY</small>
-                <h3>Problem Discovery</h3>
-                <p>
-                    Understand real-world challenges, user requirements,
-                    and technical constraints before defining a solution.
-                </p>
-            </article>
-
-            <article class="card">
-                <small>03 / PROTOTYPING</small>
-                <h3>Rapid Prototyping</h3>
-                <p>
-                    Build early models and proof-of-concept systems
-                    to explore feasibility and demonstrate functionality.
-                </p>
-            </article>
-
-            <article class="card">
-                <small>04 / PRODUCT DESIGN</small>
-                <h3>Product Architecture</h3>
-                <p>
-                    Plan system structure, core features, workflows,
-                    and technical foundations for digital products.
-                </p>
-            </article>
-
-            <article class="card">
-                <small>05 / DEVELOPMENT</small>
-                <h3>Experimental Development</h3>
-                <p>
-                    Test new methods, integrate technologies, and
-                    develop functional solutions through iteration.
-                </p>
-            </article>
-
-            <article class="card">
-                <small>06 / VALIDATION</small>
-                <h3>Testing & Refinement</h3>
-                <p>
-                    Evaluate prototypes, identify limitations, and
-                    improve designs based on testing and feedback.
-                </p>
-            </article>
-
-        </div>
+  <!-- Page Header -->
+  <section class="page-header">
+    <div class="container">
+      <div class="breadcrumbs">
+        <a href="index.html">Home</a>
+        <i class="fas fa-chevron-right" style="font-size: 0.65rem;"></i>
+        <a href="service.html">Services</a>
+        <i class="fas fa-chevron-right" style="font-size: 0.65rem;"></i>
+        <span>R&D & Deep Tech</span>
+      </div>
+      <div class="badge-pill">Applied Science & Innovation</div>
+      <h1>R&D & Deep Tech <span class="text-gradient">Product Prototyping</span></h1>
+      <p>
+        Accelerating fundamental technological breakthroughs from applied science into defensible intellectual property and production systems.
+      </p>
     </div>
-</section>
+  </section>
 
-<!-- RESEARCH AREAS -->
+  <!-- Showcase -->
+  <section>
+    <div class="container">
+      <div class="showcase-split">
+        <div class="showcase-content">
+          <div class="badge-pill">Venture & Innovation Lab</div>
+          <h2>Bridging the Frontier of Computer Science</h2>
+          <p>
+            When standard technologies cannot solve your problem, our R&D team designs novel algorithms, hardware-in-the-loop validation frameworks, and patentable mathematical architectures.
+          </p>
+          <ul class="card-feature-list" style="margin: 20px 0 26px;">
+            <li><i class="fas fa-check-circle"></i> <strong>Novel Model Architectures:</strong> Custom neural layers and loss functions for sparse data domains.</li>
+            <li><i class="fas fa-check-circle"></i> <strong>Quantum Computing Simulation:</strong> Optimization algorithms modeled on quantum annealing simulators.</li>
+            <li><i class="fas fa-check-circle"></i> <strong>IP & Patent Defense:</strong> Comprehensive documentation and benchmark verification for patent applications.</li>
+            <li><i class="fas fa-check-circle"></i> <strong>Hardware Co-Design:</strong> FPGA/ASIC kernel optimization and embedded firmware development.</li>
+          </ul>
+          <a href="contact.html" class="btn btn-primary">Initiate R&D Project <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div class="showcase-media">
+          <img src="assets/images/research-rd.jpg" alt="Advanced R&D Laboratory">
+        </div>
+      </div>
+    </div>
+  </section>
 
-<section class="section soft">
-    <div class="wrap">
-
-        <span class="eyebrow">Research areas</span>
-
-        <h2 class="section-title">
-            Exploring technologies with practical potential.
-        </h2>
-
-        <p>
-            Research directions are selected according to project
-            requirements, feasibility, and intended application.
+  <!-- Pillars Grid -->
+  <section class="section-bg-subtle">
+    <div class="container">
+      <div class="section-header">
+        <div class="badge-pill">R&D Capabilities</div>
+        <h2 class="section-title">Applied Research Frontiers</h2>
+        <p class="section-subtitle">
+          Where theoretical computer science meets enterprise viability.
         </p>
+      </div>
 
-        <h3 style="margin-top:30px">Artificial intelligence</h3>
-        <div class="tags">
-            <span class="tag">Machine Learning</span>
-            <span class="tag">Computer Vision</span>
-            <span class="tag">Generative AI</span>
-            <span class="tag">Intelligent Automation</span>
-            <span class="tag">Predictive Systems</span>
+      <div class="card-grid-3">
+        <div class="tech-card">
+          <div class="card-icon"><i class="fas fa-atom"></i></div>
+          <h3>Algorithmic Innovation</h3>
+          <p>Developing novel optimization heuristics, reinforcement learning control loops, and proprietary deep neural structures.</p>
         </div>
 
-        <h3>Smart and connected systems</h3>
-        <div class="tags">
-            <span class="tag">Internet of Things</span>
-            <span class="tag">Smart Campus</span>
-            <span class="tag">Sensor Integration</span>
-            <span class="tag">Real-Time Monitoring</span>
-            <span class="tag">Edge Computing</span>
+        <div class="tech-card">
+          <div class="card-icon"><i class="fas fa-microchip"></i></div>
+          <h3>Embedded & Edge Firmware</h3>
+          <p>Writing bare-metal C/Rust firmware and custom compute kernels for edge acceleration boards and specialized silicon.</p>
         </div>
 
-        <h3>Software and digital products</h3>
-        <div class="tags">
-            <span class="tag">Product Engineering</span>
-            <span class="tag">Application Architecture</span>
-            <span class="tag">API Integration</span>
-            <span class="tag">Cloud Systems</span>
-            <span class="tag">User Experience</span>
+        <div class="tech-card">
+          <div class="card-icon"><i class="fas fa-certificate"></i></div>
+          <h3>Patent-Track Engineering</h3>
+          <p>Creating mathematically rigorous proof-of-concepts designed to secure defensible technological moats for your business.</p>
         </div>
-
-        <h3>Experimental technologies</h3>
-        <div class="tags">
-            <span class="tag">Automation</span>
-            <span class="tag">Data Intelligence</span>
-            <span class="tag">Digital Workflows</span>
-            <span class="tag">Emerging Frameworks</span>
-            <span class="tag">Rapid Prototyping</span>
-        </div>
-
+      </div>
     </div>
-</section>
+  </section>
 
-<!-- PROCESS -->
-
-<section class="section">
-    <div class="wrap">
-
-        <div class="center">
-            <span class="eyebrow">Our approach</span>
-
-            <h2 class="section-title">
-                A structured path from concept to product.
-            </h2>
-
-            <p>
-                Each initiative follows an iterative process that
-                connects research, development, and validation.
-            </p>
-        </div>
-
-        <div class="process">
-
-            <div class="step">
-                <b>01</b>
-                <h3>Explore</h3>
-                <p>
-                    Identify challenges, investigate technologies,
-                    and define the opportunity.
-                </p>
-            </div>
-
-            <div class="step">
-                <b>02</b>
-                <h3>Design</h3>
-                <p>
-                    Establish requirements, outline architecture,
-                    and plan the proposed solution.
-                </p>
-            </div>
-
-            <div class="step">
-                <b>03</b>
-                <h3>Build</h3>
-                <p>
-                    Develop prototypes, test core features,
-                    and integrate relevant technologies.
-                </p>
-            </div>
-
-            <div class="step">
-                <b>04</b>
-                <h3>Validate</h3>
-                <p>
-                    Evaluate results, refine functionality,
-                    and plan further development.
-                </p>
-            </div>
-
-        </div>
+  <!-- CTA -->
+  <section>
+    <div class="container">
+      <div class="cta-banner">
+        <h2>Bring Frontier Tech to Production</h2>
+        <p>Partner with our Principal AI Scientists and Senior Research Engineers.</p>
+        <a href="contact.html" class="btn btn-cyan btn-lg">Explore R&D Partnerships <i class="fas fa-arrow-right"></i></a>
+      </div>
     </div>
-</section>
+  </section>
 
-<!-- APPLICATIONS -->
-
-<section class="section soft">
-    <div class="wrap">
-
-        <div class="center">
-            <span class="eyebrow">Applications</span>
-
-            <h2 class="section-title">
-                Innovation shaped around real-world needs.
-            </h2>
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <a href="index.html" class="brand-logo" style="margin-bottom: 14px;">
+            <img src="assets/images/logo-icon.png" alt="Zevionix Technologies Logo" class="brand-logo-img" style="height: 32px;">
+            <span>ZEVIONIX <span class="brand-highlight">TECHNOLOGIES</span></span>
+          </a>
+          <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 20px;">
+            Pioneering autonomous intelligence, computer vision engineering, and distributed cloud computing for modern global enterprises.
+          </p>
+          <div class="social-links">
+            <a href="https://linkedin.com" target="_blank" class="social-btn" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://github.com" target="_blank" class="social-btn" aria-label="GitHub"><i class="fab fa-github"></i></a>
+            <a href="https://twitter.com" target="_blank" class="social-btn" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
+          </div>
         </div>
 
-        <div class="cards">
-
-            <article class="card">
-                <h3>Education & Smart Campuses</h3>
-                <p>
-                    Explore intelligent systems that support
-                    campus operations, safety, and connected learning.
-                </p>
-            </article>
-
-            <article class="card">
-                <h3>Enterprise Solutions</h3>
-                <p>
-                    Develop purpose-built software concepts
-                    for operational challenges and digital workflows.
-                </p>
-            </article>
-
-            <article class="card">
-                <h3>AI-Powered Applications</h3>
-                <p>
-                    Investigate practical uses of AI for
-                    visual analysis, automation, and decision support.
-                </p>
-            </article>
-
-            <article class="card">
-                <h3>Digital Products</h3>
-                <p>
-                    Transform validated concepts into
-                    structured software products and platforms.
-                </p>
-            </article>
-
-            <article class="card">
-                <h3>Connected Environments</h3>
-                <p>
-                    Explore integrations between devices,
-                    data systems, and intelligent applications.
-                </p>
-            </article>
-
-            <article class="card">
-                <h3>Experimental Projects</h3>
-                <p>
-                    Test new technical ideas through
-                    prototypes, demonstrations, and iterative research.
-                </p>
-            </article>
-
+        <div class="footer-col">
+          <h4>Capabilities</h4>
+          <ul class="footer-links">
+            <li><a href="ai-computer-vision.html">AI & Computer Vision</a></li>
+            <li><a href="software-development.html">Custom Software</a></li>
+            <li><a href="cloud-devops.html">Cloud & DevOps</a></li>
+            <li><a href="data-engineering.html">Data Engineering</a></li>
+            <li><a href="research-product-development.html">R&D & Deep Tech</a></li>
+            <li><a href="web-application-development.html">Web Applications</a></li>
+          </ul>
         </div>
+
+        <div class="footer-col">
+          <h4>Company</h4>
+          <ul class="footer-links">
+            <li><a href="about.html">About Zevionix</a></li>
+            <li><a href="aura.html">AURA Platform</a></li>
+            <li><a href="team.html">Leadership & Team</a></li>
+            <li><a href="contact.html">Contact Engineering</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Corporate Briefing</h4>
+          <p style="font-size: 0.86rem; color: var(--text-muted); margin-bottom: 14px;">
+            Receive our quarterly whitepapers on breakthrough AI architectures and high-throughput systems.
+          </p>
+          <div style="display: flex; gap: 8px;">
+            <input type="email" placeholder="work.email@enterprise.com" class="form-control" style="padding: 10px 14px; font-size: 0.88rem;">
+            <button class="btn btn-primary btn-sm" style="padding: 0 16px;"><i class="fas fa-paper-plane"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>&copy; 2026 Zevionix Technologies. All rights reserved.</div>
+        <div>Engineered with High-Throughput Standards & Zero-Trust Architecture.</div>
+      </div>
     </div>
-</section>
+  </footer>
 
-<!-- CTA -->
-
-<section class="cta">
-    <div class="wrap cta-row">
-
-        <div>
-            <h2>Have an idea worth exploring?</h2>
-            <p>
-                Let's investigate possibilities and build
-                practical solutions together.
-            </p>
-        </div>
-
-        <a class="btn" href="index.html#contact">
-            Start a Conversation →
-        </a>
-
-    </div>
-</section>
-
-</main>
-
-<!-- FOOTER -->
-
-<footer class="footer">
-    <div class="wrap">
-
-        <div class="footer-content">
-
-            <div>
-                <a class="logo" href="index.html" style="color:white">
-                    zevionix<b>.</b>
-                </a>
-
-                <p>
-                    Engineering intelligent digital ecosystems.
-                </p>
-            </div>
-
-            <div>
-                <a href="index.html#services">All Services</a>
-                &nbsp; | &nbsp;
-                <a href="mailto:zevionix.01@gmail.com">
-                    Contact Zevionix
-                </a>
-            </div>
-
-        </div>
-
-        <div class="footer-bottom">
-            © <span id="year"></span> Zevionix Technologies.
-            All rights reserved.
-        </div>
-
-    </div>
-</footer>
-
-<script>
-document.getElementById('year').textContent =
-    new Date().getFullYear();
-</script>
-
+  <script src="js/script.js"></script>
 </body>
 </html>

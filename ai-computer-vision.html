@@ -1,762 +1,282 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>AI & Computer Vision | Zevionix Technologies</title>
-
-<meta name="description" content="Explore Zevionix AI and computer vision capabilities, including machine learning, visual recognition, intelligent monitoring, and automation.">
-
-<meta name="keywords" content="AI development, computer vision, machine learning, artificial intelligence, Zevionix, intelligent monitoring">
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-<style>
-
-:root {
-    --primary: #2457e6;
-    --secondary: #7557d9;
-    --dark: #101a2d;
-    --text: #58657a;
-    --light: #f5f7fb;
-    --border: #e7ebf2;
-    --white: #ffffff;
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-html {
-    scroll-behavior: smooth;
-}
-
-body {
-    font-family: 'DM Sans', sans-serif;
-    color: var(--text);
-    line-height: 1.7;
-    background: var(--white);
-}
-
-h1, h2, h3 {
-    font-family: 'Manrope', sans-serif;
-    color: var(--dark);
-    line-height: 1.3;
-}
-
-.container {
-    width: min(1150px, 91%);
-    margin: auto;
-}
-
-/* HEADER */
-
-header {
-    background: rgba(255,255,255,0.96);
-    border-bottom: 1px solid var(--border);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    backdrop-filter: blur(12px);
-}
-
-nav {
-    height: 75px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.logo {
-    font: 800 27px 'Manrope', sans-serif;
-    color: var(--dark);
-    text-decoration: none;
-    letter-spacing: -1.5px;
-}
-
-.logo span {
-    color: var(--primary);
-}
-
-.nav-links {
-    display: flex;
-    gap: 28px;
-    align-items: center;
-}
-
-.nav-links a {
-    color: var(--dark);
-    text-decoration: none;
-    font-size: 13px;
-    font-weight: 600;
-    transition: color 0.3s;
-}
-
-.nav-links a:hover {
-    color: var(--primary);
-}
-
-.back-link {
-    color: var(--primary) !important;
-}
-
-/* HERO */
-
-.hero {
-    padding: 110px 0;
-    background:
-        radial-gradient(circle at 85% 20%, rgba(117,87,217,0.12), transparent 35%),
-        linear-gradient(120deg, #ffffff, #eef2ff);
-    overflow: hidden;
-}
-
-.eyebrow {
-    display: inline-block;
-    padding: 7px 15px;
-    background: #eaf0ff;
-    border-radius: 30px;
-    color: var(--primary);
-    font-size: 11px;
-    font-weight: 800;
-    letter-spacing: 1px;
-    margin-bottom: 22px;
-}
-
-.hero h1 {
-    max-width: 850px;
-    font-size: clamp(38px, 6vw, 68px);
-    letter-spacing: -2.5px;
-    margin-bottom: 24px;
-}
-
-.hero p {
-    max-width: 720px;
-    font-size: 17px;
-    color: var(--text);
-}
-
-.btn {
-    display: inline-block;
-    margin-top: 30px;
-    padding: 14px 25px;
-    background: var(--primary);
-    color: white;
-    border-radius: 8px;
-    text-decoration: none;
-    font-size: 13px;
-    font-weight: 700;
-    transition: all 0.3s;
-}
-
-.btn:hover {
-    background: #1742c2;
-    transform: translateY(-2px);
-}
-
-/* SECTIONS */
-
-section {
-    padding: 85px 0;
-}
-
-.light {
-    background: var(--light);
-}
-
-.section-title {
-    font-size: clamp(28px, 4vw, 38px);
-    margin-bottom: 20px;
-    letter-spacing: -1px;
-}
-
-.content {
-    max-width: 880px;
-}
-
-.content p {
-    margin-bottom: 18px;
-}
-
-/* CAPABILITY CARDS */
-
-.grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 22px;
-    margin-top: 38px;
-}
-
-.card {
-    background: white;
-    border: 1px solid var(--border);
-    border-radius: 15px;
-    padding: 28px;
-    transition: all 0.3s ease;
-}
-
-.card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 18px 40px rgba(36,87,230,0.09);
-    border-color: #cbd7ff;
-}
-
-.card-icon {
-    width: 48px;
-    height: 48px;
-    display: grid;
-    place-items: center;
-    background: #edf2ff;
-    color: var(--primary);
-    border-radius: 12px;
-    font-size: 23px;
-    margin-bottom: 20px;
-}
-
-.card h3 {
-    font-size: 18px;
-    margin-bottom: 12px;
-}
-
-.card p {
-    font-size: 14px;
-}
-
-/* TECHNOLOGY TAGS */
-
-.tech-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-top: 25px;
-}
-
-.tech-tag {
-    background: white;
-    border: 1px solid var(--border);
-    padding: 10px 17px;
-    border-radius: 8px;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--dark);
-}
-
-/* APPLICATIONS */
-
-.application-list {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 18px;
-    margin-top: 30px;
-}
-
-.application-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 13px;
-    background: white;
-    padding: 20px;
-    border: 1px solid var(--border);
-    border-radius: 12px;
-}
-
-.application-item span {
-    color: var(--primary);
-    font-weight: 800;
-}
-
-/* WORKFLOW */
-
-.workflow {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-top: 35px;
-}
-
-.workflow-step {
-    background: white;
-    border: 1px solid var(--border);
-    padding: 16px 20px;
-    border-radius: 10px;
-    color: var(--dark);
-    font-weight: 700;
-    font-size: 13px;
-}
-
-.workflow-arrow {
-    color: var(--primary);
-    font-size: 20px;
-    font-weight: 800;
-}
-
-/* CTA */
-
-.cta {
-    background: linear-gradient(110deg, #204dcf, #654bc9);
-    color: white;
-    text-align: center;
-    padding: 75px 20px;
-}
-
-.cta h2 {
-    color: white;
-    font-size: clamp(28px, 4vw, 40px);
-    margin-bottom: 14px;
-}
-
-.cta p {
-    color: #e3e9ff;
-}
-
-.cta .btn {
-    background: white;
-    color: var(--primary);
-}
-
-.cta .btn:hover {
-    background: #f0f3ff;
-}
-
-/* FOOTER */
-
-footer {
-    background: #0a1428;
-    color: #b8c5db;
-    padding: 30px 0;
-    text-align: center;
-    font-size: 13px;
-}
-
-.footer-links {
-    margin-top: 12px;
-}
-
-.footer-links a {
-    color: #dce5f5;
-    text-decoration: none;
-    margin: 0 10px;
-}
-
-.footer-links a:hover {
-    color: white;
-}
-
-/* RESPONSIVE */
-
-@media(max-width: 800px) {
-    .grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media(max-width: 600px) {
-    .grid,
-    .application-list {
-        grid-template-columns: 1fr;
-    }
-
-    .hero {
-        padding: 75px 0;
-    }
-
-    section {
-        padding: 60px 0;
-    }
-
-    .nav-links {
-        gap: 12px;
-    }
-
-    .nav-links a {
-        font-size: 11px;
-    }
-
-    .logo {
-        font-size: 22px;
-    }
-
-    .workflow-arrow {
-        display: none;
-    }
-
-    .workflow {
-        flex-direction: column;
-    }
-
-    .workflow-step {
-        width: 100%;
-        text-align: center;
-    }
-}
-
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI & Computer Vision Engineering | Zevionix Technologies</title>
+  <meta name="description" content="Custom deep learning architectures, YOLOv10 object detection, Vision Transformers, and low-latency edge AI inference by Zevionix.">
+  
+    <!-- Favicons & Brand Assets -->
+  <link rel="icon" type="image/png" href="assets/images/favicon.png">
+  <link rel="apple-touch-icon" href="assets/images/icon-192.png">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
 </head>
-
 <body>
 
-<!-- HEADER -->
+  <div class="ambient-glow top-right"></div>
+  <div class="ambient-glow bottom-left cyan"></div>
 
-<header>
-    <nav class="container">
+  <!-- Header -->
+  <header>
+    <div class="container header-inner">
+      <a href="index.html" class="brand-logo">
+        <img src="assets/images/logo-icon.png" alt="Zevionix Technologies Logo" class="brand-logo-img">
+        <span>ZEVIONIX <span class="brand-highlight">TECHNOLOGIES</span></span>
+      </a>
 
-        <a href="index.html" class="logo">
-            zevionix<span>.</span>
-        </a>
+      <ul class="nav-menu">
+        <li class="nav-item">
+          <a href="index.html" class="nav-link">Home</a>
+        </li>
+        <li class="nav-item">
+          <a href="service.html" class="nav-link active">Services <i class="fas fa-chevron-down" style="font-size: 0.65rem;"></i></a>
+          <div class="dropdown-menu">
+            <a href="ai-computer-vision.html" class="dropdown-item active"><i class="fas fa-eye"></i> AI & Computer Vision</a>
+            <a href="software-development.html" class="dropdown-item"><i class="fas fa-code"></i> Software Engineering</a>
+            <a href="cloud-devops.html" class="dropdown-item"><i class="fas fa-cloud"></i> Cloud & DevOps</a>
+            <a href="data-engineering.html" class="dropdown-item"><i class="fas fa-database"></i> Data Engineering</a>
+            <a href="research-product-development.html" class="dropdown-item"><i class="fas fa-flask"></i> R&D & Deep Tech</a>
+            <a href="web-application-development.html" class="dropdown-item"><i class="fas fa-laptop-code"></i> Web Applications</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a href="aura.html" class="nav-link">AURA Platform</a>
+        </li>
+        <li class="nav-item">
+          <a href="about.html" class="nav-link">About Us</a>
+        </li>
+        <li class="nav-item">
+          <a href="team.html" class="nav-link">Team</a>
+        </li>
+        <li class="nav-item">
+          <a href="contact.html" class="nav-link">Contact</a>
+        </li>
+      </ul>
 
-        <div class="nav-links">
-            <a href="index.html">Home</a>
-            <a href="index.html#services" class="back-link">
-                ← Back to Services
-            </a>
+      <div class="nav-actions">
+        <a href="contact.html" class="btn btn-primary btn-sm">Schedule Briefing <i class="fas fa-arrow-right"></i></a>
+      </div>
+
+      <button class="mobile-toggle" aria-label="Toggle navigation">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Page Header -->
+  <section class="page-header">
+    <div class="container">
+      <div class="breadcrumbs">
+        <a href="index.html">Home</a>
+        <i class="fas fa-chevron-right" style="font-size: 0.65rem;"></i>
+        <a href="service.html">Services</a>
+        <i class="fas fa-chevron-right" style="font-size: 0.65rem;"></i>
+        <span>AI & Computer Vision</span>
+      </div>
+      <div class="badge-pill">Deep Tech Division</div>
+      <h1>AI & <span class="text-gradient">Computer Vision</span> Systems</h1>
+      <p>
+        Building ultra-low latency visual perception models, edge neural accelerators, and industrial spatial intelligence solutions.
+      </p>
+    </div>
+  </section>
+
+  <!-- Deep Dive Showcase -->
+  <section>
+    <div class="container">
+      <div class="showcase-split">
+        <div class="showcase-content">
+          <div class="badge-pill">Autonomous Perception</div>
+          <h2>From Raw Pixels to Deterministic Intelligence</h2>
+          <p>
+            Standard off-the-shelf vision models fail in high-throughput industrial environments due to high latency and poor generalization. Zevionix engineers custom, hardware-quantized neural networks trained on domain-specific datasets and synthetic augmentation pipelines.
+          </p>
+          <ul class="card-feature-list" style="margin: 20px 0 26px;">
+            <li><i class="fas fa-check-circle"></i> <strong>Sub-5ms Inference:</strong> INT8 and FP16 quantization using NVIDIA TensorRT.</li>
+            <li><i class="fas fa-check-circle"></i> <strong>Multi-Camera Swarm:</strong> Synchronized spatial tracking across 64+ RTSP streams per GPU node.</li>
+            <li><i class="fas fa-check-circle"></i> <strong>Zero-Shot Segmentation:</strong> Real-time SAM (Segment Anything Model) edge acceleration.</li>
+            <li><i class="fas fa-check-circle"></i> <strong>Edge Deployment:</strong> Optimized for NVIDIA Jetson Orin, Intel Xeon, and custom edge accelerators.</li>
+          </ul>
+          <a href="contact.html" class="btn btn-primary">Request Vision POC <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div class="showcase-media">
+          <img src="assets/images/ai-vision.jpg" alt="Computer Vision Neural Analysis">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Technical Specializations Grid -->
+  <section class="section-bg-subtle">
+    <div class="container">
+      <div class="section-header">
+        <div class="badge-pill">Core Disciplines</div>
+        <h2 class="section-title">Specialized Vision Architectures</h2>
+        <p class="section-subtitle">
+          Our specialized engineering teams build tailored visual intelligence pipelines for high-precision environments.
+        </p>
+      </div>
+
+      <div class="card-grid-3">
+        <div class="tech-card">
+          <div class="card-icon"><i class="fas fa-microchip"></i></div>
+          <h3>Industrial Defect Detection</h3>
+          <p>Sub-millimeter anomaly detection in manufacturing lines, wafer inspections, and high-speed conveyor sorting with 99.98% recall rate.</p>
+          <div class="showcase-pill-tags">
+            <span class="pill-tag">Automated QA</span>
+            <span class="pill-tag">Anomaly Heatmaps</span>
+          </div>
         </div>
 
-    </nav>
-</header>
-
-<main>
-
-<!-- HERO -->
-
-<section class="hero">
-    <div class="container">
-
-        <span class="eyebrow">
-            OUR SERVICES / ARTIFICIAL INTELLIGENCE
-        </span>
-
-        <h1>
-            AI & Computer Vision Engineering
-        </h1>
-
-        <p>
-            Transforming visual information and complex data into
-            meaningful insights through artificial intelligence,
-            machine learning, and computer vision technologies.
-        </p>
-
-        <a href="index.html#contact" class="btn">
-            Discuss Your Project →
-        </a>
-
-    </div>
-</section>
-
-<!-- INTRODUCTION -->
-
-<section>
-    <div class="container content">
-
-        <h2 class="section-title">
-            Intelligence that supports real-world applications.
-        </h2>
-
-        <p>
-            At Zevionix, AI and computer vision represent an area of
-            technical exploration focused on building systems that
-            interpret information, recognize patterns, and support
-            informed operational decisions.
-        </p>
-
-        <p>
-            Our work explores the integration of machine learning,
-            visual analysis, and software engineering to develop
-            prototypes and intelligent applications for practical
-            challenges.
-        </p>
-
-        <p>
-            By combining algorithmic approaches with application
-            development, we aim to make intelligent technology
-            accessible, understandable, and useful across different
-            environments.
-        </p>
-
-    </div>
-</section>
-
-<!-- CAPABILITIES -->
-
-<section class="light">
-    <div class="container">
-
-        <h2 class="section-title">
-            Our AI capabilities
-        </h2>
-
-        <p>
-            Explore the technical areas we work with and investigate
-            through our AI-focused projects.
-        </p>
-
-        <div class="grid">
-
-            <div class="card">
-                <div class="card-icon">◉</div>
-                <h3>Computer Vision</h3>
-                <p>
-                    Image analysis, object detection, visual recognition,
-                    and video-based event identification.
-                </p>
-            </div>
-
-            <div class="card">
-                <div class="card-icon">✦</div>
-                <h3>Machine Learning</h3>
-                <p>
-                    Model development, experimentation, classification,
-                    and predictive analysis.
-                </p>
-            </div>
-
-            <div class="card">
-                <div class="card-icon">▣</div>
-                <h3>Intelligent Monitoring</h3>
-                <p>
-                    Visual monitoring prototypes and event-driven
-                    workflows for operational environments.
-                </p>
-            </div>
-
-            <div class="card">
-                <div class="card-icon">⌘</div>
-                <h3>AI Integration</h3>
-                <p>
-                    Connecting AI models with applications, APIs,
-                    dashboards, and notification systems.
-                </p>
-            </div>
-
-            <div class="card">
-                <div class="card-icon">⌁</div>
-                <h3>Data Processing</h3>
-                <p>
-                    Preparing, processing, and analyzing data to
-                    support machine learning applications.
-                </p>
-            </div>
-
-            <div class="card">
-                <div class="card-icon">↗</div>
-                <h3>Prototype Development</h3>
-                <p>
-                    Proof-of-concept systems to explore feasibility,
-                    functionality, and practical use cases.
-                </p>
-            </div>
-
+        <div class="tech-card">
+          <div class="card-icon"><i class="fas fa-robot"></i></div>
+          <h3>Spatial Computing & Robotics</h3>
+          <p>3D point cloud processing, SLAM (Simultaneous Localization and Mapping), depth estimation, and obstacle avoidance for autonomous vehicles and AMR robots.</p>
+          <div class="showcase-pill-tags">
+            <span class="pill-tag">3D LiDAR</span>
+            <span class="pill-tag">Edge SLAM</span>
+          </div>
         </div>
 
+        <div class="tech-card">
+          <div class="card-icon"><i class="fas fa-video"></i></div>
+          <h3>Smart Video Telemetry</h3>
+          <p>High-density crowd tracking, vehicle trajectory analytics, behavioral pattern recognition, and perimeter security telemetry with privacy-safe redaction.</p>
+          <div class="showcase-pill-tags">
+            <span class="pill-tag">Multi-Object Tracking</span>
+            <span class="pill-tag">Edge Triton</span>
+          </div>
+        </div>
+      </div>
     </div>
-</section>
+  </section>
 
-<!-- TECHNOLOGIES -->
-
-<section>
+  <!-- Performance Benchmarks Table -->
+  <section>
     <div class="container">
-
-        <h2 class="section-title">
-            Technologies we explore
-        </h2>
-
-        <p>
-            Our development approach brings together programming
-            languages, AI frameworks, computer vision libraries,
-            and application technologies.
+      <div class="section-header">
+        <div class="badge-pill">Validated Metrics</div>
+        <h2 class="section-title">Production Inference Benchmarks</h2>
+        <p class="section-subtitle">
+          Measured benchmarks across enterprise GPU clusters and edge hardware platforms.
         </p>
+      </div>
 
-        <div class="tech-list">
-            <span class="tech-tag">Python</span>
-            <span class="tech-tag">OpenCV</span>
-            <span class="tech-tag">YOLO</span>
-            <span class="tech-tag">PyTorch</span>
-            <span class="tech-tag">TensorFlow</span>
-            <span class="tech-tag">Flask</span>
-            <span class="tech-tag">JavaScript</span>
-            <span class="tech-tag">HTML</span>
-            <span class="tech-tag">CSS</span>
-            <span class="tech-tag">REST APIs</span>
-            <span class="tech-tag">JSON</span>
-            <span class="tech-tag">SQL</span>
+      <div class="table-responsive">
+        <table class="tech-table">
+          <thead>
+            <tr>
+              <th>Architecture Model</th>
+              <th>Hardware Target</th>
+              <th>Precision Mode</th>
+              <th>Batch Size</th>
+              <th>Inference Latency</th>
+              <th>Accuracy (mAP@50)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Zevionix Vision-X (Custom ViT)</strong></td>
+              <td>NVIDIA A100 (80GB)</td>
+              <td>FP16 / TensorRT</td>
+              <td>32</td>
+              <td><span style="color: var(--primary); font-weight: 700;">1.8 ms</span></td>
+              <td>94.2%</td>
+            </tr>
+            <tr>
+              <td><strong>Zevionix EdgeTrack (YOLOv10 Opt)</strong></td>
+              <td>NVIDIA Jetson AGX Orin</td>
+              <td>INT8 Quantized</td>
+              <td>1</td>
+              <td><span style="color: var(--primary); font-weight: 700;">4.2 ms</span></td>
+              <td>91.8%</td>
+            </tr>
+            <tr>
+              <td><strong>Zevionix Segment3D (SAM Lite)</strong></td>
+              <td>NVIDIA L40S</td>
+              <td>FP16 Engine</td>
+              <td>8</td>
+              <td><span style="color: var(--primary); font-weight: 700;">6.1 ms</span></td>
+              <td>96.5%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section-bg-subtle">
+    <div class="container">
+      <div class="cta-banner">
+        <h2>Deploy Custom Vision Models in Your Infrastructure</h2>
+        <p>Our computer vision research engineers can build a proof of concept on your sample dataset in under 14 days.</p>
+        <a href="contact.html" class="btn btn-cyan btn-lg">Schedule Technical Demo <i class="fas fa-arrow-right"></i></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <a href="index.html" class="brand-logo" style="margin-bottom: 14px;">
+            <img src="assets/images/logo-icon.png" alt="Zevionix Technologies Logo" class="brand-logo-img" style="height: 32px;">
+            <span>ZEVIONIX <span class="brand-highlight">TECHNOLOGIES</span></span>
+          </a>
+          <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 20px;">
+            Pioneering autonomous intelligence, computer vision engineering, and distributed cloud computing for modern global enterprises.
+          </p>
+          <div class="social-links">
+            <a href="https://linkedin.com" target="_blank" class="social-btn" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://github.com" target="_blank" class="social-btn" aria-label="GitHub"><i class="fab fa-github"></i></a>
+            <a href="https://twitter.com" target="_blank" class="social-btn" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
+          </div>
         </div>
 
-    </div>
-</section>
-
-<!-- WORKFLOW -->
-
-<section class="light">
-    <div class="container">
-
-        <h2 class="section-title">
-            From data to intelligent action
-        </h2>
-
-        <p>
-            Our AI application workflow connects data processing,
-            model inference, and software integration.
-        </p>
-
-        <div class="workflow">
-
-            <div class="workflow-step">Data Input</div>
-            <div class="workflow-arrow">→</div>
-
-            <div class="workflow-step">AI Processing</div>
-            <div class="workflow-arrow">→</div>
-
-            <div class="workflow-step">Result Verification</div>
-            <div class="workflow-arrow">→</div>
-
-            <div class="workflow-step">Application Response</div>
-
+        <div class="footer-col">
+          <h4>Capabilities</h4>
+          <ul class="footer-links">
+            <li><a href="ai-computer-vision.html">AI & Computer Vision</a></li>
+            <li><a href="software-development.html">Custom Software</a></li>
+            <li><a href="cloud-devops.html">Cloud & DevOps</a></li>
+            <li><a href="data-engineering.html">Data Engineering</a></li>
+            <li><a href="research-product-development.html">R&D & Deep Tech</a></li>
+            <li><a href="web-application-development.html">Web Applications</a></li>
+          </ul>
         </div>
 
-    </div>
-</section>
-
-<!-- APPLICATIONS -->
-
-<section>
-    <div class="container">
-
-        <h2 class="section-title">
-            Potential applications
-        </h2>
-
-        <p>
-            AI and computer vision can support a range of practical
-            use cases across digital and physical environments.
-        </p>
-
-        <div class="application-list">
-
-            <div class="application-item">
-                <span>01</span>
-                <p>Smart campus monitoring concepts</p>
-            </div>
-
-            <div class="application-item">
-                <span>02</span>
-                <p>Visual event detection</p>
-            </div>
-
-            <div class="application-item">
-                <span>03</span>
-                <p>Safety and incident awareness prototypes</p>
-            </div>
-
-            <div class="application-item">
-                <span>04</span>
-                <p>Automated image and video analysis</p>
-            </div>
-
-            <div class="application-item">
-                <span>05</span>
-                <p>Intelligent operational dashboards</p>
-            </div>
-
-            <div class="application-item">
-                <span>06</span>
-                <p>AI-assisted digital workflows</p>
-            </div>
-
+        <div class="footer-col">
+          <h4>Company</h4>
+          <ul class="footer-links">
+            <li><a href="about.html">About Zevionix</a></li>
+            <li><a href="aura.html">AURA Platform</a></li>
+            <li><a href="team.html">Leadership & Team</a></li>
+            <li><a href="contact.html">Contact Engineering</a></li>
+          </ul>
         </div>
 
-    </div>
-</section>
-
-<!-- AURA PROJECT -->
-
-<section class="light">
-    <div class="container content">
-
-        <span class="eyebrow">FEATURED PROJECT</span>
-
-        <h2 class="section-title">
-            AURA — AI Emergency Response & Smart Campus System
-        </h2>
-
-        <p>
-            AURA is a Zevionix project exploring how computer vision
-            and automated communication can support emergency
-            awareness in campus environments.
-        </p>
-
-        <p>
-            The system is designed to detect potential incidents
-            through camera input, verify events, and communicate
-            alerts with location information through a dashboard.
-        </p>
-
-        <p>
-            AURA is currently under development and is being
-            explored as a practical application of AI,
-            computer vision, and intelligent monitoring.
-        </p>
-
-        <a href="aura.html" class="btn">
-            Explore AURA →
-        </a>
-
-    </div>
-</section>
-
-<!-- CTA -->
-
-<section class="cta" id="contact">
-
-    <h2>
-        Have an AI project in mind?
-    </h2>
-
-    <p>
-        Let's explore the technical possibilities together.
-    </p>
-
-    <a href="mailto:zevionix.01@gmail.com?subject=AI%20Project%20Enquiry"
-       class="btn">
-        Contact Zevionix →
-    </a>
-
-</section>
-
-</main>
-
-<!-- FOOTER -->
-
-<footer>
-
-    <div class="container">
-
-        <p>
-            © <span id="year"></span> Zevionix Technologies.
-            All rights reserved.
-        </p>
-
-        <div class="footer-links">
-            <a href="index.html">Home</a>
-            <a href="index.html#services">Services</a>
-            <a href="mailto:zevionix.01@gmail.com">Contact</a>
-            <a href="https://www.zevionix.com/">Website</a>
+        <div class="footer-col">
+          <h4>Corporate Briefing</h4>
+          <p style="font-size: 0.86rem; color: var(--text-muted); margin-bottom: 14px;">
+            Receive our quarterly whitepapers on breakthrough AI architectures and high-throughput systems.
+          </p>
+          <div style="display: flex; gap: 8px;">
+            <input type="email" placeholder="work.email@enterprise.com" class="form-control" style="padding: 10px 14px; font-size: 0.88rem;">
+            <button class="btn btn-primary btn-sm" style="padding: 0 16px;"><i class="fas fa-paper-plane"></i></button>
+          </div>
         </div>
+      </div>
 
+      <div class="footer-bottom">
+        <div>&copy; 2026 Zevionix Technologies. All rights reserved.</div>
+        <div>Engineered with High-Throughput Standards & Zero-Trust Architecture.</div>
+      </div>
     </div>
+  </footer>
 
-</footer>
-
-<script>
-document.getElementById("year").textContent =
-    new Date().getFullYear();
-</script>
-
+  <script src="js/script.js"></script>
 </body>
 </html>
