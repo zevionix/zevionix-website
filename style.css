@@ -395,6 +395,20 @@ header {
   color: var(--primary);
 }
 
+.btn-outline {
+  background: #ffffff;
+  color: var(--primary);
+  border: 1px solid var(--primary-border);
+  box-shadow: var(--shadow-xs);
+}
+.btn-outline:hover {
+  background: var(--primary-subtle);
+  border-color: var(--primary);
+  color: var(--primary-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
 .btn-sm {
   padding: 8px 18px;
   font-size: 0.84rem;
