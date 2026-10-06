@@ -4,7 +4,7 @@
    (Inspired by Stripe, Linear, Apple & Vercel)
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+/* Fonts are loaded asynchronously via HTML <head> with preconnect hints for non-blocking rendering */
 
 :root {
   /* Color Palette - Enterprise Light */

@@ -11,8 +11,132 @@
   <!-- Favicons & Brand Assets -->
   <link rel="icon" type="image/png" href="assets/images/favicon.png">
   <link rel="apple-touch-icon" href="assets/images/icon-192.png">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link rel="stylesheet" href="style.css">
+  <!-- Resource Hints for High-Speed Connection Setup -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+  <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+
+  <!-- Non-blocking Google Fonts -->
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" as="style">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" media="print" onload="this.media='all'">
+  <noscript>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap">
+  </noscript>
+
+  <!-- Non-blocking Font Awesome CDN -->
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" as="style">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'">
+  <noscript>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  </noscript>
+
+  <!-- Inlined Critical Above-the-Fold CSS (Instant First Contentful Paint) -->
+  <style>
+    :root {
+      --bg-body: #ffffff;
+      --bg-subtle: #f8fafc;
+      --bg-muted: #f1f5f9;
+      --bg-card: #ffffff;
+      --bg-glass-nav: rgba(255, 255, 255, 0.94);
+      --border-light: #e2e8f0;
+      --border-subtle: #cbd5e1;
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --primary-subtle: #eff6ff;
+      --primary-border: #bfdbfe;
+      --secondary: #7c3aed;
+      --accent-cyan: #0284c7;
+      --text-main: #0f172a;
+      --text-body: #334155;
+      --text-muted: #64748b;
+      --text-dim: #94a3b8;
+      --gradient-primary: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+      --gradient-accent-text: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+      --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.05);
+      --shadow-md: 0 8px 24px -4px rgba(15, 23, 42, 0.08), 0 2px 6px -1px rgba(15, 23, 42, 0.04);
+      --shadow-lg: 0 16px 36px -6px rgba(15, 23, 42, 0.12), 0 4px 12px -2px rgba(15, 23, 42, 0.06);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-pill: 9999px;
+      --transition-fast: 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-normal: 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 80px; background-color: var(--bg-body); color-scheme: light; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: var(--bg-body);
+      color: var(--text-body);
+      line-height: 1.65;
+      overflow-x: hidden;
+      position: relative;
+      -webkit-font-smoothing: antialiased;
+    }
+    h1, h2, h3, h4 { font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif; color: var(--text-main); font-weight: 700; line-height: 1.25; letter-spacing: -0.025em; }
+    h1 { font-size: clamp(2.1rem, 4.5vw, 3.4rem); font-weight: 800; letter-spacing: -0.035em; }
+    h2 { font-size: clamp(1.6rem, 3.2vw, 2.3rem); }
+    h3 { font-size: clamp(1.2rem, 2.2vw, 1.5rem); }
+    p { margin-bottom: 1.15rem; }
+    p:last-child { margin-bottom: 0; }
+    a { text-decoration: none; color: inherit; transition: var(--transition-fast); }
+    img { max-width: 100%; height: auto; display: block; }
+    .container { width: min(1180px, 92%); margin: 0 auto; }
+    section { padding: 85px 0; position: relative; }
+    .section-bg-subtle { background-color: var(--bg-subtle); border-top: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light); }
+    .ambient-glow { position: absolute; width: 500px; height: 500px; border-radius: 50%; filter: blur(120px); pointer-events: none; z-index: 0; opacity: 0.35; }
+    .ambient-glow.top-right { top: -100px; right: 0; background: #dbeafe; }
+    .ambient-glow.bottom-left { bottom: -100px; left: 0; background: #ede9fe; }
+    .ambient-glow.cyan { background: #e0f2fe; }
+    header { position: sticky; top: 0; z-index: 1000; background: var(--bg-glass-nav); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid var(--border-light); }
+    .header-inner { height: 74px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+    .brand-logo { display: flex; align-items: center; gap: 10px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: clamp(1.05rem, 1.8vw, 1.25rem); font-weight: 800; letter-spacing: -0.02em; color: var(--text-main); white-space: nowrap; }
+    .brand-logo-img { height: 38px; width: auto; max-width: 44px; object-fit: contain; display: block; }
+    .brand-logo .brand-highlight { color: var(--primary); }
+    .nav-menu { display: flex; align-items: center; gap: 28px; list-style: none; }
+    .nav-item { position: relative; }
+    .nav-link { font-size: 0.92rem; font-weight: 600; color: var(--text-body); display: flex; align-items: center; gap: 5px; padding: 8px 0; }
+    .nav-link:hover, .nav-link.active { color: var(--primary); }
+    .nav-link.active::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 100%; height: 2px; background: var(--primary); border-radius: var(--radius-pill); }
+    .dropdown-menu { position: absolute; top: calc(100% + 5px); left: -15px; width: 270px; background: #ffffff; border: 1px solid var(--border-light); border-radius: var(--radius-md); padding: 8px; box-shadow: var(--shadow-lg); opacity: 0; visibility: hidden; transform: translateY(8px); transition: var(--transition-normal); z-index: 100; display: flex; flex-direction: column; gap: 2px; }
+    .nav-item:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+    .dropdown-item { padding: 9px 12px; border-radius: var(--radius-sm); font-size: 0.86rem; font-weight: 600; color: var(--text-body); display: flex; align-items: center; gap: 10px; }
+    .nav-actions { display: flex; align-items: center; gap: 14px; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 11px 24px; font-size: 0.9rem; font-weight: 600; border-radius: var(--radius-pill); cursor: pointer; border: 1px solid transparent; outline: none; transition: var(--transition-fast); white-space: nowrap; }
+    .btn-primary { background: var(--gradient-primary); color: #ffffff; box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3); }
+    .btn-sm { padding: 8px 18px; font-size: 0.84rem; }
+    .mobile-toggle { display: none; background: transparent; border: none; color: var(--text-main); font-size: 1.4rem; cursor: pointer; padding: 6px; }
+    .badge-pill { display: inline-flex; align-items: center; gap: 8px; padding: 5px 14px; border-radius: var(--radius-pill); background: var(--primary-subtle); border: 1px solid var(--primary-border); font-size: 0.8rem; font-weight: 700; color: var(--primary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 16px; }
+    .page-header { padding: 60px 0 50px; background: radial-gradient(circle at 50% 0%, #eff6ff 0%, #ffffff 85%); border-bottom: 1px solid var(--border-light); text-align: center; position: relative; }
+    .page-header .breadcrumbs { display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 0.82rem; color: var(--text-muted); margin-bottom: 14px; }
+    .breadcrumbs span { color: var(--text-main); font-weight: 600; }
+    .page-header h1 { margin-bottom: 12px; }
+    .page-header p { font-size: 1.08rem; max-width: 640px; margin: 0 auto; color: var(--text-muted); }
+    .text-gradient { background: var(--gradient-accent-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    @media (max-width: 1100px) {
+      .mobile-toggle { display: block; }
+      .nav-menu { position: fixed; top: 74px; left: 0; width: 100%; height: calc(100vh - 74px); overflow-y: auto; background: #ffffff; border-bottom: 1px solid var(--border-light); flex-direction: column; align-items: flex-start; padding: 20px 24px 40px; gap: 12px; transform: translateX(-100%); transition: var(--transition-normal); z-index: 999; box-shadow: var(--shadow-lg); }
+      .nav-menu.open { transform: translateX(0); }
+      .nav-item { width: 100%; }
+      .nav-link { width: 100%; padding: 10px 0; font-size: 1rem; border-bottom: 1px solid var(--border-light); }
+      .nav-link.active::after { display: none; }
+      .dropdown-menu { position: static; opacity: 1; visibility: visible; transform: none; width: 100%; background: var(--bg-subtle); border: 1px solid var(--border-light); box-shadow: none; margin: 8px 0 12px 0; padding: 6px; }
+      .nav-actions { display: none; }
+    }
+    @media (max-width: 768px) {
+      section { padding: 55px 0; }
+      .ambient-glow { width: 100vw; max-width: 100vw; left: 0; right: auto; }
+    }
+  </style>
+
+  <!-- Preload & Asynchronously Load Main Stylesheet (Non-Render-Blocking) -->
+  <link rel="preload" href="style.css" as="style">
+  <link rel="stylesheet" href="style.css" media="print" onload="this.media='all'">
+  <noscript>
+    <link rel="stylesheet" href="style.css">
+  </noscript>
 </head>
 
 <body>
@@ -133,7 +257,7 @@
   <section class="section-bg-subtle">
     <div class="container" style="max-width: 900px;">
       <div class="tech-card" style="text-align: center; padding: 36px 30px; border: 2px solid var(--primary-border);">
-        <img src="assets/images/logo.png" alt="Zevionix Technologies Logo"
+        <img src="assets/images/logo.png" alt="Zevionix Technologies Logo" loading="lazy" decoding="async"
           style="height: 60px; margin: 0 auto 16px; object-fit: contain;">
         <div class="badge-pill" style="margin-bottom: 14px;">Strategic Collaboration</div>
         <h2 style="font-size: 2rem; margin-bottom: 14px;">Zevionix Technologies <span class="text-gradient">× Coralgenz
@@ -212,7 +336,7 @@
       <div class="footer-grid">
         <div class="footer-col">
           <a href="index.html" class="brand-logo" style="margin-bottom: 14px;">
-            <img src="assets/images/logo-icon.png" alt="Zevionix Technologies Logo" class="brand-logo-img"
+            <img src="assets/images/logo-icon.png" alt="Zevionix Technologies Logo" class="brand-logo-img" loading="lazy" decoding="async"
               style="height: 32px;">
             <span>ZEVIONIX <span class="brand-highlight">TECHNOLOGIES</span></span>
           </a>
@@ -275,7 +399,7 @@
     </div>
   </footer>
 
-  <script src="script.js"></script>
+  <script src="script.js" defer></script>
 </body>
 
 </html>
