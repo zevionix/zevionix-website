@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // 2. Active Link Highlighting
   const currentPath = window.location.pathname.split('/').pop() || 'index.html';
   const navLinks = document.querySelectorAll('.nav-link, .dropdown-item');
-  
+
   navLinks.forEach(link => {
     const href = link.getAttribute('href');
     if (href === currentPath || (currentPath === '' && href === 'index.html')) {
@@ -53,11 +53,11 @@ document.addEventListener('DOMContentLoaded', () => {
     btn.addEventListener('click', () => {
       const targetId = btn.getAttribute('data-tab');
       const parentContainer = btn.closest('section') || document;
-      
+
       // Deactivate siblings
       parentContainer.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
       parentContainer.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-      
+
       // Activate clicked
       btn.classList.add('active');
       const targetPanel = parentContainer.querySelector(`#${targetId}`);
@@ -74,13 +74,13 @@ document.addEventListener('DOMContentLoaded', () => {
       const parentItem = q.closest('.faq-item');
       if (parentItem) {
         const isOpen = parentItem.classList.contains('active');
-        
+
         // Optional: close other accordions in the same list
         const accordionList = parentItem.closest('.faq-list');
         if (accordionList) {
           accordionList.querySelectorAll('.faq-item').forEach(item => item.classList.remove('active'));
         }
-        
+
         if (!isOpen) {
           parentItem.classList.add('active');
         }
@@ -126,23 +126,23 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
       const submitBtn = contactForm.querySelector('button[type="submit"]');
       const originalText = submitBtn.innerHTML;
-      
+
       submitBtn.disabled = true;
       submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Transmitting Encrypted Payload...';
-      
+
       setTimeout(() => {
         submitBtn.innerHTML = '<i class="fas fa-check"></i> Inquiry Dispatched to Engineering Team!';
         submitBtn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
-        
+
         const formResponse = document.createElement('div');
         formResponse.className = 'form-success-banner';
         formResponse.style.cssText = 'background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.4); color: #34d399; padding: 16px 20px; border-radius: 12px; margin-top: 20px; text-align: center; font-weight: 500;';
         formResponse.innerHTML = '<strong>Request Logged:</strong> A Senior Solutions Architect will connect within 4 business hours.';
-        
+
         if (!contactForm.querySelector('.form-success-banner')) {
           contactForm.appendChild(formResponse);
         }
-        
+
         contactForm.reset();
       }, 1200);
     });
@@ -203,6 +203,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // 12. PORTFOLIO & CASE STUDIES FILTERING ENGINE
   // ==========================================================================
   initPortfolioFilters();
+
+  // ==========================================================================
+  // 13. INDUSTRY SOLUTIONS INTERACTIVE ENGINE & SIZING CALCULATOR
+  // ==========================================================================
+  initIndustrySolutionsEngine();
 });
 
 function initAuraTelemetrySimulator() {
@@ -238,7 +243,7 @@ function initAuraTelemetrySimulator() {
   const elSpikeBtn = simWrapper.querySelector('#simSpikeBtn');
   const elPauseBtn = simWrapper.querySelector('#simPauseBtn');
   const elPresetBtns = simWrapper.querySelectorAll('.preset-chip');
-  
+
   // KPI Display Elements
   const kpiLatency = simWrapper.querySelector('#kpiLatency');
   const kpiLatencyPill = simWrapper.querySelector('#kpiLatencyPill');
@@ -292,7 +297,7 @@ function initAuraTelemetrySimulator() {
     const startNode = nodes[edgeIdx];
     const midNode = nodes[3];
     const destNode = Math.random() > 0.5 ? nodes[4] : nodes[5];
-    
+
     // Spawn particle edge -> mesh -> cloud
     particles.push({
       startX: startNode.x,
@@ -332,7 +337,7 @@ function initAuraTelemetrySimulator() {
       gradient.addColorStop(0, 'rgba(56, 189, 248, 0.25)');
       gradient.addColorStop(0.5, state.isSpiking ? 'rgba(239, 68, 68, 0.4)' : 'rgba(129, 140, 248, 0.4)');
       gradient.addColorStop(1, 'rgba(52, 211, 153, 0.25)');
-      
+
       topCtx.strokeStyle = gradient;
       topCtx.beginPath();
       topCtx.moveTo(n1.x * w, n1.y * h);
@@ -384,14 +389,14 @@ function initAuraTelemetrySimulator() {
 
       // Outer glow pulse
       topCtx.fillStyle = node.type === 'edge' ? 'rgba(56, 189, 248, 0.2)' :
-                         node.type === 'mesh' ? 'rgba(129, 140, 248, 0.25)' : 'rgba(52, 211, 153, 0.2)';
+        node.type === 'mesh' ? 'rgba(129, 140, 248, 0.25)' : 'rgba(52, 211, 153, 0.2)';
       topCtx.beginPath();
       topCtx.arc(nx, ny, 16, 0, Math.PI * 2);
       topCtx.fill();
 
       // Node core
       topCtx.fillStyle = node.type === 'edge' ? '#38bdf8' :
-                         node.type === 'mesh' ? '#818cf8' : '#34d399';
+        node.type === 'mesh' ? '#818cf8' : '#34d399';
       topCtx.beginPath();
       topCtx.arc(nx, ny, 6, 0, Math.PI * 2);
       topCtx.fill();
@@ -489,8 +494,8 @@ function initAuraTelemetrySimulator() {
 
   // Live Terminal Log Generator
   const logMessages = [
-    { tag: 'ingest', text: (tp) => `Ingested ${(tp/1000).toFixed(0)}k telemetry events from 32 edge cluster gateways.` },
-    { tag: 'swarm', text: (sw) => `Agent Swarm #${Math.floor(Math.random()*sw + 1)} balanced cross-shard edge state in ${(Math.random()*0.4 + 0.2).toFixed(2)}ms.` },
+    { tag: 'ingest', text: (tp) => `Ingested ${(tp / 1000).toFixed(0)}k telemetry events from 32 edge cluster gateways.` },
+    { tag: 'swarm', text: (sw) => `Agent Swarm #${Math.floor(Math.random() * sw + 1)} balanced cross-shard edge state in ${(Math.random() * 0.4 + 0.2).toFixed(2)}ms.` },
     { tag: 'gpu', text: (gp) => `TensorRT-LLM FP8 inference executed across 8x H100 SXM5 (${gp.toFixed(1)}% load).` },
     { tag: 'vault', text: () => `Zero-trust payload verified with AES-256-GCM enclave token 0x${Math.random().toString(16).substr(2, 8)}.` },
     { tag: 'ingest', text: () => `Sub-millisecond gRPC multiplexer maintained 0 packet drop rate.` }
@@ -499,8 +504,8 @@ function initAuraTelemetrySimulator() {
   function pushTerminalLog(customTag, customMsg) {
     if (!terminalBody) return;
     const now = new Date();
-    const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}.${String(Math.floor(now.getMilliseconds()/10)).padStart(2, '0')}`;
-    
+    const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}.${String(Math.floor(now.getMilliseconds() / 10)).padStart(2, '0')}`;
+
     let tag = customTag;
     let msg = customMsg;
 
@@ -876,7 +881,7 @@ function initDocsAndApiPlayground() {
     sendBtn.addEventListener('click', () => {
       sendBtn.disabled = true;
       sendBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Dispatching Payload...';
-      
+
       if (responseStatusPill) {
         responseStatusPill.textContent = 'CONNECTING...';
         responseStatusPill.style.color = '#fbbf24';
@@ -974,7 +979,7 @@ function initTechnicalConsultationWizard() {
   const scaleBoxes = wizardContainer.querySelectorAll('.scale-option-box[data-scale]');
   const slaBoxes = wizardContainer.querySelectorAll('.scale-option-box[data-sla]');
   const timelineBoxes = wizardContainer.querySelectorAll('.scale-option-box[data-timeline]');
-  
+
   // Routing Preview Elements
   const routingLeadName = wizardContainer.querySelector('#routingLeadName');
   const routingLeadTeam = wizardContainer.querySelector('#routingLeadTeam');
@@ -1199,5 +1204,136 @@ function initPortfolioFilters() {
   });
 }
 
+function initIndustrySolutionsEngine() {
+  const calcContainer = document.getElementById('solutionsSizingCalc');
+  const sectorNavBtns = document.querySelectorAll('.solutions-nav-btn');
 
-
+  // Sector quick navigation active indicator on scroll
+  if (sectorNavBtns.length > 0) {
+    window.addEventListener('scroll', () => {
+      const scrollPos = window.scrollY + 180;
+      sectorNavBtns.forEach(btn => {
+        const targetId = btn.getAttribute('href');
+        if (targetId && targetId.startsWith('#')) {
+          const targetEl = document.querySelector(targetId);
+          if (targetEl) {
+            const top = targetEl.offsetTop;
+            const height = targetEl.offsetHeight;
+            if (scrollPos >= top && scrollPos < top + height) {
+              sectorNavBtns.forEach(b => b.classList.remove('active'));
+              btn.classList.add('active');
+            }
+          }
+        }
+      });
+    });
+  }
+
+  if (!calcContainer) return;
+
+  const sectorPills = calcContainer.querySelectorAll('.calc-sector-pill');
+  const scaleSlider = calcContainer.querySelector('#calcScaleSlider');
+  const scaleValLabel = calcContainer.querySelector('#calcScaleValLabel');
+  const scaleUnitLabel = calcContainer.querySelector('#calcScaleUnitLabel');
+  const outThroughput = calcContainer.querySelector('#calcOutThroughput');
+  const outLatencyRed = calcContainer.querySelector('#calcOutLatencyRed');
+  const outBlueprintTitle = calcContainer.querySelector('#calcOutBlueprintTitle');
+  const outBlueprintStack = calcContainer.querySelector('#calcOutBlueprintStack');
+  const outCompliance = calcContainer.querySelector('#calcOutCompliance');
+  const outCtaBtn = calcContainer.querySelector('#calcOutCtaBtn');
+
+  const sectorConfigs = {
+    higherEd: {
+      name: "Higher Education & Institutional Analytics",
+      min: 5000,
+      max: 100000,
+      step: 5000,
+      default: 25000,
+      unit: "Enrolled Students & Faculty",
+      throughputMultiplier: 32,
+      latencyPct: "74%",
+      blueprint: "AURA Campus Spatial Perception + Apache Iceberg Unified Lakehouse",
+      stack: "Ray Clusters, PyTorch, Canvas/Banner API Mesh, FERPA Vault",
+      compliance: "FERPA, SOC2 Type II, HEVCAT Tier 1 Ready",
+      challengeParam: "higher-ed"
+    },
+    logistics: {
+      name: "Enterprise Logistics & Real-Time Monitoring",
+      min: 10000,
+      max: 2000000,
+      step: 50000,
+      default: 250000,
+      unit: "Daily Scanned Parcels / Telemetry Feeds",
+      throughputMultiplier: 45,
+      latencyPct: "88%",
+      blueprint: "High-Speed YOLOv10-FP8 Edge Ingest + Flink Stream Mesh",
+      stack: "NVIDIA Jetson AGX, Apache Kafka, RocksDB, Rust Edge Daemons",
+      compliance: "ISO 27001, Industrial TAPA A, High-Availability SLA",
+      challengeParam: "logistics"
+    },
+    ecommerce: {
+      name: "Scalable E-Commerce & High-Concurrency Platforms",
+      min: 50000,
+      max: 5000000,
+      step: 100000,
+      default: 750000,
+      unit: "Monthly Active Shoppers / Concurrency Peak",
+      throughputMultiplier: 18,
+      latencyPct: "73%",
+      blueprint: "Distributed Go Order Queue + Qdrant Vector Embeddings Mesh",
+      stack: "Golang Microservices, Redis Cluster, KEDA Autoscalers, EKS",
+      compliance: "PCI-DSS Level 1, GDPR Compliant, 99.999% Checkout SLA",
+      challengeParam: "ecommerce"
+    }
+  };
+
+  let activeSector = 'higherEd';
+
+  function updateCalculator() {
+    const cfg = sectorConfigs[activeSector];
+    if (!cfg || !scaleSlider) return;
+    const val = parseInt(scaleSlider.value, 10);
+
+    if (scaleValLabel) scaleValLabel.textContent = Number(val).toLocaleString();
+    if (scaleUnitLabel) scaleUnitLabel.textContent = cfg.unit;
+
+    // Real-time calculated metrics
+    const totalThroughput = Math.round((val * cfg.throughputMultiplier) / 60);
+    if (outThroughput) outThroughput.textContent = `${Number(totalThroughput).toLocaleString()} msg/sec`;
+    if (outLatencyRed) outLatencyRed.textContent = `-${cfg.latencyPct}`;
+    if (outBlueprintTitle) outBlueprintTitle.textContent = cfg.blueprint;
+    if (outBlueprintStack) outBlueprintStack.textContent = cfg.stack;
+    if (outCompliance) outCompliance.textContent = cfg.compliance;
+
+    if (outCtaBtn) {
+      outCtaBtn.setAttribute('href', `contact.html?challenge=${cfg.challengeParam}`);
+      outCtaBtn.innerHTML = `Request Custom Blueprint for ${cfg.name.split('&')[0].trim()} <i class="fas fa-arrow-right" style="margin-left: 8px;"></i>`;
+    }
+  }
+
+  sectorPills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      sectorPills.forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      activeSector = pill.getAttribute('data-sector');
+      const cfg = sectorConfigs[activeSector];
+      if (cfg && scaleSlider) {
+        scaleSlider.min = cfg.min;
+        scaleSlider.max = cfg.max;
+        scaleSlider.step = cfg.step;
+        scaleSlider.value = cfg.default;
+        updateCalculator();
+      }
+    });
+  });
+
+  if (scaleSlider) {
+    scaleSlider.addEventListener('input', updateCalculator);
+  }
+
+  updateCalculator();
+}
+
+
+
+
