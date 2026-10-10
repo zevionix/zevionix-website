@@ -70,6 +70,9 @@
           <a href="aura.html" class="nav-link">AURA</a>
         </li>
         <li class="nav-item">
+          <a href="docs.html" class="nav-link">Developers & Docs</a>
+        </li>
+        <li class="nav-item">
           <a href="team.html" class="nav-link">Leadership</a>
         </li>
         <li class="nav-item">
@@ -108,38 +111,288 @@
     <div class="container">
       <div class="contact-layout">
         
-        <!-- Interactive Form -->
-        <div class="tech-card" style="padding: 30px;">
-          <h3 style="margin-bottom: 6px; color: var(--text-main);">Send an Enquiry</h3>
-          <p style="margin-bottom: 20px; font-size: 0.9rem; color: var(--text-muted);">
-            We welcome discussions around software engineering, AI innovation, digital products, and technology partnerships.
-          </p>
-
-          <form id="contactForm">
-            <div class="form-group">
-              <label class="form-label" for="name">Your Name *</label>
-              <input type="text" id="name" class="form-control" placeholder="Your name" required>
+        <!-- Smart Multi-Step Qualification Wizard -->
+        <div class="wizard-card" id="consultationWizard">
+          
+          <!-- Wizard Progress Bar & Step Nodes -->
+          <div class="wizard-progress-bar">
+            <div class="wizard-progress-line">
+              <div class="wizard-progress-fill" id="wizardProgressFill"></div>
             </div>
 
-            <div class="form-group">
-              <label class="form-label" for="email">Your Email *</label>
-              <input type="email" id="email" class="form-control" placeholder="name@domain.com" required>
+            <div class="wizard-step-node active" data-step="1">
+              <div class="wizard-step-circle">1</div>
+              <span class="wizard-step-name">Challenge</span>
             </div>
 
-            <div class="form-group">
-              <label class="form-label" for="subject">Subject</label>
-              <input type="text" id="subject" class="form-control" placeholder="Project Inquiry / Technology Collaboration">
+            <div class="wizard-step-node" data-step="2">
+              <div class="wizard-step-circle">2</div>
+              <span class="wizard-step-name">Stack & Scale</span>
             </div>
 
-            <div class="form-group">
-              <label class="form-label" for="message">Tell Us About Your Project *</label>
-              <textarea id="message" class="form-control" placeholder="Describe your project scope, technical requirements, or partnership goals..." required></textarea>
+            <div class="wizard-step-node" data-step="3">
+              <div class="wizard-step-circle">3</div>
+              <span class="wizard-step-name">SLA & Scope</span>
             </div>
 
-            <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">
-              Send Enquiry <i class="fas fa-arrow-right" style="font-size: 0.82rem; margin-left: 6px;"></i>
+            <div class="wizard-step-node" data-step="4">
+              <div class="wizard-step-circle">4</div>
+              <span class="wizard-step-name">Smart Routing</span>
+            </div>
+          </div>
+
+          <!-- STEP 1: Primary Infrastructure Challenge -->
+          <div class="wizard-pane active" data-step="1">
+            <div class="wizard-pane-header">
+              <div class="badge-pill">Step 01 / 04</div>
+              <h3 class="wizard-pane-title"><i class="fas fa-bullseye" style="color: var(--primary);"></i> Select Primary Technical Challenge</h3>
+              <p class="wizard-pane-subtitle">Choose the core domain requiring architectural intervention so we can assign the specialized engineering division.</p>
+            </div>
+
+            <div class="challenge-select-grid">
+              <!-- Option 1: Vision -->
+              <div class="challenge-card selected" data-challenge="vision">
+                <div class="challenge-icon"><i class="fas fa-eye"></i></div>
+                <div class="challenge-info">
+                  <h4>AI & Computer Vision</h4>
+                  <p>120 FPS camera ingest, YOLOv10 spatial computing, defect detection, and TensorRT edge inference.</p>
+                </div>
+                <i class="fas fa-check-circle challenge-check"></i>
+              </div>
+
+              <!-- Option 2: Cloud Infrastructure -->
+              <div class="challenge-card" data-challenge="cloud">
+                <div class="challenge-icon"><i class="fas fa-cloud"></i></div>
+                <div class="challenge-info">
+                  <h4>Cloud & Kubernetes Mesh</h4>
+                  <p>eBPF telemetry, bare-metal DGX clustering, zero-downtime cutover, and 99.999% SLA resilience.</p>
+                </div>
+                <i class="fas fa-check-circle challenge-check"></i>
+              </div>
+
+              <!-- Option 3: Data Mesh -->
+              <div class="challenge-card" data-challenge="datamesh">
+                <div class="challenge-icon"><i class="fas fa-database"></i></div>
+                <div class="challenge-info">
+                  <h4>High-Throughput Data Mesh</h4>
+                  <p>10M+ msgs/sec Kafka streaming, zero-copy Rust brokers, and columnar in-memory shards.</p>
+                </div>
+                <i class="fas fa-check-circle challenge-check"></i>
+              </div>
+
+              <!-- Option 4: Swarms -->
+              <div class="challenge-card" data-challenge="swarms">
+                <div class="challenge-icon"><i class="fas fa-network-wired"></i></div>
+                <div class="challenge-info">
+                  <h4>Autonomous Agent Swarms</h4>
+                  <p>Coordinated multi-agent reasoning, self-healing automated workflows, and cognitive orchestration.</p>
+                </div>
+                <i class="fas fa-check-circle challenge-check"></i>
+              </div>
+
+              <!-- Option 5: FinOps -->
+              <div class="challenge-card" data-challenge="finops">
+                <div class="challenge-icon"><i class="fas fa-coins"></i></div>
+                <div class="challenge-info">
+                  <h4>FinOps & GPU Cost Reduction</h4>
+                  <p>Cloud Spot harvesting, pod bin-packing, and 40%+ direct infrastructure bill consolidation.</p>
+                </div>
+                <i class="fas fa-check-circle challenge-check"></i>
+              </div>
+
+              <!-- Option 6: Enclave -->
+              <div class="challenge-card" data-challenge="enclave">
+                <div class="challenge-icon"><i class="fas fa-shield-alt"></i></div>
+                <div class="challenge-info">
+                  <h4>Zero-Trust Sovereign Enclave</h4>
+                  <p>Confidential computing, hardware enclave AES-256-GCM encryption, and air-gapped security.</p>
+                </div>
+                <i class="fas fa-check-circle challenge-check"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 2: Current Tech Stack & Scale -->
+          <div class="wizard-pane" data-step="2">
+            <div class="wizard-pane-header">
+              <div class="badge-pill">Step 02 / 04</div>
+              <h3 class="wizard-pane-title"><i class="fas fa-layer-group" style="color: var(--primary);"></i> Current Tech Stack & Scale</h3>
+              <p class="wizard-pane-subtitle">Select the frameworks, cloud providers, and operational throughput of your current environment.</p>
+            </div>
+
+            <!-- Tech Stack Chips -->
+            <div class="stack-group">
+              <div class="stack-group-title"><i class="fas fa-cloud"></i> Cloud & Infrastructure (Multi-select)</div>
+              <div class="stack-chips-grid">
+                <span class="tech-chip active"><i class="fab fa-aws"></i> AWS (EKS/EC2)</span>
+                <span class="tech-chip"><i class="fab fa-google"></i> GCP (GKE)</span>
+                <span class="tech-chip"><i class="fab fa-microsoft"></i> Azure (AKS)</span>
+                <span class="tech-chip"><i class="fas fa-server"></i> Bare-Metal DGX / On-Prem</span>
+                <span class="tech-chip active"><i class="fas fa-dharmachakra"></i> Kubernetes / K3s</span>
+              </div>
+            </div>
+
+            <div class="stack-group">
+              <div class="stack-group-title"><i class="fas fa-microchip"></i> Compute, Data & AI Runtime</div>
+              <div class="stack-chips-grid">
+                <span class="tech-chip active"><i class="fas fa-bolt"></i> NVIDIA TensorRT</span>
+                <span class="tech-chip"><i class="fab fa-rust"></i> Rust / Zero-Copy</span>
+                <span class="tech-chip"><i class="fas fa-project-diagram"></i> Apache Kafka</span>
+                <span class="tech-chip"><i class="fas fa-database"></i> ClickHouse / Columnar</span>
+                <span class="tech-chip"><i class="fas fa-network-wired"></i> eBPF / Cilium</span>
+                <span class="tech-chip"><i class="fab fa-python"></i> PyTorch / CUDA</span>
+              </div>
+            </div>
+
+            <!-- Daily Throughput Scale -->
+            <div class="stack-group" style="margin-top: 24px;">
+              <div class="stack-group-title"><i class="fas fa-tachometer-alt"></i> Peak Daily Ingestion Scale</div>
+              <div class="scale-options-grid">
+                <div class="scale-option-box" data-scale="< 1M Events / Day">
+                  <strong>&lt; 1M Events / Day</strong>
+                  <span>Standard application scale</span>
+                </div>
+                <div class="scale-option-box" data-scale="1M - 50M Events / Day">
+                  <strong>1M - 50M Events / Day</strong>
+                  <span>High-throughput enterprise</span>
+                </div>
+                <div class="scale-option-box selected" data-scale="50M - 500M Events / Day">
+                  <strong>50M - 500M Events / Day</strong>
+                  <span>Mission-critical real-time stream</span>
+                </div>
+                <div class="scale-option-box" data-scale="500M+ Events / Day">
+                  <strong>500M+ Events / Day</strong>
+                  <span>Extreme concurrency & telemetry</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 3: Target SLA & Timeline -->
+          <div class="wizard-pane" data-step="3">
+            <div class="wizard-pane-header">
+              <div class="badge-pill">Step 03 / 04</div>
+              <h3 class="wizard-pane-title"><i class="fas fa-tachometer-alt" style="color: var(--primary);"></i> Target SLA & Engagement Scope</h3>
+              <p class="wizard-pane-subtitle">Define your latency thresholds, target uptime requirements, and rollout timeframe.</p>
+            </div>
+
+            <!-- Target Latency SLA -->
+            <div class="stack-group">
+              <div class="stack-group-title"><i class="fas fa-stopwatch"></i> Target P99 Latency SLA</div>
+              <div class="scale-options-grid">
+                <div class="scale-option-box selected" data-sla="Sub-millisecond (< 1.0ms)">
+                  <strong>Sub-millisecond (&lt; 1.0ms)</strong>
+                  <span>Edge Vision & Low-Latency FinTech</span>
+                </div>
+                <div class="scale-option-box" data-sla="Ultra-low (< 15ms)">
+                  <strong>Ultra-low (&lt; 15ms)</strong>
+                  <span>Real-time Stream Data Mesh</span>
+                </div>
+                <div class="scale-option-box" data-sla="Standard Interactive (< 100ms)">
+                  <strong>Standard Interactive (&lt; 100ms)</strong>
+                  <span>Web & API Gateway Microservices</span>
+                </div>
+                <div class="scale-option-box" data-sla="Near-Real-Time Batch (< 5s)">
+                  <strong>Near-Real-Time Batch (&lt; 5s)</strong>
+                  <span>Analytics & Distributed ETL</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Engagement Timeline -->
+            <div class="stack-group" style="margin-top: 24px;">
+              <div class="stack-group-title"><i class="fas fa-calendar-alt"></i> Desired Engagement Timeline</div>
+              <div class="scale-options-grid">
+                <div class="scale-option-box selected" data-timeline="Immediate (0 - 4 Weeks)">
+                  <strong>Immediate (0 - 4 Weeks)</strong>
+                  <span>Urgent bottleneck or deployment mandate</span>
+                </div>
+                <div class="scale-option-box" data-timeline="Q1/Q2 Strategic Roadmap">
+                  <strong>Q1/Q2 Strategic Roadmap</strong>
+                  <span>Planned modernization initiative</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 4: Executive Details & Smart Routing Dispatch -->
+          <div class="wizard-pane" data-step="4">
+            <div class="wizard-pane-header">
+              <div class="badge-pill" style="background: var(--accent-emerald-subtle); color: var(--accent-emerald); border-color: #a7f3d0;">
+                <i class="fas fa-route"></i> Automated Engineering Lead Routing
+              </div>
+              <h3 class="wizard-pane-title"><i class="fas fa-id-card" style="color: var(--primary);"></i> Executive Contact & Routing Confirmation</h3>
+              <p class="wizard-pane-subtitle">Your selections have matched with our specialized engineering leadership team for direct consultation.</p>
+            </div>
+
+            <!-- Dynamic Smart Routing Lead Preview Box -->
+            <div class="routing-preview-banner">
+              <div class="routing-lead-info">
+                <div class="routing-avatar-badge">
+                  <i class="fas fa-user-check"></i>
+                </div>
+                <div>
+                  <div class="routing-lead-name" id="routingLeadName">Dr. Elena Rostova</div>
+                  <div class="routing-lead-team" id="routingLeadTeam">Principal Deep Tech Architect — Vision & TensorRT-LLM (AURA Perception Division)</div>
+                </div>
+              </div>
+              <div class="routing-sla-tag" id="routingSlaTag">
+                <i class="fas fa-bolt"></i> Direct Deep Dive in &lt; 4 Hours
+              </div>
+            </div>
+
+            <!-- Contact Input Form -->
+            <form id="wizardFinalForm">
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                <div class="form-group">
+                  <label class="form-label" for="leadFullName">Full Name *</label>
+                  <input type="text" id="leadFullName" class="form-control" placeholder="e.g. Sarah Jenkins" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="leadWorkEmail">Corporate Work Email *</label>
+                  <input type="email" id="leadWorkEmail" class="form-control" placeholder="s.jenkins@enterprise.com" required>
+                </div>
+              </div>
+
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                <div class="form-group">
+                  <label class="form-label" for="leadCompanyName">Company / Organization *</label>
+                  <input type="text" id="leadCompanyName" class="form-control" placeholder="e.g. Apex Global Technologies" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="leadRole">Designation / Role *</label>
+                  <input type="text" id="leadRole" class="form-control" placeholder="e.g. CTO, VP Infrastructure, Head of AI" required>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="leadNotes">Specific Architectural Constraints or Objectives</label>
+                <textarea id="leadNotes" class="form-control" style="height: 90px;" placeholder="Optional: Describe any specific hardware enclaves, compliance requirements (SOC2/PCI), or legacy bottlenecks..."></textarea>
+              </div>
+
+              <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
+                <input type="checkbox" id="mutualNda" checked style="width: 16px; height: 16px; accent-color: var(--primary);">
+                <label for="mutualNda" style="font-size: 0.82rem; color: var(--text-body); cursor: pointer;">
+                  Prepare standard Mutual NDA before initial architecture briefing.
+                </label>
+              </div>
+
+              <button type="submit" id="wizardSubmitBtn" class="btn btn-primary btn-lg" style="width: 100%; justify-content: center;">
+                <i class="fas fa-shield-alt"></i> Dispatch Technical Consultation Request <i class="fas fa-arrow-right" style="margin-left: 8px;"></i>
+              </button>
+            </form>
+          </div>
+
+          <!-- Wizard Navigation Action Buttons -->
+          <div class="wizard-actions">
+            <button type="button" class="btn btn-secondary" id="wizardPrevBtn" style="visibility: hidden;">
+              <i class="fas fa-arrow-left" style="margin-right: 6px;"></i> Previous Step
             </button>
-          </form>
+            <button type="button" class="btn btn-primary" id="wizardNextBtn">
+              Continue to Step 2 <i class="fas fa-arrow-right" style="margin-left: 6px;"></i>
+            </button>
+          </div>
+
         </div>
 
         <!-- Contact Info & Strategic Partner -->
