@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Engineering Insights & Tech Articles | Zevionix Technologies</title>
+  <meta name="description"
+    content="Authoritative deep tech engineering articles, peer-reviewed benchmarks, and architectural blueprints authored by Zevionix Technologies systems engineers and ML researchers.">
+  <meta name="keywords"
+    content="Vision Transformers, NVIDIA TensorRT, Clean Architecture, High-Throughput Microservices, Apache Spark, Apache Kafka, AURA Mesh, Autonomous Agents, Edge AI, Distributed Systems">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/images/favicon.png">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Core Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- Ambient background glow -->
+  <div class="ambient-glow top-right"></div>
+  <div class="ambient-glow bottom-left cyan"></div>
+
+  <!-- Header Navigation -->
+  <header>
+    <div class="container header-inner">
+      <a href="index.html" class="brand-logo" aria-label="Zevionix Technologies Home">
+        <img src="assets/images/logo-icon.png" alt="Zevionix Technologies Logo" class="brand-logo-img">
+        <span>ZEVIONIX <span class="brand-highlight">TECHNOLOGIES</span></span>
+      </a>
+
+      <ul class="nav-menu">
+        <li class="nav-item">
+          <a href="index.html" class="nav-link">Home</a>
+        </li>
+        <li class="nav-item">
+          <a href="service.html" class="nav-link">Services <i class="fas fa-chevron-down"
+              style="font-size: 0.65rem;"></i></a>
+          <div class="dropdown-menu">
+            <a href="ai-computer-vision.html" class="dropdown-item"><i class="fas fa-eye"></i> AI & Computer Vision</a>
+            <a href="software-development.html" class="dropdown-item"><i class="fas fa-code"></i> Software
+              Engineering</a>
+            <a href="cloud-devops.html" class="dropdown-item"><i class="fas fa-cloud"></i> Cloud & DevOps</a>
+            <a href="data-engineering.html" class="dropdown-item"><i class="fas fa-database"></i> Data Engineering</a>
+            <a href="security.html" class="dropdown-item"><i class="fas fa-shield-halved"></i> Cybersecurity &
+              Compliance</a>
+            <a href="research-product-development.html" class="dropdown-item"><i class="fas fa-flask"></i> R&D & Deep
+              Tech</a>
+            <a href="web-application-development.html" class="dropdown-item"><i class="fas fa-laptop-code"></i> Web
+              Applications</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a href="solutions.html" class="nav-link">Solutions</a>
+        </li>
+        <li class="nav-item">
+          <a href="aura.html" class="nav-link">AURA Platform</a>
+        </li>
+        <li class="nav-item">
+          <a href="case-studies.html" class="nav-link">Case Studies</a>
+        </li>
+        <li class="nav-item">
+          <a href="insights.html" class="nav-link active">Insights</a>
+        </li>
+        <li class="nav-item">
+          <a href="docs.html" class="nav-link">Developers & Docs</a>
+        </li>
+        <li class="nav-item">
+          <a href="about.html" class="nav-link">About Us</a>
+        </li>
+        <li class="nav-item">
+          <a href="contact.html" class="nav-link">Contact</a>
+        </li>
+      </ul>
+
+      <div class="nav-actions">
+        <a href="contact.html" class="btn btn-primary btn-sm">Technical Consultation <i
+            class="fas fa-arrow-right"></i></a>
+      </div>
+
+      <button class="mobile-toggle" aria-label="Toggle navigation">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="insights-hero">
+    <div class="container">
+      <div class="breadcrumbs" style="justify-content: center; margin-bottom: 16px;">
+        <a href="index.html">Home</a>
+        <i class="fas fa-chevron-right" style="font-size: 0.65rem;"></i>
+        <span>Engineering Insights & Tech Articles</span>
+      </div>
+
+      <div class="insights-hero-content">
+        <div class="badge-pill">
+          <i class="fas fa-microchip" style="margin-right: 6px;"></i> Systems Architecture & Research Publications
+        </div>
+        <h1>Engineering Insights & <span class="text-gradient">Architectural Blueprints</span></h1>
+        <p style="font-size: 1.15rem; color: var(--text-body); line-height: 1.65; margin-top: 14px;">
+          Peer-reviewed engineering post-mortems, mathematical benchmarks, and system design patterns published directly
+          by Zevionix principal architects and machine learning researchers.
+        </p>
+
+        <!-- Search and Interactive Filters -->
+        <div class="insights-controls">
+          <div class="insights-search-wrapper">
+            <i class="fas fa-search"></i>
+            <input type="text" id="insightsSearchInput" class="insights-search-input"
+              placeholder="Search by title, keyword, or tag (#TensorRT, #Kafka, #AURA)..."
+              aria-label="Search technical articles">
+          </div>
+
+          <div class="insights-filter-pills" id="insightsFilterPills">
+            <button class="filter-btn active" data-category="all">All Articles</button>
+            <button class="filter-btn" data-category="vision-edge">Computer Vision & Edge AI</button>
+            <button class="filter-btn" data-category="distributed-systems">Distributed Systems</button>
+            <button class="filter-btn" data-category="data-engineering">Data Engineering</button>
+            <button class="filter-btn" data-category="autonomous-mesh">AURA Autonomous Mesh</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Spotlight Article -->
+  <section class="insights-featured-section">
+    <div class="container">
+      <div class="featured-article-card">
+        <div class="featured-article-content">
+          <div>
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 14px;">
+              <span class="badge-pill" style="margin-bottom: 0; padding: 4px 12px; font-size: 0.72rem;">
+                <i class="fas fa-star" style="margin-right: 4px;"></i> Flagship Publication
+              </span>
+              <span style="font-size: 0.78rem; font-family: 'JetBrains Mono', monospace; color: var(--text-muted);">
+                OCTOBER 2026 • 7 MIN READ
+              </span>
+            </div>
+
+            <h2
+              style="font-size: clamp(1.4rem, 2.4vw, 1.85rem); font-weight: 800; line-height: 1.3; margin-bottom: 14px;">
+              Optimizing Vision Transformers on Edge Hardware with NVIDIA TensorRT
+            </h2>
+
+            <p style="font-size: 0.98rem; color: var(--text-body); line-height: 1.65; margin-bottom: 20px;">
+              Deploying high-parameter Vision Transformers (ViTs) to edge embedded devices requires aggressive latency
+              optimization without degrading semantic accuracy. In this deep dive, we benchmark INT8 post-training
+              quantization and kernel fusion techniques that yield up to 4.2× throughput improvements on NVIDIA Jetson
+              Orin compute modules. We demonstrate how combining structured pruning with TensorRT engine compilation
+              enables real-time sub-15ms multi-stream inference for high-speed industrial robotics and automated
+              inspection pipelines.
+            </p>
+
+            <div class="insight-tags-list" style="margin-bottom: 24px;">
+              <span class="insight-tag">#ComputerVision</span>
+              <span class="insight-tag">#TensorRT</span>
+              <span class="insight-tag">#EdgeAI</span>
+              <span class="insight-tag">#ModelQuantization</span>
+              <span class="insight-tag">#DeepLearning</span>
+            </div>
+          </div>
+
+          <div class="insight-footer-bar" style="margin-top: 0;">
+            <div class="insight-author">
+              <div class="insight-author-avatar">MV</div>
+              <div class="insight-author-info">
+                <span class="insight-author-name">Dr. Marcus Vance</span>
+                <span class="insight-author-role">Lead Computer Vision Architect</span>
+              </div>
+            </div>
+
+            <button class="btn btn-primary btn-sm btn-read-dive" data-article-id="tensorrt-vit"
+              id="btnFeaturedReadDive">
+              Explore Technical Deep-Dive <i class="fas fa-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="featured-article-visual">
+          <div
+            style="font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: #38bdf8; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+            <span class="pulse-dot" style="background: #38bdf8;"></span> BENCHMARK SPECIFICATION: JETSON ORIN AGX
+          </div>
+
+          <div
+            style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 18px; margin-bottom: 16px;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.84rem;">
+              <span style="color: #94a3b8;">Native PyTorch Baseline:</span>
+              <span style="color: #f8fafc; font-family: 'JetBrains Mono', monospace;">16.4 FPS (61.2ms)</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.84rem;">
+              <span style="color: #94a3b8;">TensorRT FP16 Engine:</span>
+              <span style="color: #60a5fa; font-family: 'JetBrains Mono', monospace;">39.8 FPS (25.1ms)</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 0.86rem; font-weight: 700;">
+              <span style="color: #34d399;">Zevionix INT8 MHSA Fusion:</span>
+              <span style="color: #34d399; font-family: 'JetBrains Mono', monospace;">68.5 FPS (14.6ms)</span>
+            </div>
+          </div>
+
+          <div style="font-size: 0.78rem; color: #94a3b8; line-height: 1.5;">
+            <i class="fas fa-check-circle" style="color: #38bdf8; margin-right: 6px;"></i> Sub-15ms multi-stream
+            inference validated on dual 4K Sony IMX sensors with zero thermal throttling over 48h soak tests.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 Technical Articles Grid -->
+  <section class="insights-grid-section">
+    <div class="container">
+      <div
+        style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 32px; flex-wrap: wrap; gap: 16px;">
+        <div>
+          <h2 style="font-size: 1.65rem; font-weight: 800;">Peer-Reviewed Articles & Architecture Papers</h2>
+          <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 4px;">Explore implementation patterns and
+            empirical findings across key deep tech engineering domains.</p>
+        </div>
+        <div style="font-size: 0.82rem; font-family: 'JetBrains Mono', monospace; color: var(--text-muted);">
+          SHOWING 4 PUBLISHED PAPERS
+        </div>
+      </div>
+
+      <div class="insights-grid" id="insightsGrid">
+
+        <!-- Article 1 -->
+        <article class="insight-card" data-category="vision-edge" id="card-tensorrt-vit">
+          <div>
+            <div class="insight-card-header">
+              <span class="insight-category-pill">Computer Vision & Edge AI</span>
+              <span class="insight-read-time"><i class="far fa-clock"></i> 7 min read</span>
+            </div>
+
+            <h3 class="insight-card-title">
+              <a href="#read-tensorrt" class="btn-read-dive" data-article-id="tensorrt-vit"
+                style="background: none; border: none; padding: 0; color: inherit; font-size: inherit; text-align: left;">
+                Optimizing Vision Transformers on Edge Hardware with NVIDIA TensorRT
+              </a>
+            </h3>
+
+            <p class="insight-card-abstract">
+              Deploying high-parameter Vision Transformers (ViTs) to edge embedded devices requires aggressive latency
+              optimization without degrading semantic accuracy. In this deep dive, we benchmark INT8 post-training
+              quantization and kernel fusion techniques that yield up to 4.2× throughput improvements on NVIDIA Jetson
+              Orin compute modules. We demonstrate how combining structured pruning with TensorRT engine compilation
+              enables real-time sub-15ms multi-stream inference for high-speed industrial robotics and automated
+              inspection pipelines.
+            </p>
+
+            <div class="insight-tags-list">
+              <span class="insight-tag">#ComputerVision</span>
+              <span class="insight-tag">#TensorRT</span>
+              <span class="insight-tag">#EdgeAI</span>
+              <span class="insight-tag">#ModelQuantization</span>
+              <span class="insight-tag">#DeepLearning</span>
+            </div>
+
+            <!-- Key Metrics Strip -->
+            <div class="insight-metrics-strip">
+              <div class="insight-metric-item">
+                <div class="insight-metric-val">4.2×</div>
+                <div class="insight-metric-key">Throughput Boost</div>
+              </div>
+              <div class="insight-metric-item">
+                <div class="insight-metric-val">&lt;15ms</div>
+                <div class="insight-metric-key">P99 Inference</div>
+              </div>
+              <div class="insight-metric-item">
+                <div class="insight-metric-val">INT8</div>
+                <div class="insight-metric-key">Entropy PTQ</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="insight-footer-bar">
+            <div class="insight-author">
+              <div class="insight-author-avatar">MV</div>
+              <div class="insight-author-info">
+                <span class="insight-author-name">Dr. Marcus Vance</span>
+                <span class="insight-author-role">Lead Computer Vision Architect</span>
+              </div>
+            </div>
+
+            <button class="btn-read-dive" data-article-id="tensorrt-vit" id="btnDiveTensorRt">
+              Technical Deep-Dive <i class="fas fa-chevron-right"></i>
+            </button>
+          </div>
+        </article>
+
+        <!-- Article 2 -->
+        <article class="insight-card" data-category="distributed-systems" id="card-clean-architecture">
+          <div>
+            <div class="insight-card-header">
+              <span class="insight-category-pill"
+                style="background: rgba(16, 185, 129, 0.1); color: #059669; border-color: rgba(16, 185, 129, 0.25);">
+                Distributed Systems & Design
+              </span>
+              <span class="insight-read-time"><i class="far fa-clock"></i> 9 min read</span>
+            </div>
+
+            <h3 class="insight-card-title">
+              <a href="#read-clean-arch" class="btn-read-dive" data-article-id="clean-architecture"
+                style="background: none; border: none; padding: 0; color: inherit; font-size: inherit; text-align: left;">
+                Clean Architecture Patterns in High-Throughput Microservices
+              </a>
+            </h3>
+
+            <p class="insight-card-abstract">
+              Maintaining clean domain isolation in enterprise distributed systems often introduces abstraction
+              penalties that can degrade P99 latency in high-concurrency environments. We explore how hexagonal
+              architecture and event-driven domain boundaries can be implemented in Go and Rust to decouple domain
+              models while preserving zero-copy serialization. Through real-world production stress tests, we show how
+              separating pure business logic from gRPC and database adapters delivers 99.999% SLA resilience under
+              150,000 requests per second.
+            </p>
+
+            <div class="insight-tags-list">
+              <span class="insight-tag">#SystemDesign</span>
+              <span class="insight-tag">#CleanArchitecture</span>
+              <span class="insight-tag">#Microservices</span>
+              <span class="insight-tag">#Go</span>
+              <span class="insight-tag">#HighConcurrency</span>
+            </div>
+
+            <!-- Key Metrics Strip -->
+            <div class="insight-metrics-strip">
+              <div class="insight-metric-item">
+                <div class="insight-metric-val" style="color: #059669;">150K RPS</div>
+                <div class="insight-metric-key">Sustained Traffic</div>
+              </div>
+              <div class="insight-metric-item">
+                <div class="insight-metric-val" style="color: #059669;">3.8ms</div>
+                <div class="insight-metric-key">P99 Tail Latency</div>
+              </div>
+              <div class="insight-metric-item">
+                <div class="insight-metric-val" style="color: #059669;">Zero-Copy</div>
+                <div class="insight-metric-key">Buffer Reuse</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="insight-footer-bar">
+            <div class="insight-author">
+              <div class="insight-author-avatar" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+                ER</div>
+              <div class="insight-author-info">
+                <span class="insight-author-name">Elena Rostova</span>
+                <span class="insight-author-role">Principal Systems Architect</span>
+              </div>
+            </div>
+
+            <button class="btn-read-dive" data-article-id="clean-architecture" id="btnDiveCleanArch"
+              style="color: #059669; border-color: rgba(16, 185, 129, 0.3); background: rgba(16, 185, 129, 0.08);">
+              Technical Deep-Dive <i class="fas fa-chevron-right"></i>
+            </button>
+          </div>
+        </article>
+
+        <!-- Article 3 -->
+        <article class="insight-card" data-category="data-engineering" id="card-spark-kafka">
+          <div>
+            <div class="insight-card-header">
+              <span class="insight-category-pill"
+                style="background: rgba(234, 88, 12, 0.1); color: #ea580c; border-color: rgba(234, 88, 12, 0.25);">
+                Data Engineering & Streaming
+              </span>
+              <span class="insight-read-time"><i class="far fa-clock"></i> 8 min read</span>
+            </div>
+
+            <h3 class="insight-card-title">
+              <a href="#read-spark-kafka" class="btn-read-dive" data-article-id="spark-kafka-pipeline"
+                style="background: none; border: none; padding: 0; color: inherit; font-size: inherit; text-align: left;">
+                Building Resilient Real-Time Data Pipelines with Apache Spark & Kafka
+              </a>
+            </h3>
+
+            <p class="insight-card-abstract">
+              Streaming petabyte-scale telemetry from heterogeneous IoT clusters requires fault-tolerant ingestion
+              pipelines with guaranteed exactly-once processing semantics. This article details our production
+              blueprints combining partitioned Apache Kafka clusters with Spark Structured Streaming and Delta Lake
+              write-ahead logs. By tuning backpressure thresholds, partition rebalancing, and RocksDB stateful store
+              caches, we achieve sub-second end-to-end sync across millions of concurrent event streams.
+            </p>
+
+            <div class="insight-tags-list">
+              <span class="insight-tag">#DataEngineering</span>
+              <span class="insight-tag">#ApacheKafka</span>
+              <span class="insight-tag">#ApacheSpark</span>
+              <span class="insight-tag">#Streaming</span>
+              <span class="insight-tag">#Lakehouse</span>
+            </div>
+
+            <!-- Key Metrics Strip -->
+            <div class="insight-metrics-strip">
+              <div class="insight-metric-item">
+                <div class="insight-metric-val" style="color: #ea580c;">45M+</div>
+                <div class="insight-metric-key">Events / Sec</div>
+              </div>
+              <div class="insight-metric-item">
+                <div class="insight-metric-val" style="color: #ea580c;">&lt;1.0s</div>
+                <div class="insight-metric-key">Sync Latency</div>
+              </div>
+              <div class="insight-metric-item">
+                <div class="insight-metric-val" style="color: #ea580c;">Delta Lake</div>
+                <div class="insight-metric-key">ACID Ingestion</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="insight-footer-bar">
+            <div class="insight-author">
+              <div class="insight-author-avatar" style="background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);">
+                KZ</div>
+              <div class="insight-author-info">
+                <span class="insight-author-name">Kieran Zhao</span>
+                <span class="insight-author-role">Chief Data Architect</span>
+              </div>
+            </div>
+
+            <button class="btn-read-dive" data-article-id="spark-kafka-pipeline" id="btnDiveSparkKafka"
+              style="color: #ea580c; border-color: rgba(234, 88, 12, 0.3); background: rgba(234, 88, 12, 0.08);">
+              Technical Deep-Dive <i class="fas fa-chevron-right"></i>
+            </button>
+          </div>
+        </article>
+
+        <!-- Article 4 -->
+        <article class="insight-card" data-category="autonomous-mesh" id="card-aura-mesh">
+          <div>
+            <div class="insight-card-header">
+              <span class="insight-category-pill"
+                style="background: rgba(139, 92, 246, 0.1); color: #7c3aed; border-color: rgba(139, 92, 246, 0.25);">
+                Autonomous Agents & Mesh
+              </span>
+              <span class="insight-read-time"><i class="far fa-clock"></i> 11 min read</span>
+            </div>
+
+            <h3 class="insight-card-title">
+              <a href="#read-aura-mesh" class="btn-read-dive" data-article-id="aura-mesh-agents"
+                style="background: none; border: none; padding: 0; color: inherit; font-size: inherit; text-align: left;">
+                The Future of Autonomous Enterprise Agents (AURA Mesh)
+              </a>
+            </h3>
+
+            <p class="insight-card-abstract">
+              Enterprise AI is rapidly shifting from centralized monolithic LLM prompting toward decentralized,
+              self-healing swarms of goal-oriented autonomous micro-agents. We examine the core architecture of the
+              Zevionix AURA Mesh protocol, where agent instances communicate over zero-trust cryptographic sidecars to
+              execute multi-step procurement and IT infrastructure remediation. We also analyze our consensus engine and
+              memory synchronization mechanics that prevent agent hallucinations while ensuring strict compliance across
+              corporate firewalls.
+            </p>
+
+            <div class="insight-tags-list">
+              <span class="insight-tag">#AURA</span>
+              <span class="insight-tag">#AutonomousAgents</span>
+              <span class="insight-tag">#MultiAgentSwarm</span>
+              <span class="insight-tag">#DecentralizedMesh</span>
+              <span class="insight-tag">#AIOrchestration</span>
+            </div>
+
+            <!-- Key Metrics Strip -->
+            <div class="insight-metrics-strip">
+              <div class="insight-metric-item">
+                <div class="insight-metric-val" style="color: #7c3aed;">Zero-Trust</div>
+                <div class="insight-metric-key">mTLS Sidecars</div>
+              </div>
+              <div class="insight-metric-item">
+                <div class="insight-metric-val" style="color: #7c3aed;">94%</div>
+                <div class="insight-metric-key">Triage Cut</div>
+              </div>
+              <div class="insight-metric-item">
+                <div class="insight-metric-val" style="color: #7c3aed;">Byzantine</div>
+                <div class="insight-metric-key">Consensus Quorum</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="insight-footer-bar">
+            <div class="insight-author">
+              <div class="insight-author-avatar" style="background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);">
+                AT</div>
+              <div class="insight-author-info">
+                <span class="insight-author-name">Dr. Aris Thorne</span>
+                <span class="insight-author-role">Head of Autonomous Research (AURA)</span>
+              </div>
+            </div>
+
+            <button class="btn-read-dive" data-article-id="aura-mesh-agents" id="btnDiveAuraMesh"
+              style="color: #7c3aed; border-color: rgba(139, 92, 246, 0.3); background: rgba(139, 92, 246, 0.08);">
+              Technical Deep-Dive <i class="fas fa-chevron-right"></i>
+            </button>
+          </div>
+        </article>
+
+      </div>
+
+      <!-- Empty State for Filters -->
+      <div id="insightsEmptyState"
+        style="display: none; text-align: center; padding: 60px 20px; background: #ffffff; border: 1px dashed var(--border-light); border-radius: var(--radius-lg); margin-top: 20px;">
+        <i class="fas fa-search" style="font-size: 2.2rem; color: var(--text-muted); margin-bottom: 16px;"></i>
+        <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--text-main); margin-bottom: 8px;">No matching
+          technical publications found</h3>
+        <p style="color: var(--text-muted); font-size: 0.92rem; max-width: 480px; margin: 0 auto 20px;">
+          Try refining your keyword query or resetting the category filter to view all published architecture
+          blueprints.
+        </p>
+        <button class="btn btn-outline btn-sm"
+          onclick="document.getElementById('insightsSearchInput').value=''; document.querySelector('.filter-btn[data-category=\'all\']').click();">
+          Reset Filter & Search
+        </button>
+      </div>
+
+      <!-- Quarterly Whitepapers / Newsletter Box -->
+      <div class="insights-newsletter-box">
+        <div>
+          <div class="badge-pill"
+            style="background: rgba(59, 130, 246, 0.2); border-color: rgba(59, 130, 246, 0.4); color: #60a5fa; margin-bottom: 12px;">
+            <i class="fas fa-envelope-open-text" style="margin-right: 6px;"></i> Quarterly Architecture Digest
+          </div>
+          <h3 style="font-size: 1.6rem; font-weight: 800; color: #ffffff; margin-bottom: 12px;">
+            Get Full Whitepapers & Benchmark Repositories
+          </h3>
+          <p style="color: #cbd5e1; font-size: 0.95rem; line-height: 1.6;">
+            We publish non-marketing, code-heavy whitepapers every quarter detailing our open-source CUDA kernels, Go
+            zero-allocation concurrency frameworks, and AURA Mesh protocol specs.
+          </p>
+        </div>
+
+        <div>
+          <form
+            onsubmit="event.preventDefault(); this.querySelector('button').innerHTML='<i class=\'fas fa-check\'></i> Subscribed to Engineering Brief!'; this.querySelector('button').style.background='#10b981';"
+            style="display: flex; flex-direction: column; gap: 12px;">
+            <div style="display: flex; gap: 8px;">
+              <input type="email" required placeholder="architect@enterprise.com" class="form-control"
+                style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255, 255, 255, 0.15); color: #ffffff; padding: 12px 16px; border-radius: var(--radius-pill); font-size: 0.9rem;">
+              <button type="submit" class="btn btn-primary" style="padding: 12px 24px; white-space: nowrap;">
+                Subscribe <i class="fas fa-paper-plane" style="margin-left: 6px;"></i>
+              </button>
+            </div>
+            <div style="font-size: 0.74rem; color: #94a3b8; display: flex; align-items: center; gap: 6px;">
+              <i class="fas fa-shield-halved" style="color: #38bdf8;"></i> Strict privacy. Zero sales spam. Unsubscribe
+              anytime.
+            </div>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Technical Deep Dive Modal -->
+  <div class="insight-modal-backdrop" id="insightModalBackdrop" role="dialog" aria-modal="true"
+    aria-labelledby="insightModalTitle">
+    <div class="insight-modal-box">
+      <div class="insight-modal-header">
+        <div>
+          <span id="insightModalCategory"
+            style="font-size: 0.74rem; font-family: 'JetBrains Mono', monospace; font-weight: 700; color: var(--primary); text-transform: uppercase;">
+            CATEGORY
+          </span>
+          <h3 id="insightModalTitle"
+            style="font-size: 1.3rem; font-weight: 800; color: var(--text-main); margin-top: 4px;">
+            Article Title
+          </h3>
+        </div>
+        <button class="insight-modal-close" id="insightModalClose" aria-label="Close modal">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <div class="insight-modal-body" id="insightModalBody">
+        <!-- Dynamic deep-dive content populated by script.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-inner">
+      <div class="footer-grid">
+        <div class="footer-col brand-col">
+          <a href="index.html" class="brand-logo" style="margin-bottom: 12px;">
+            <img src="assets/images/logo-icon.png" alt="Zevionix Logo" class="footer-logo-img" style="height: 32px;">
+            <span>ZEVIONIX <span class="brand-highlight">TECHNOLOGIES</span></span>
+          </a>
+          <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 20px;">
+            Pioneering autonomous intelligence, computer vision engineering, and distributed cloud computing for modern
+            global enterprises.
+          </p>
+          <div class="social-links">
+            <a href="https://linkedin.com" target="_blank" class="social-btn" aria-label="LinkedIn"><i
+                class="fab fa-linkedin-in"></i></a>
+            <a href="https://github.com" target="_blank" class="social-btn" aria-label="GitHub"><i
+                class="fab fa-github"></i></a>
+            <a href="https://twitter.com" target="_blank" class="social-btn" aria-label="Twitter"><i
+                class="fab fa-x-twitter"></i></a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h4>Capabilities</h4>
+          <ul class="footer-links">
+            <li><a href="ai-computer-vision.html">AI & Computer Vision</a></li>
+            <li><a href="software-development.html">Custom Software</a></li>
+            <li><a href="cloud-devops.html">Cloud & DevOps</a></li>
+            <li><a href="data-engineering.html">Data Engineering</a></li>
+            <li><a href="research-product-development.html">R&D & Deep Tech</a></li>
+            <li><a href="web-application-development.html">Web Applications</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Publications & Docs</h4>
+          <ul class="footer-links">
+            <li><a href="insights.html">Engineering Insights Blog</a></li>
+            <li><a href="case-studies.html">Case Studies Portfolio</a></li>
+            <li><a href="docs.html">Developer Hub & Docs</a></li>
+            <li><a href="aura.html">AURA Core Platform</a></li>
+            <li><a href="security.html">Security Trust Center</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Corporate Briefing</h4>
+          <p style="font-size: 0.86rem; color: var(--text-muted); margin-bottom: 14px;">
+            Receive our quarterly whitepapers on breakthrough AI architectures and high-throughput systems.
+          </p>
+          <div style="display: flex; gap: 8px;">
+            <input type="email" placeholder="work.email@enterprise.com" class="form-control"
+              style="padding: 10px 14px; font-size: 0.88rem;">
+            <button class="btn btn-primary btn-sm" style="padding: 0 16px;"><i class="fas fa-paper-plane"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>&copy; 2026 Zevionix Technologies. All rights reserved.</div>
+        <div>Engineered with High-Throughput Standards & Zero-Trust Architecture.</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Script Logic -->
+  <script src="script.js" defer></script>
+</body>
+
+</html>

@@ -208,6 +208,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // 13. INDUSTRY SOLUTIONS INTERACTIVE ENGINE & SIZING CALCULATOR
   // ==========================================================================
   initIndustrySolutionsEngine();
+
+  // ==========================================================================
+  // 14. ENGINEERING INSIGHTS & BLOG ENGINE
+  // ==========================================================================
+  initEngineeringInsightsEngine();
 });
 
 function initAuraTelemetrySimulator() {
@@ -1332,6 +1337,337 @@ function initIndustrySolutionsEngine() {
   }
 
   updateCalculator();
+}
+
+// ==========================================================================
+// 14. ENGINEERING INSIGHTS & BLOG ENGINE IMPLEMENTATION
+// ==========================================================================
+function initEngineeringInsightsEngine() {
+  const searchInput = document.getElementById('insightsSearchInput');
+  const filterBtns = document.querySelectorAll('.insights-filter-pills .filter-btn');
+  const cards = document.querySelectorAll('.insight-card');
+  const emptyState = document.getElementById('insightsEmptyState');
+  const modalBackdrop = document.getElementById('insightModalBackdrop');
+  const modalClose = document.getElementById('insightModalClose');
+  const modalTitle = document.getElementById('insightModalTitle');
+  const modalCategory = document.getElementById('insightModalCategory');
+  const modalBody = document.getElementById('insightModalBody');
+  const readDiveBtns = document.querySelectorAll('.btn-read-dive');
+
+  if (cards.length === 0) return;
+
+  const articleDetails = {
+    'tensorrt-vit': {
+      title: 'Optimizing Vision Transformers on Edge Hardware with NVIDIA TensorRT',
+      category: 'Computer Vision & Edge AI',
+      readTime: '7 min read',
+      author: 'Dr. Marcus Vance',
+      authorRole: 'Lead Computer Vision Architect',
+      date: 'October 2026',
+      content: `
+        <h4>1. Executive Summary & Challenge</h4>
+        <p>Deploying high-parameter Vision Transformers (ViTs such as ViT-Base and Swin-Transformer) to edge embedded hardware like the NVIDIA Jetson Orin has traditionally been hindered by quadratically scaling multi-head self-attention (MHSA) memory requirements and high FP32 memory bandwidth consumption. Conventional mobile inference frameworks exhibit severe thermal throttling and fail to maintain 30 FPS across multi-stream 4K camera feeds.</p>
+
+        <h4>2. Optimization Architecture & Kernel Fusion</h4>
+        <p>Our engineering pipeline implements custom CUDA kernels that fuse the Query-Key-Value (QKV) projection, scaled dot-product attention, and softmax operations into a single continuous GPU execution block. Furthermore, we leverage INT8 Post-Training Quantization (PTQ) using entropy calibration over representative edge industrial datasets.</p>
+
+        <div class="code-terminal-block">
+          <div class="code-terminal-header">
+            <span><i class="fas fa-terminal"></i> tensorrt_vit_quantizer.py</span>
+            <span>Python 3.12 / TensorRT 10.4</span>
+          </div>
+          <pre><code>import tensorrt as trt
+
+def build_quantized_vit_engine(onnx_path, calib_dataset):
+    logger = trt.Logger(trt.Logger.INFO)
+    builder = trt.Builder(logger)
+    config = builder.create_builder_config()
+    
+    # Enable INT8 and FP16 fallback precision modes
+    config.set_flag(trt.BuilderFlag.INT8)
+    config.set_flag(trt.BuilderFlag.FP16)
+    
+    # Configure custom entropy calibrator for attention matrices
+    config.int8_calibrator = ViTEntropyCalibrator(calib_dataset)
+    config.set_memory_pool_limit(trt.MemoryPoolType.WORKSPACE, 2 << 30) # 2GB
+    
+    # Fuse multi-head self-attention kernels into single memory-resident ops
+    parser = trt.OnnxParser(builder.create_network(), logger)
+    parser.parse_from_file(onnx_path)
+    
+    return builder.build_serialized_network(parser.network, config)</code></pre>
+        </div>
+
+        <h4>3. Benchmark Empirical Results (Jetson AGX Orin 64GB)</h4>
+        <div style="overflow-x: auto; margin-top: 14px;">
+          <table style="width: 100%; border-collapse: collapse; font-size: 0.88rem; text-align: left;">
+            <thead>
+              <tr style="border-bottom: 2px solid var(--border-light); background: var(--bg-subtle);">
+                <th style="padding: 10px;">Pipeline Configuration</th>
+                <th style="padding: 10px;">Precision</th>
+                <th style="padding: 10px;">Throughput (FPS)</th>
+                <th style="padding: 10px;">P99 Latency</th>
+                <th style="padding: 10px;">Top-1 Accuracy</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom: 1px solid var(--border-light);">
+                <td style="padding: 10px;">PyTorch Native Baseline</td>
+                <td style="padding: 10px;">FP32</td>
+                <td style="padding: 10px;">16.4 FPS</td>
+                <td style="padding: 10px;">61.2 ms</td>
+                <td style="padding: 10px;">82.1%</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--border-light);">
+                <td style="padding: 10px;">TensorRT Standard ONNX</td>
+                <td style="padding: 10px;">FP16</td>
+                <td style="padding: 10px;">39.8 FPS</td>
+                <td style="padding: 10px;">25.1 ms</td>
+                <td style="padding: 10px;">82.0%</td>
+              </tr>
+              <tr style="background: rgba(37, 99, 235, 0.05); font-weight: 700; color: var(--primary);">
+                <td style="padding: 10px;">Zevionix TensorRT Engine + MHSA Fusion</td>
+                <td style="padding: 10px;">INT8</td>
+                <td style="padding: 10px;">68.5 FPS (4.2×)</td>
+                <td style="padding: 10px;">14.6 ms</td>
+                <td style="padding: 10px;">81.9% (-0.2%)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      `
+    },
+    'clean-architecture': {
+      title: 'Clean Architecture Patterns in High-Throughput Microservices',
+      category: 'Distributed Systems & Architecture',
+      readTime: '9 min read',
+      author: 'Elena Rostova',
+      authorRole: 'Principal Distributed Systems Architect',
+      date: 'September 2026',
+      content: `
+        <h4>1. Architecture Dilemma: Purity vs. Raw Throughput</h4>
+        <p>Architects frequently believe that strict Clean Architecture (Hexagonal / Ports and Adapters) causes unacceptable garbage collection pauses and CPU allocation overhead due to extensive interface indirection and domain-model cloning. When designing microservices handling 150,000+ requests per second, microsecond penalties accumulate rapidly into SLA violations.</p>
+
+        <h4>2. Zero-Copy Hexagonal Implementation in Go</h4>
+        <p>We present a zero-copy adapter pattern in Go that maintains strict boundary separation while avoiding object allocations in the hot path. By employing sync.Pool buffers, value-receiver domain interfaces, and memory-aligned struct layouts, our services achieve sub-millisecond serialization across gRPC and database persistence tiers.</p>
+
+        <div class="code-terminal-block">
+          <div class="code-terminal-header">
+            <span><i class="fas fa-terminal"></i> domain_port.go</span>
+            <span>Go 1.23 / High-Throughput Core</span>
+          </div>
+          <pre><code>package core
+
+import "context"
+
+// OrderProcessor enforces pure business logic without depending on transport or persistence
+type OrderProcessor interface {
+    Process(ctx context.Context, cmd IngestCommand) (*TransactionResult, error)
+}
+
+type OrderService struct {
+    ledgerPort LedgerPort
+    eventBus   EventPublisher
+}
+
+func (s *OrderService) Process(ctx context.Context, cmd IngestCommand) (*TransactionResult, error) {
+    if err := cmd.Validate(); err != nil {
+        return nil, ErrInvalidPayload
+    }
+    // Pure Domain execution with zero heap allocations on hot path
+    result := AcquireTransactionResult()
+    result.Execute(cmd)
+    
+    return result, s.ledgerPort.Commit(ctx, result)
+}</code></pre>
+        </div>
+
+        <h4>3. Stress Test Benchmarks (k6 Cluster / 150,000 RPS)</h4>
+        <p>Under simulated traffic surges of 150K RPS across a 6-node Kubernetes cluster, our zero-allocation Clean Architecture service delivered a P99 response time of 3.8ms with zero OOM crashes and less than 1.2% CPU spent on Go runtime GC cycles.</p>
+      `
+    },
+    'spark-kafka-pipeline': {
+      title: 'Building Resilient Real-Time Data Pipelines with Apache Spark & Kafka',
+      category: 'Data Engineering & Streaming',
+      readTime: '8 min read',
+      author: 'Kieran Zhao',
+      authorRole: 'Chief Data Architect',
+      date: 'September 2026',
+      content: `
+        <h4>1. Problem Context: Petabyte-Scale Stream Congestion</h4>
+        <p>Modern IoT networks and financial transaction logs produce millions of streaming events per second. Common architectural pitfalls such as consumer group lag, state store disk thrashing, and uncoordinated partition rebalancing cause cascade failures during unexpected ingestion spikes.</p>
+
+        <h4>2. Structured Streaming with RocksDB & Delta Lake</h4>
+        <p>By replacing the default JVM heap state store with an off-heap RocksDB state provider and configuring partition-aligned Kafka topics, we eliminate stop-the-world JVM GC pauses. We enforce write-ahead log idempotency with Delta Lake to guarantee strict exactly-once delivery semantics even during worker node preemption.</p>
+
+        <div class="code-terminal-block">
+          <div class="code-terminal-header">
+            <span><i class="fas fa-terminal"></i> stream_pipeline.py</span>
+            <span>PySpark 3.5 / Apache Kafka 3.8</span>
+          </div>
+          <pre><code>from pyspark.sql import SparkSession
+from pyspark.sql.functions import from_json, col
+
+spark = SparkSession.builder \\
+    .appName("Zevionix-Kafka-Spark-Lakehouse") \\
+    .config("spark.sql.streaming.stateStore.providerClass", 
+            "org.apache.spark.sql.execution.streaming.state.RocksDBStateStoreProvider") \\
+    .config("spark.sql.streaming.forceDeleteTempCheckpointLocation", "true") \\
+    .getOrCreate()
+
+# Stream ingestion with exactly-once checkpointing
+df_kafka = spark.readStream.format("kafka") \\
+    .option("kafka.bootstrap.servers", "mesh-kafka.internal:9092") \\
+    .option("subscribe", "telemetry.v1.events") \\
+    .option("maxOffsetsPerTrigger", "250000") \\
+    .load()
+
+# Write into Delta Lake with ACID transactional commits
+query = df_kafka.writeStream \\
+    .format("delta") \\
+    .outputMode("append") \\
+    .option("checkpointLocation", "s3a://lakehouse-checkpoints/telemetry/") \\
+    .start("s3a://lakehouse-data/telemetry_gold/")</code></pre>
+        </div>
+
+        <h4>3. Operational Reliability Metrics</h4>
+        <p>The resulting architecture consistently processes 45M+ events per second with sub-second end-to-end sync, handling a complete broker failover within 4.2 seconds without data loss or duplicate transactions.</p>
+      `
+    },
+    'aura-mesh-agents': {
+      title: 'The Future of Autonomous Enterprise Agents (AURA Mesh)',
+      category: 'Autonomous Agents & Mesh',
+      readTime: '11 min read',
+      author: 'Dr. Aris Thorne',
+      authorRole: 'Head of Autonomous Research (AURA Core)',
+      date: 'October 2026',
+      content: `
+        <h4>1. Paradigm Shift: Beyond Monolithic Chatbots</h4>
+        <p>Enterprise AI is rapidly shifting from centralized monolithic LLM prompting toward decentralized, self-healing swarms of goal-oriented autonomous micro-agents. Traditional single-model architectures suffer from catastrophic context window forgetting, hallucinated API arguments, and dangerous security escalation risks.</p>
+
+        <h4>2. AURA Mesh Zero-Trust Protocol</h4>
+        <p>The Zevionix AURA Mesh protocol provisions isolated, specialized agent runtimes equipped with cryptographic identity keys (SPIFFE/mTLS). Agent decisions are verified through a Byzantine-fault-tolerant consensus mechanism before any real-world external mutations (such as deploying code, provisioning cloud instances, or approving multi-million-dollar purchase orders) are authorized.</p>
+
+        <div class="code-terminal-block">
+          <div class="code-terminal-header">
+            <span><i class="fas fa-terminal"></i> aura_agent_mesh.proto</span>
+            <span>Protobuf v3 / gRPC Swarm Protocol</span>
+          </div>
+          <pre><code>syntax = "proto3";
+package zevionix.aura.mesh.v1;
+
+service AutonomousAgentService {
+    rpc ProposeAction (ActionProposal) returns (ConsensusReceipt);
+    rpc SyncAgentState (AgentStateVector) returns (StateSyncAck);
+}
+
+message ActionProposal {
+    string agent_uuid = 1;
+    string task_context_hash = 2;
+    string proposed_tool = 3;
+    bytes cryptographic_signature = 4;
+    repeated ParameterVerification parameters = 5;
+}
+
+message ConsensusReceipt {
+    enum Status { VERIFIED = 0; REJECTED = 1; ESCALATED = 2; }
+    Status status = 1;
+    string consensus_quorum_id = 2;
+    int64 timestamp_utc = 3;
+}</code></pre>
+        </div>
+
+        <h4>3. Real-World Enterprise Impact</h4>
+        <p>Deployments across Tier-1 enterprise customers demonstrate a 94% reduction in manual IT triage times, zero unverified state mutations, and transparent mathematical audit trails suitable for SOC2 Type II and FedRAMP compliance.</p>
+      `
+    }
+  };
+
+  // Filter functionality
+  function filterArticles() {
+    const activeBtn = document.querySelector('.insights-filter-pills .filter-btn.active');
+    const category = activeBtn ? activeBtn.getAttribute('data-category') : 'all';
+    const query = searchInput ? searchInput.value.toLowerCase().trim() : '';
+
+    let visibleCount = 0;
+
+    cards.forEach(card => {
+      const cardCategory = card.getAttribute('data-category') || '';
+      const title = (card.querySelector('.insight-card-title') || {}).textContent || '';
+      const abstract = (card.querySelector('.insight-card-abstract') || {}).textContent || '';
+      const tags = (card.querySelector('.insight-tags-list') || {}).textContent || '';
+
+      const matchesCategory = category === 'all' || cardCategory === category;
+      const matchesSearch = query === '' ||
+        title.toLowerCase().includes(query) ||
+        abstract.toLowerCase().includes(query) ||
+        tags.toLowerCase().includes(query);
+
+      if (matchesCategory && matchesSearch) {
+        card.style.display = 'flex';
+        visibleCount++;
+      } else {
+        card.style.display = 'none';
+      }
+    });
+
+    if (emptyState) {
+      emptyState.style.display = visibleCount === 0 ? 'block' : 'none';
+    }
+  }
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      filterArticles();
+    });
+  });
+
+  if (searchInput) {
+    searchInput.addEventListener('input', filterArticles);
+  }
+
+  // Modal Technical Deep Dive Handlers
+  readDiveBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const articleId = btn.getAttribute('data-article-id');
+      const data = articleDetails[articleId];
+      if (data && modalBackdrop) {
+        if (modalTitle) modalTitle.textContent = data.title;
+        if (modalCategory) modalCategory.textContent = `${data.category} • ${data.readTime}`;
+        if (modalBody) modalBody.innerHTML = data.content;
+        modalBackdrop.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
+    });
+  });
+
+  function closeModal() {
+    if (modalBackdrop) {
+      modalBackdrop.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+  }
+
+  if (modalClose) {
+    modalClose.addEventListener('click', closeModal);
+  }
+
+  if (modalBackdrop) {
+    modalBackdrop.addEventListener('click', (e) => {
+      if (e.target === modalBackdrop) {
+        closeModal();
+      }
+    });
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modalBackdrop && modalBackdrop.classList.contains('open')) {
+      closeModal();
+    }
+  });
 }
 
 
