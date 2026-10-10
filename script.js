@@ -198,6 +198,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // 11. SMART TECHNICAL QUALIFICATION WIZARD
   // ==========================================================================
   initTechnicalConsultationWizard();
+
+  // ==========================================================================
+  // 12. PORTFOLIO & CASE STUDIES FILTERING ENGINE
+  // ==========================================================================
+  initPortfolioFilters();
 });
 
 function initAuraTelemetrySimulator() {
@@ -1167,5 +1172,32 @@ function initTechnicalConsultationWizard() {
 
   updateWizardUI();
 }
+
+function initPortfolioFilters() {
+  const filterBtns = document.querySelectorAll('.portfolio-filter-btn');
+  const caseCards = document.querySelectorAll('.portfolio-case-card');
+
+  if (filterBtns.length === 0 || caseCards.length === 0) return;
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const selectedFilter = btn.getAttribute('data-filter');
+
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      caseCards.forEach(card => {
+        const cardCategory = card.getAttribute('data-category');
+        if (selectedFilter === 'all' || cardCategory === selectedFilter) {
+          card.style.display = 'grid';
+          card.style.animation = 'fadeIn 0.35s ease';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+}
+
 
 
