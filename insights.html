@@ -69,10 +69,16 @@
           <a href="aura.html" class="nav-link">AURA Platform</a>
         </li>
         <li class="nav-item">
-          <a href="case-studies.html" class="nav-link">Case Studies</a>
-        </li>
-        <li class="nav-item">
-          <a href="insights.html" class="nav-link active">Insights</a>
+          <a href="insights.html" class="nav-link active">Insights <i class="fas fa-chevron-down"
+              style="font-size: 0.65rem;"></i></a>
+          <div class="dropdown-menu">
+            <a href="insights.html" class="dropdown-item active"><i class="fas fa-book-open"></i> Engineering Insights &
+              Blog</a>
+            <a href="case-studies.html" class="dropdown-item"><i class="fas fa-briefcase"></i> Case Studies &
+              Portfolio</a>
+            <a href="case-study-template.html" class="dropdown-item"><i class="fas fa-file-lines"></i> Case Study
+              Template</a>
+          </div>
         </li>
         <li class="nav-item">
           <a href="docs.html" class="nav-link">Developers & Docs</a>
@@ -518,12 +524,111 @@
           technical publications found</h3>
         <p style="color: var(--text-muted); font-size: 0.92rem; max-width: 480px; margin: 0 auto 20px;">
           Try refining your keyword query or resetting the category filter to view all published architecture
-          blueprints.
-        </p>
-        <button class="btn btn-outline btn-sm"
-          onclick="document.getElementById('insightsSearchInput').value=''; document.querySelector('.filter-btn[data-category=\'all\']').click();">
-          Reset Filter & Search
-        </button>
+          <button class="btn btn-outline btn-sm"
+            onclick="document.getElementById('insightsSearchInput').value=''; document.querySelector('.filter-btn[data-category=\'all\']').click();">
+            Reset Filter & Search
+          </button>
+      </div>
+
+      <!-- Case Studies Portfolio Section under Insights -->
+      <div
+        style="margin-top: 60px; padding: 44px 36px; background: #ffffff; border: 1px solid var(--border-light); border-radius: var(--radius-xl); box-shadow: var(--shadow-md);">
+        <div
+          style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 16px; margin-bottom: 28px;">
+          <div>
+            <div class="badge-pill" style="margin-bottom: 10px;">
+              <i class="fas fa-briefcase" style="margin-right: 6px;"></i> Production Case Studies
+            </div>
+            <h3 style="font-size: 1.6rem; font-weight: 800; color: var(--text-main);">
+              Empirical Case Studies & <span class="text-gradient">Client Implementations</span>
+            </h3>
+            <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 4px;">
+              Explore deep tech engineering deliverables and quantifiable business outcomes across global enterprise
+              deployments.
+            </p>
+          </div>
+          <a href="case-studies.html" class="btn btn-outline btn-sm">
+            View All Case Studies <i class="fas fa-arrow-right" style="margin-left: 6px;"></i>
+          </a>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+          <!-- Case 1 -->
+          <div
+            style="background: var(--bg-subtle); border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 22px; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <span class="badge-pill" style="font-size: 0.68rem; padding: 3px 10px; margin-bottom: 12px;">Computer
+                Vision</span>
+              <h4 style="font-size: 1.05rem; font-weight: 700; margin-bottom: 10px; color: var(--text-main);">
+                Automated Edge Telemetry & Vision Pipeline
+              </h4>
+              <p style="font-size: 0.86rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 16px;">
+                Deploying TensorRT-quantized YOLOv10 for sub-12ms optical defect detection in automated assembly lines.
+              </p>
+            </div>
+            <div
+              style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-light); padding-top: 14px;">
+              <span
+                style="font-family: 'JetBrains Mono', monospace; font-size: 0.84rem; font-weight: 700; color: var(--primary);">99.4%
+                Recall</span>
+              <a href="case-studies.html#case-study-vision"
+                style="font-size: 0.82rem; font-weight: 700; color: var(--primary); text-decoration: none;">Read Case <i
+                  class="fas fa-chevron-right" style="font-size: 0.7rem;"></i></a>
+            </div>
+          </div>
+
+          <!-- Case 2 -->
+          <div
+            style="background: var(--bg-subtle); border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 22px; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <span class="badge-pill"
+                style="font-size: 0.68rem; padding: 3px 10px; margin-bottom: 12px; color: #ea580c; background: rgba(234, 88, 12, 0.1); border-color: rgba(234, 88, 12, 0.25);">Data
+                Engineering</span>
+              <h4 style="font-size: 1.05rem; font-weight: 700; margin-bottom: 10px; color: var(--text-main);">
+                Petabyte-Scale Streaming Lakehouse
+              </h4>
+              <p style="font-size: 0.86rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 16px;">
+                Apache Spark, Kafka & Delta Lake architecture processing 45M events/sec with sub-second sync and zero
+                data loss.
+              </p>
+            </div>
+            <div
+              style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-light); padding-top: 14px;">
+              <span
+                style="font-family: 'JetBrains Mono', monospace; font-size: 0.84rem; font-weight: 700; color: #ea580c;">45M+
+                Ev/Sec</span>
+              <a href="case-studies.html#case-study-data"
+                style="font-size: 0.82rem; font-weight: 700; color: #ea580c; text-decoration: none;">Read Case <i
+                  class="fas fa-chevron-right" style="font-size: 0.7rem;"></i></a>
+            </div>
+          </div>
+
+          <!-- Case 3 -->
+          <div
+            style="background: var(--bg-subtle); border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 22px; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <span class="badge-pill"
+                style="font-size: 0.68rem; padding: 3px 10px; margin-bottom: 12px; color: #059669; background: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.25);">Cloud
+                & SaaS</span>
+              <h4 style="font-size: 1.05rem; font-weight: 700; margin-bottom: 10px; color: var(--text-main);">
+                High-Concurrency Sub-Second SaaS Platform
+              </h4>
+              <p style="font-size: 0.86rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 16px;">
+                Distributed Go microservices and Kubernetes autoscale clusters sustaining 99.999% SLA under massive
+                global spikes.
+              </p>
+            </div>
+            <div
+              style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-light); padding-top: 14px;">
+              <span
+                style="font-family: 'JetBrains Mono', monospace; font-size: 0.84rem; font-weight: 700; color: #059669;">99.999%
+                SLA</span>
+              <a href="case-studies.html#case-study-saas"
+                style="font-size: 0.82rem; font-weight: 700; color: #059669; text-decoration: none;">Read Case <i
+                  class="fas fa-chevron-right" style="font-size: 0.7rem;"></i></a>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- Quarterly Whitepapers / Newsletter Box -->
