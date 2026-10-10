@@ -213,6 +213,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // 14. ENGINEERING INSIGHTS & BLOG ENGINE
   // ==========================================================================
   initEngineeringInsightsEngine();
+
+  // ==========================================================================
+  // 15. CAREERS & TALENT RECRUITMENT ENGINE
+  // ==========================================================================
+  initCareersRecruitmentEngine();
 });
 
 function initAuraTelemetrySimulator() {
@@ -1668,6 +1673,178 @@ message ConsensusReceipt {
       closeModal();
     }
   });
+}
+
+// ==========================================================================
+// 15. CAREERS & TALENT RECRUITMENT ENGINE IMPLEMENTATION
+// ==========================================================================
+function initCareersRecruitmentEngine() {
+  const filterBtns = document.querySelectorAll('#roleFilterPills .career-filter-btn');
+  const jobCards = document.querySelectorAll('.job-card');
+  const applyTriggers = document.querySelectorAll('.btn-apply-trigger');
+  const roleSelect = document.getElementById('applicantRoleSelect');
+  const applicationSection = document.getElementById('application-form');
+  const nameInput = document.getElementById('applicantName');
+  const form = document.getElementById('careersApplicationForm');
+  const successBanner = document.getElementById('applicationSuccessBanner');
+  const successText = document.getElementById('successMessageText');
+  const btnReset = document.getElementById('btnResetApplication');
+
+  // Resume Upload Elements
+  const resumeDropzone = document.getElementById('resumeDropzone');
+  const resumeFileInput = document.getElementById('resumeFileInput');
+  const dropzoneContent = document.getElementById('dropzoneContent');
+  const fileSelectedIndicator = document.getElementById('fileSelectedIndicator');
+  const fileNamePreview = document.getElementById('fileNamePreview');
+  const fileSizePreview = document.getElementById('fileSizePreview');
+  const btnRemoveFile = document.getElementById('btnRemoveFile');
+
+  // 1. Role Category Filtering
+  if (filterBtns.length > 0 && jobCards.length > 0) {
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const category = btn.getAttribute('data-category');
+        jobCards.forEach(card => {
+          const cardCat = card.getAttribute('data-category');
+          if (category === 'all' || cardCat === category) {
+            card.style.display = 'block';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
+  }
+
+  // 2. "Apply Now" triggers from job cards and fellowship
+  if (applyTriggers.length > 0 && roleSelect) {
+    applyTriggers.forEach(trigger => {
+      trigger.addEventListener('click', (e) => {
+        e.preventDefault();
+        const role = trigger.getAttribute('data-role');
+        if (role) {
+          // Preselect dropdown
+          for (let i = 0; i < roleSelect.options.length; i++) {
+            if (roleSelect.options[i].value === role) {
+              roleSelect.selectedIndex = i;
+              break;
+            }
+          }
+        }
+
+        // Smooth scroll to form
+        if (applicationSection) {
+          applicationSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Focus applicant name input
+        if (nameInput) {
+          setTimeout(() => {
+            nameInput.focus();
+          }, 450);
+        }
+      });
+    });
+  }
+
+  // 3. Resume File Upload Drag-and-Drop & Browse
+  if (resumeDropzone && resumeFileInput) {
+    function formatFileSize(bytes) {
+      if (bytes < 1024) return bytes + ' B';
+      if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+      return (bytes / 1048576).toFixed(1) + ' MB';
+    }
+
+    function handleFile(file) {
+      if (!file) return;
+      if (fileNamePreview) fileNamePreview.textContent = file.name;
+      if (fileSizePreview) fileSizePreview.textContent = formatFileSize(file.size);
+      if (dropzoneContent) dropzoneContent.style.display = 'none';
+      if (fileSelectedIndicator) fileSelectedIndicator.style.display = 'flex';
+    }
+
+    resumeFileInput.addEventListener('change', (e) => {
+      if (e.target.files && e.target.files[0]) {
+        handleFile(e.target.files[0]);
+      }
+    });
+
+    resumeDropzone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      resumeDropzone.classList.add('drag-over');
+    });
+
+    resumeDropzone.addEventListener('dragleave', () => {
+      resumeDropzone.classList.remove('drag-over');
+    });
+
+    resumeDropzone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      resumeDropzone.classList.remove('drag-over');
+      if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0]) {
+        const file = e.dataTransfer.files[0];
+        resumeFileInput.files = e.dataTransfer.files;
+        handleFile(file);
+      }
+    });
+
+    if (btnRemoveFile) {
+      btnRemoveFile.addEventListener('click', (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        resumeFileInput.value = '';
+        if (fileSelectedIndicator) fileSelectedIndicator.style.display = 'none';
+        if (dropzoneContent) dropzoneContent.style.display = 'block';
+      });
+    }
+  }
+
+  // 4. Interactive Form Submission
+  if (form && successBanner) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const candidateName = document.getElementById('applicantName')?.value.trim() || 'Candidate';
+      const selectedRole = roleSelect?.value || 'Selected Engineering Position';
+      const submitBtn = document.getElementById('btnSubmitApplication');
+
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Dispatching Application...';
+      }
+
+      setTimeout(() => {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit Application to Head of People';
+        }
+
+        form.style.display = 'none';
+        successBanner.style.display = 'block';
+
+        if (successText) {
+          successText.textContent = `Thank you, ${candidateName}. Your application for the position of "${selectedRole}" has been received and routed directly to our Head of People and Technical Hiring Leads in Coimbatore. Expect a direct response within 48 business hours.`;
+        }
+
+        successBanner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 700);
+    });
+
+    if (btnReset) {
+      btnReset.addEventListener('click', () => {
+        form.reset();
+        if (fileSelectedIndicator) fileSelectedIndicator.style.display = 'none';
+        if (dropzoneContent) dropzoneContent.style.display = 'block';
+        if (resumeFileInput) resumeFileInput.value = '';
+        successBanner.style.display = 'none';
+        form.style.display = 'block';
+        if (nameInput) nameInput.focus();
+      });
+    }
+  }
 }
 
 
