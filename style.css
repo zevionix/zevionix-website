@@ -202,12 +202,14 @@ header {
   transition: var(--transition-normal);
 }
 
-.header-inner {
+.header-inner,
+.navbar {
   height: 74px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 20px;
+  position: relative;
 }
 
 .brand-logo {
@@ -452,7 +454,15 @@ header {
   color: var(--text-main);
   font-size: 1.4rem;
   cursor: pointer;
-  padding: 6px;
+  padding: 8px;
+  border-radius: var(--radius-sm);
+  transition: var(--transition-fast);
+  line-height: 1;
+}
+
+.mobile-toggle:hover {
+  color: var(--primary);
+  background: var(--bg-subtle);
 }
 
 /* ==========================================================================
@@ -1538,8 +1548,29 @@ footer {
    Mobile UI Optimization & Responsive Breakpoints
    ========================================================================== */
 @media (max-width: 1100px) {
+  .header-inner,
+  .navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    width: 100%;
+  }
+
+  .brand-logo {
+    max-width: calc(100% - 60px);
+    z-index: 1000;
+  }
+
   .mobile-toggle {
-    display: block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+    order: 2;
+    z-index: 1001;
+    position: relative;
+    padding: 8px 10px;
   }
 
   .nav-menu {
@@ -1744,8 +1775,20 @@ footer {
   }
 }
 
+@media (max-width: 480px) {
+  .brand-logo .brand-highlight {
+    display: none;
+  }
+
+  .header-inner,
+  .navbar {
+    gap: 10px;
+  }
+}
+
 @media (max-width: 360px) {
-  .header-inner {
+  .header-inner,
+  .navbar {
     gap: 8px;
   }
 
