@@ -63,6 +63,19 @@
   --transition-normal: 0.28s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* Accessibility & SEO utility */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 /* ==========================================================================
    Base & Reset
    ========================================================================== */
@@ -1383,7 +1396,8 @@ textarea.form-control {
   margin-bottom: 14px;
 }
 
-.process-step-card h4 {
+.process-step-card h4,
+.process-step-card .process-step-title {
   font-size: 1.08rem;
   margin-bottom: 8px;
   color: var(--text-main);
@@ -1483,7 +1497,8 @@ footer {
   margin-bottom: 45px;
 }
 
-.footer-col h4 {
+.footer-col h4,
+.footer-col .footer-col-title {
   font-size: 0.98rem;
   color: var(--text-main);
   margin-bottom: 18px;
@@ -6887,4 +6902,4 @@ a.detail-val:hover {
   .application-form-card {
     padding: 26px 20px;
   }
-}
+}

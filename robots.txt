@@ -1,0 +1,8 @@
+# Robots.txt for Zevionix Technologies
+# https://www.zevionix.com
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://www.zevionix.com/sitemap.xml
