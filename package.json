@@ -4,9 +4,10 @@
   "description": "Zevionix Technologies - Enterprise AI, Deep Tech & Software Engineering",
   "main": "index.html",
   "scripts": {
-    "dev": "serve . -l 3000",
-    "start": "serve . -l 3000",
-    "build": "echo 'Static build ready for Vercel deployment'"
+    "dev": "vite --port 3000",
+    "start": "vite --port 3000",
+    "build": "vite build",
+    "preview": "vite preview --port 3000"
   },
   "keywords": [
     "zevionix",
@@ -19,6 +20,6 @@
   "author": "Zevionix Technologies Inc.",
   "license": "ISC",
   "devDependencies": {
-    "serve": "^14.2.4"
+    "vite": "^6.4.4"
   }
 }
