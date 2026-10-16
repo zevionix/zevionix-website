@@ -6903,3 +6903,174 @@ a.detail-val:hover {
     padding: 26px 20px;
   }
 }
+
+/* ==========================================================================
+   Coralgenz Global Partner Card Component (Reference: coralgenz.co.in)
+   ========================================================================== */
+.partner-card-coralgenz {
+  position: relative;
+  background: #ffffff;
+  border: 1.5px solid var(--border-light);
+  border-radius: 28px;
+  padding: 42px 32px 38px;
+  max-width: 960px;
+  margin: 0 auto;
+  text-align: center;
+  box-shadow: 0 20px 50px -15px rgba(15, 23, 42, 0.08), 0 2px 6px -1px rgba(15, 23, 42, 0.04);
+  overflow: hidden;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.35s;
+}
+
+.partner-card-coralgenz:hover {
+  border-color: #cbd5e1;
+  box-shadow: 0 25px 60px -15px rgba(37, 99, 235, 0.12), 0 4px 12px rgba(15, 23, 42, 0.06);
+}
+
+.partner-card-coralgenz::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: linear-gradient(90deg, #0284c7 0%, #2563eb 50%, #7c3aed 100%);
+}
+
+.partner-top-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.partner-badge-glow {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 14px;
+  font-size: 11.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #334155;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: var(--radius-pill);
+}
+
+.partner-badge-dot {
+  width: 7px;
+  height: 7px;
+  background: #10b981;
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
+  animation: partnerPulseDot 2s ease-in-out infinite;
+}
+
+@keyframes partnerPulseDot {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.25);
+  }
+}
+
+.partner-card-label {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #0f172a;
+  font-size: clamp(1.4rem, 2.5vw, 1.85rem);
+  font-weight: 800;
+  margin-top: 2px;
+}
+
+.partner-card-img-box {
+  background: #ffffff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 20px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 250px;
+  height: 105px;
+  margin: 14px auto 18px;
+  padding: 12px 24px;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.05);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s;
+}
+
+.partner-card-coralgenz:hover .partner-card-img-box {
+  border-color: #cbd5e1;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px -4px rgba(15, 23, 42, 0.1);
+}
+
+.partner-card-img-box img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 8px rgba(15, 23, 42, 0.08));
+}
+
+.partner-card-highlights {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin: 14px auto 20px;
+  max-width: 720px;
+}
+
+.partner-card-highlights span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #334155;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: var(--radius-pill);
+}
+
+.partner-btn-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 24px;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
+  color: #ffffff !important;
+  font-size: 13.5px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.28);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.partner-btn-pill:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(37, 99, 235, 0.35);
+  color: #ffffff !important;
+}
+
+@media (max-width: 640px) {
+  .partner-card-coralgenz {
+    padding: 30px 18px 26px;
+    border-radius: 20px;
+  }
+
+  .partner-card-img-box {
+    max-width: 200px;
+    height: 85px;
+    padding: 10px 18px;
+  }
+}
