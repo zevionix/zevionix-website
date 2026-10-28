@@ -802,9 +802,11 @@ header {
     padding: 12px 18px;
     margin-bottom: 18px;
   }
+
   .section-pill-title {
     font-size: 1.15rem;
   }
+
   .pill-badge-blue,
   .pill-badge-black {
     padding: 6px 12px;
@@ -1082,11 +1084,20 @@ header {
   flex-shrink: 0;
 }
 
-.aura-hud-clock {
-  font-size: 0.72rem;
+.aura-hud-clock,
+.hud-ist-clock {
+  font-size: 0.74rem;
   color: var(--primary);
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.02em;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.hud-ist-clock i {
+  color: #ef4444;
+  font-size: 0.72rem;
 }
 
 .aura-hud-protocol {
@@ -1099,7 +1110,34 @@ header {
   font-weight: 600;
 }
 
-/* Dual Screen Vision Console Grid */
+/* Single Screen Vision Console Card (Uncongested, Clear & Spacious) */
+.aura-hud-single-screen {
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border-bottom: 1px solid var(--border-light);
+  overflow: hidden;
+  position: relative;
+}
+
+.aura-hud-single-screen .aura-hud-viewport {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  min-height: 420px;
+  max-height: 600px;
+  overflow: hidden;
+  background: #0f172a;
+  user-select: none;
+}
+
+@media (max-width: 768px) {
+  .aura-hud-single-screen .aura-hud-viewport {
+    min-height: 280px;
+  }
+}
+
+/* Dual Screen Vision Console Grid (Legacy fallback) */
 .aura-hud-screens-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1264,6 +1302,7 @@ header {
   0% {
     top: -2%;
   }
+
   100% {
     top: 102%;
   }
@@ -1273,8 +1312,8 @@ header {
   position: absolute;
   inset: 0;
   background: radial-gradient(circle at center, transparent 65%, rgba(255, 255, 255, 0.35) 100%),
-              linear-gradient(rgba(37, 99, 235, 0.06) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(37, 99, 235, 0.06) 1px, transparent 1px);
+    linear-gradient(rgba(37, 99, 235, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(37, 99, 235, 0.06) 1px, transparent 1px);
   background-size: 100% 100%, 28px 28px, 28px 28px;
   pointer-events: none;
   z-index: 3;
@@ -1318,7 +1357,460 @@ header {
   border-top: none;
 }
 
-/* Bounding Boxes */
+/* ==========================================================================
+   AURA Mesh Feature Cards (Executive Pillars of AURA Design System)
+   ========================================================================== */
+.aura-mesh-feature-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin: 24px 0 26px;
+}
+
+.tech-card.aura-hero-tech-card {
+  padding: 20px 18px 18px;
+  border-radius: var(--radius-md, 12px);
+  background: var(--bg-card, #ffffff);
+  border: 1px solid var(--border-light, #e2e8f0);
+  box-shadow: var(--shadow-xs, 0 1px 2px rgba(0, 0, 0, 0.04));
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+.tech-card.aura-hero-tech-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--gradient-primary, linear-gradient(135deg, #0066ff 0%, #0284c7 100%));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.tech-card.aura-hero-tech-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--border-focus, #3b82f6);
+  box-shadow: var(--shadow-hover, 0 20px 40px -8px rgba(37, 99, 235, 0.15));
+}
+
+.tech-card.aura-hero-tech-card:hover::before {
+  opacity: 1;
+}
+
+.tech-card.aura-hero-tech-card .card-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, rgba(0, 102, 255, 0.08) 0%, rgba(2, 132, 199, 0.12) 100%);
+  border: 1px solid rgba(0, 102, 255, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary, #0066ff);
+  font-size: 1.15rem;
+  margin-bottom: 14px;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.tech-card.aura-hero-tech-card:hover .card-icon {
+  transform: scale(1.08) rotate(3deg);
+  background: linear-gradient(135deg, #0066ff 0%, #0284c7 100%);
+  color: #ffffff;
+  border-color: transparent;
+  box-shadow: 0 6px 18px rgba(0, 102, 255, 0.35);
+}
+
+.tech-card.aura-hero-tech-card h4 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: var(--text-main, #0a0f1d);
+  margin: 0 0 8px 0;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+}
+
+.tech-card.aura-hero-tech-card p {
+  font-size: 0.83rem;
+  line-height: 1.55;
+  color: var(--text-muted, #64748b);
+  margin: 0;
+  flex-grow: 1;
+}
+
+@media (max-width: 640px) {
+  .aura-mesh-feature-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}
+
+/* ==========================================================================
+   AURA Face & Eye Reticle Tracking System (Square/Rectangle Frame + Precision Eye Dots)
+   ========================================================================== */
+.face-eye-tracker {
+  position: absolute;
+  top: 24%;
+  left: 41%;
+  width: 22%;
+  height: 34%;
+  border: 2px solid #0066ff;
+  border-radius: 8px;
+  box-shadow: 0 2px 14px rgba(0, 102, 255, 0.25);
+  background: rgba(0, 102, 255, 0.02);
+  z-index: 10;
+  pointer-events: none;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+/* Real-time 60FPS kinematics bypass */
+.aura-hud-viewport.webcam-tracking-active .face-eye-tracker {
+  transition: border-color 0.18s ease, box-shadow 0.18s ease !important;
+}
+
+/* Active Motion State */
+.face-eye-tracker.active-motion {
+  border-color: #0284c7;
+  box-shadow: 0 4px 18px rgba(2, 132, 199, 0.35);
+}
+
+/* Stationary / Idle State */
+.face-eye-tracker.stationary {
+  border-color: #3b82f6;
+  box-shadow: 0 2px 10px rgba(59, 130, 246, 0.2);
+}
+
+/* Clean, Minimal Corner Accents */
+.face-frame-corners {
+  position: absolute;
+  inset: -2px;
+  pointer-events: none;
+  border-radius: 8px;
+}
+
+.ff-corner {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-color: #00d2ff;
+  border-style: solid;
+  border-width: 0;
+  transition: border-color 0.2s ease;
+}
+
+.ff-corner.tl {
+  top: -2px;
+  left: -2px;
+  border-top-width: 2.5px;
+  border-left-width: 2.5px;
+  border-top-left-radius: 8px;
+}
+
+.ff-corner.tr {
+  top: -2px;
+  right: -2px;
+  border-top-width: 2.5px;
+  border-right-width: 2.5px;
+  border-top-right-radius: 8px;
+}
+
+.ff-corner.bl {
+  bottom: -2px;
+  left: -2px;
+  border-bottom-width: 2.5px;
+  border-left-width: 2.5px;
+  border-bottom-left-radius: 8px;
+}
+
+.ff-corner.br {
+  bottom: -2px;
+  right: -2px;
+  border-bottom-width: 2.5px;
+  border-right-width: 2.5px;
+  border-bottom-right-radius: 8px;
+}
+
+.face-eye-tracker.stationary .ff-corner {
+  border-color: #60a5fa;
+}
+
+/* Clean, Simple Top Badge Tag */
+.face-box-tag {
+  position: absolute;
+  top: -24px;
+  left: 0;
+  background: #0066ff;
+  color: #ffffff;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.64rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 5px;
+  letter-spacing: 0.03em;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  transition: background 0.2s ease;
+}
+
+.face-eye-tracker.active-motion .face-box-tag {
+  background: #0284c7;
+}
+
+.face-eye-tracker.stationary .face-box-tag {
+  background: #2563eb;
+}
+
+/* Hide cluttering elements in webcam mode */
+.face-box-subtag {
+  display: none !important;
+}
+
+.aura-hud-viewport.webcam-tracking-active .aura-hud-scanline {
+  display: none !important;
+}
+
+/* Subtle, Minimal Eye Tracking Dots */
+.eye-dot {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #00d2ff;
+  box-shadow: 0 0 6px rgba(0, 210, 255, 0.7);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 12;
+  transition: background 0.2s ease;
+}
+
+.face-eye-tracker.stationary .eye-dot {
+  background: #60a5fa;
+  box-shadow: 0 0 4px rgba(96, 165, 250, 0.5);
+}
+
+.eye-dot.eye-left {
+  top: 36%;
+  left: 32%;
+}
+
+.eye-dot.eye-right {
+  top: 36%;
+  left: 68%;
+}
+
+/* Multi-Face Variant Styles */
+.webcam-multi-face-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.scenario-bbox-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 7;
+}
+
+.face-eye-tracker.face-primary {
+  border-color: #0066ff;
+}
+
+.face-eye-tracker.face-secondary {
+  border-color: #059669;
+  box-shadow: 0 2px 14px rgba(5, 150, 105, 0.25);
+  background: rgba(5, 150, 105, 0.03);
+}
+
+.face-eye-tracker.face-secondary .face-box-tag {
+  background: #059669;
+}
+
+.face-eye-tracker.face-secondary .ff-corner {
+  border-color: #10b981;
+}
+
+.face-eye-tracker.face-secondary .eye-dot {
+  background: #10b981;
+  box-shadow: 0 0 6px rgba(16, 185, 129, 0.7);
+}
+
+.face-eye-tracker.face-tertiary {
+  border-color: #7c3aed;
+  box-shadow: 0 2px 14px rgba(124, 58, 237, 0.25);
+  background: rgba(124, 58, 237, 0.03);
+}
+
+.face-eye-tracker.face-tertiary .face-box-tag {
+  background: #7c3aed;
+}
+
+.face-eye-tracker.face-tertiary .ff-corner {
+  border-color: #a855f7;
+}
+
+.face-eye-tracker.face-tertiary .eye-dot {
+  background: #a855f7;
+  box-shadow: 0 0 6px rgba(168, 85, 247, 0.7);
+}
+
+/* Incident Alert Viewport Styling */
+.aura-hud-viewport.is-incident-alert {
+  box-shadow: inset 0 0 45px rgba(239, 68, 68, 0.45);
+  border: 1px solid rgba(239, 68, 68, 0.6) !important;
+  animation: viewportAlertPulse 1.8s ease-in-out infinite;
+}
+
+@keyframes viewportAlertPulse {
+  0%, 100% {
+    box-shadow: inset 0 0 35px rgba(239, 68, 68, 0.35);
+  }
+  50% {
+    box-shadow: inset 0 0 65px rgba(239, 68, 68, 0.6);
+  }
+}
+
+.aura-hud-viewport.is-incident-alert .aura-hud-scanline {
+  background: linear-gradient(90deg, transparent, rgba(239, 68, 68, 0.85), transparent);
+  box-shadow: 0 0 12px rgba(239, 68, 68, 0.7);
+}
+
+.aura-hud-viewport.is-incident-alert .hud-corner {
+  border-color: #ef4444;
+}
+
+.hud-incident-banner {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(220, 38, 38, 0.95);
+  color: #ffffff;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 0.72rem;
+  font-family: 'JetBrains Mono', monospace;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  z-index: 45;
+  box-shadow: 0 4px 18px rgba(220, 38, 38, 0.45);
+  border: 1px solid rgba(254, 202, 202, 0.5);
+  max-width: 94%;
+  animation: bannerSlideDown 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes bannerSlideDown {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -10px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+.incident-banner-content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  line-height: 1.35;
+}
+
+.incident-banner-content i {
+  color: #fef08a;
+  font-size: 0.9rem;
+}
+
+.btn-ack-incident {
+  background: #ffffff;
+  color: #dc2626;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.68rem;
+  font-weight: 800;
+  padding: 5px 12px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  font-family: 'JetBrains Mono', monospace;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.btn-ack-incident:hover {
+  background: #fee2e2;
+  color: #991b1b;
+  transform: scale(1.03);
+}
+
+/* Defect QA Viewport Scanline */
+.aura-hud-viewport.is-qa-inspection .aura-hud-scanline {
+  background: linear-gradient(90deg, transparent, rgba(6, 182, 212, 0.85), transparent);
+  box-shadow: 0 0 12px rgba(6, 182, 212, 0.7);
+}
+
+/* Floating Turn-Off Camera Action Button inside HUD Viewport */
+.hud-turn-off-cam-btn {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  left: auto;
+  background: rgba(220, 38, 38, 0.92);
+  color: #ffffff;
+  border: 1px solid rgba(254, 202, 202, 0.4);
+  border-radius: 6px;
+  padding: 5px 12px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  cursor: pointer;
+  z-index: 50;
+  pointer-events: auto !important;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 14px rgba(220, 38, 38, 0.35);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hud-turn-off-cam-btn:hover {
+  background: #b91c1c;
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: 0 6px 18px rgba(220, 38, 38, 0.5);
+}
+
+.hud-turn-off-cam-btn i {
+  font-size: 0.75rem;
+  color: #ffffff;
+}
+
+.hud-control-btn.btn-webcam.cam-active {
+  background: #dc2626 !important;
+  color: #ffffff !important;
+  border-color: #ef4444 !important;
+  box-shadow: 0 0 12px rgba(220, 38, 38, 0.35);
+}
+
+.hud-control-btn.btn-webcam.cam-active:hover {
+  background: #b91c1c !important;
+}
+
+/* Bounding Boxes (Legacy) */
 .aura-bbox {
   position: absolute;
   border: 2px solid #059669;
@@ -1342,9 +1834,12 @@ header {
 }
 
 @keyframes bboxBreathe {
-  0%, 100% {
+
+  0%,
+  100% {
     box-shadow: 0 0 8px rgba(5, 150, 105, 0.3), inset 0 0 6px rgba(5, 150, 105, 0.08);
   }
+
   50% {
     box-shadow: 0 0 14px rgba(5, 150, 105, 0.5), inset 0 0 8px rgba(5, 150, 105, 0.16);
   }
@@ -1432,10 +1927,13 @@ header {
 }
 
 @keyframes bboxAlertAnim {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: scale(1);
     border-color: #ef4444;
   }
+
   50% {
     transform: scale(1.02);
     border-color: #f87171;
@@ -1654,6 +2152,7 @@ header {
     opacity: 0;
     transform: translate(-50%, -10px);
   }
+
   to {
     opacity: 1;
     transform: translate(-50%, 0);
@@ -1724,6 +2223,7 @@ header {
     transform: scale(0.9);
     opacity: 0.7;
   }
+
   100% {
     transform: scale(1.3);
     opacity: 1;
@@ -1796,8 +2296,13 @@ header {
 }
 
 @keyframes modalOverlayFade {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 .privacy-modal-card {
@@ -1817,6 +2322,7 @@ header {
     opacity: 0;
     transform: scale(0.96) translateY(8px);
   }
+
   to {
     opacity: 1;
     transform: scale(1) translateY(0);
@@ -1938,26 +2444,27 @@ header {
    Real-Time Edge Computer Vision Motion Tracking System
    ========================================================================== */
 
-/* Motion Vector HUD Badge inside Viewport */
+/* Motion Vector HUD Badge inside Viewport (Positioned in Top-Left for complete visibility) */
 .hud-motion-badge {
   position: absolute;
-  top: 10px;
-  right: 10px;
-  z-index: 12;
-  background: rgba(15, 23, 42, 0.88);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: 4px;
-  padding: 3px 8px;
+  top: 12px;
+  left: 14px;
+  right: auto;
+  z-index: 45;
+  background: rgba(15, 23, 42, 0.92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(56, 189, 248, 0.4);
+  border-radius: 6px;
+  padding: 5px 12px;
   color: #38bdf8;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.64rem;
+  font-size: 0.68rem;
   font-weight: 700;
   display: flex;
   align-items: center;
-  gap: 6px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  gap: 8px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
   user-select: none;
   animation: fadeIn 0.3s ease;
 }
@@ -2174,9 +2681,17 @@ header {
   display: inline-block;
 }
 
-.dist-legend .legend-dot.seg-stable { background: #059669; }
-.dist-legend .legend-dot.seg-lateral { background: #0284c7; }
-.dist-legend .legend-dot.seg-axial { background: #f59e0b; }
+.dist-legend .legend-dot.seg-stable {
+  background: #059669;
+}
+
+.dist-legend .legend-dot.seg-lateral {
+  background: #0284c7;
+}
+
+.dist-legend .legend-dot.seg-axial {
+  background: #f59e0b;
+}
 
 /* Log Table */
 .report-log-section {
@@ -2276,14 +2791,17 @@ header {
     grid-template-columns: 1fr 1fr;
     gap: 8px;
   }
+
   .movement-strip-item.action {
     grid-column: span 2;
     text-align: center;
   }
+
   .btn-gen-report {
     width: 100%;
     justify-content: center;
   }
+
   .report-kpi-grid {
     grid-template-columns: 1fr 1fr;
   }
@@ -7877,6 +8395,7 @@ footer {
 
 /* Mobile & Tablet Responsiveness for Navbar & Spotlight */
 @media (max-width: 1100px) {
+
   .header-inner .nav-actions,
   .navbar .nav-actions {
     display: flex !important;
@@ -7886,10 +8405,12 @@ footer {
     margin-right: 10px;
     order: 1;
   }
-  .header-inner .nav-actions > a.btn,
-  .navbar .nav-actions > a.btn {
+
+  .header-inner .nav-actions>a.btn,
+  .navbar .nav-actions>a.btn {
     display: none !important;
   }
+
   .spotlight-nav-btn {
     display: inline-flex !important;
   }
@@ -7899,17 +8420,21 @@ footer {
   .spotlight-modal-overlay {
     padding: 6vh 12px 16px;
   }
+
   .spotlight-dialog {
     max-height: 86vh;
     border-radius: 12px;
   }
+
   .spotlight-footer-keys span:not(:last-child) {
     display: none;
   }
+
   .spotlight-nav-btn {
     padding: 6px 12px;
     gap: 6px;
   }
+
   .spotlight-nav-text {
     display: inline-block;
   }
@@ -7922,11 +8447,13 @@ footer {
     outline: 2px solid rgba(37, 99, 235, 0.85);
     transform: scale(1.006);
   }
+
   50% {
     box-shadow: 0 0 30px 8px rgba(37, 99, 235, 0.35);
     outline: 2px solid rgba(37, 99, 235, 0.95);
     transform: scale(1.012);
   }
+
   100% {
     box-shadow: 0 0 0 0 rgba(37, 99, 235, 0);
     outline: 2px solid transparent;
@@ -8035,17 +8562,21 @@ footer {
     gap: 12px;
     padding: 8px 16px;
   }
+
   .partnership-logo-box {
     height: 46px;
   }
+
   .partnership-logo-img {
     height: 38px;
     max-width: 105px;
   }
+
   .partnership-divider-x {
     width: 28px;
     height: 28px;
   }
+
   .partnership-divider-x .collab-x-icon {
     width: 11px;
     height: 11px;
@@ -8329,27 +8860,33 @@ footer {
   .partner-highlight-card {
     padding: 24px 20px 22px;
   }
+
   .partner-card-body-grid {
     grid-template-columns: 1fr;
     gap: 20px;
   }
+
   .partner-card-brand-col {
     padding-right: 0;
     border-right: none;
     border-bottom: 1px solid var(--border-light, #e2e8f0);
     padding-bottom: 18px;
   }
+
   .partner-card-info-col {
     align-items: center;
     text-align: center;
   }
+
   .partner-card-title,
   .partner-card-desc {
     text-align: center;
   }
+
   .partner-feature-pills-row {
     justify-content: center;
   }
+
   .partner-card-actions {
     justify-content: center;
   }
@@ -8359,14 +8896,265 @@ footer {
   .partner-card-title {
     font-size: 1.35rem;
   }
+
   .partner-logo-box-showcase {
     max-width: 100%;
     padding: 10px 16px;
   }
+
   .btn-partner-know-more {
     width: 100%;
     padding: 8px 10px 8px 18px;
   }
+
+  .btn-partner-secondary {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* ==========================================================================
+   OFFICIAL STRATEGIC PARTNERS (CORALGENZ GLOBAL SIGNATURE DESIGN ARCHITECTURE)
+   Exact match to https://coralgenz.net/ partners aesthetic
+   ========================================================================== */
+.partners-grid-showcase {
+  max-width: 680px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.partner-card-dark {
+  text-align: center;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 28px;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 38px 36px 34px;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 20px 50px -15px rgba(15, 23, 42, 0.08), inset 0 1px #ffffff;
+  background: #ffffff;
+  margin: 0 auto;
+}
+
+.partner-card-dark:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: linear-gradient(90deg, #0066ff 0%, #00d2ff 50%, #38bdf8 100%);
+}
+
+.partner-card-dark:hover {
+  border-color: #cbd5e1;
+  transform: translateY(-6px);
+  box-shadow: 0 24px 50px -12px rgba(15, 23, 42, 0.12), inset 0 1px #ffffff;
+}
+
+.partner-top-meta {
+  z-index: 1;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  display: flex;
+  margin-bottom: 4px;
+}
+
+.partner-badge-glow {
+  border-radius: 9999px;
+  font-family: 'Space Grotesk', 'JetBrains Mono', monospace;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #334155;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 14px;
+  font-size: 11.5px;
+  font-weight: 700;
+  display: inline-flex;
+}
+
+.partner-badge-dot {
+  background: #10b981;
+  border-radius: 50%;
+  width: 6px;
+  height: 6px;
+  box-shadow: 0 0 6px rgba(16, 185, 129, 0.5);
+  animation: 2s ease-in-out infinite pulseDot;
+}
+
+.partner-card-label {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #0f172a;
+  font-size: clamp(20px, 3.2vw, 25px);
+  font-weight: 900;
+  margin: 2px 0 0;
+}
+
+.partner-card-img-box {
+  z-index: 1;
+  background: #ffffff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 20px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 260px;
+  height: 105px;
+  margin: 18px auto 16px;
+  padding: 14px 24px;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s, border-color 0.35s;
+  display: flex;
+  box-shadow: 0 6px 20px -4px rgba(15, 23, 42, 0.05), inset 0 1px #ffffff;
+}
+
+.partner-card-dark:hover .partner-card-img-box {
+  border-color: #cbd5e1;
+  transform: scale(1.03) translateY(-2px);
+  box-shadow: 0 10px 24px -4px rgba(15, 23, 42, 0.08);
+}
+
+.partner-card-img-box img {
+  object-fit: contain;
+  filter: drop-shadow(0 2px 8px rgba(15, 23, 42, 0.06));
+  max-width: 100%;
+  max-height: 100%;
+  display: block;
+}
+
+.partner-card-lead {
+  font-size: 0.92rem;
+  color: #475569;
+  line-height: 1.62;
+  max-width: 540px;
+  margin: 0 auto 18px;
+  text-align: center;
+}
+
+.partner-card-lead strong {
+  color: #0f172a;
+  font-weight: 700;
+}
+
+.partner-card-highlights {
+  z-index: 1;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 24px;
+  display: flex;
+}
+
+.partner-card-highlights span {
+  font-family: 'Inter', sans-serif;
+  color: #334155;
+  background: #ffffff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 7px 15px;
+  font-size: 12.5px;
+  font-weight: 600;
+  transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s, color 0.25s;
+  box-shadow: 0 2px 5px rgba(15, 23, 42, 0.03);
+}
+
+.partner-card-highlights span:hover {
+  color: #0f172a;
+  background: #f8fafc;
+  border-color: #cbd5e1;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+}
+
+.partner-btn-pill {
+  border-radius: 9999px;
+  width: auto;
+  min-width: 170px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  z-index: 1;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  padding: 8px 10px 8px 24px;
+  font-size: 13.5px;
+  font-weight: 900;
+  text-decoration: none;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s;
+  display: inline-flex;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #0066ff 0%, #0284c7 60%, #0369a1 100%);
+  border: 1.5px solid rgba(0, 102, 255, 0.4);
+  box-shadow: 0 8px 24px -4px rgba(0, 102, 255, 0.4), inset 0 1px rgba(255, 255, 255, 0.35);
+  color: #ffffff !important;
+}
+
+.partner-btn-pill:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px -4px rgba(0, 102, 255, 0.55), inset 0 1px rgba(255, 255, 255, 0.45);
+}
+
+.partner-btn-text {
+  text-align: center;
+  flex: 1;
+  padding-left: 8px;
+}
+
+.partner-btn-icon-wrap {
+  background: #ffffff;
+  border-radius: 50%;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  color: #0066ff;
+  transition: transform 0.3s;
+}
+
+.partner-btn-pill:hover .partner-btn-icon-wrap {
+  transform: translateX(3px);
+}
+
+@media (max-width: 640px) {
+  .partner-card-dark {
+    border-radius: 20px;
+    padding: 24px 18px 20px;
+  }
+
+  .partner-card-img-box {
+    max-width: 200px;
+    height: 75px;
+    padding: 10px 16px;
+  }
+
+  .partner-card-label {
+    font-size: 19px;
+  }
+
+  .partner-card-highlights span {
+    font-size: 11px;
+    padding: 5px 10px;
+  }
+
+  .partner-btn-pill {
+    width: 100%;
+    max-width: 100%;
+  }
+
   .btn-partner-secondary {
     width: 100%;
     justify-content: center;

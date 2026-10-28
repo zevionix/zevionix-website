@@ -2197,17 +2197,40 @@ function initAuraHudMockup() {
   const webcamNoticeText = document.getElementById('hudWebcamNoticeText');
   const hudNoticeIcon = document.getElementById('hudNoticeIcon');
   const hudNoticeClose = document.getElementById('hudNoticeClose');
-  const faceMeshPoints = document.getElementById('faceMeshPoints');
 
-  // Dual Screen Console Elements
-  const auraInferenceViewport = document.getElementById('auraInferenceViewport');
-  const inferenceStaticImg = document.getElementById('inferenceStaticImg');
+  // Single Screen Console Elements
+  const auraSingleBox = document.getElementById('auraSingleBox');
+  const screenCardTitle = document.getElementById('screenCardTitle');
+  const screenCardPill = document.getElementById('screenCardPill');
   const auraTwinCanvas = document.getElementById('auraTwinCanvas');
-  const cameraCleanBadge = document.getElementById('cameraCleanBadge');
-  const twinTelemetryBadge = document.getElementById('twinTelemetryBadge');
-  const cameraBoxPill = document.getElementById('cameraBoxPill');
-  const perceptionBoxPill = document.getElementById('perceptionBoxPill');
   let twinCanvasCtx = null;
+
+  // Scenario Layer & Multi-Face Layer Containers
+  const scenarioBboxLayer = document.getElementById('scenarioBboxLayer');
+  const webcamMultiFaceLayer = document.getElementById('webcamMultiFaceLayer');
+  const hudIncidentBanner = document.getElementById('hudIncidentBanner');
+  const btnAckIncident = document.getElementById('btnAckIncident');
+
+  // Multi-Face Tracking Elements (Face #01 Primary, Face #02 Secondary, Face #03 Tertiary)
+  const faceEyeTracker = document.getElementById('faceEyeTracker');
+  const faceTagText = document.getElementById('faceTagText');
+  const faceBoxSub = document.getElementById('faceBoxSub');
+  const eyeDotLeft = document.getElementById('eyeDotLeft');
+  const eyeDotRight = document.getElementById('eyeDotRight');
+
+  const faceEyeTracker2 = document.getElementById('faceEyeTracker2');
+  const faceTagText2 = document.getElementById('faceTagText2');
+  const faceBoxSub2 = document.getElementById('faceBoxSub2');
+  const eyeDotLeft2 = document.getElementById('eyeDotLeft2');
+  const eyeDotRight2 = document.getElementById('eyeDotRight2');
+
+  const faceEyeTracker3 = document.getElementById('faceEyeTracker3');
+  const faceTagText3 = document.getElementById('faceTagText3');
+  const faceBoxSub3 = document.getElementById('faceBoxSub3');
+  const eyeDotLeft3 = document.getElementById('eyeDotLeft3');
+  const eyeDotRight3 = document.getElementById('eyeDotRight3');
+
+  const hudTurnOffCamBtn = document.getElementById('hudTurnOffCamBtn');
 
   // Live Motion Tracking Badges & Strips
   const hudMotionBadge = document.getElementById('hudMotionBadge');
@@ -2238,15 +2261,13 @@ function initAuraHudMockup() {
   const reportTableBody = document.getElementById('reportTableBody');
   const reportModalSubtitle = document.getElementById('reportModalSubtitle');
 
-  // Bounding Boxes
+  // Scenario Bounding Boxes
   const bbox1 = document.getElementById('bbox1');
   const bbox1Text = document.getElementById('bbox1Text');
   const bbox1Sub = document.getElementById('bbox1Sub');
-
   const bbox2 = document.getElementById('bbox2');
   const bbox2Text = document.getElementById('bbox2Text');
   const bbox2Sub = document.getElementById('bbox2Sub');
-
   const bbox3 = document.getElementById('bbox3');
   const bbox3Text = document.getElementById('bbox3Text');
   const bbox3Sub = document.getElementById('bbox3Sub');
@@ -2273,8 +2294,14 @@ function initAuraHudMockup() {
   let offscreenCanvas = null;
   let offscreenCtx = null;
 
+  // Real-Time Motion State Variables
+  let isUserStationary = false;
+  let lastMovementTime = Date.now();
+  const stationaryThresholdMs = 1200;
+
   const motionTracker = {
     sessionStartTime: 0,
+    sessionDuration: 0,
     events: [],
     prevLuminance: null,
     lastLogTimestamp: 0,
@@ -2288,7 +2315,7 @@ function initAuraHudMockup() {
     sessionId: 'AURA-MV-' + Math.floor(1000 + Math.random() * 9000)
   };
 
-  // Smoothing & Dynamic Physics Coordinates for Multi-Box Tracking
+  // Coordinates for Face & Eye Tracking
   const trackingState = {
     userX: 50,
     userY: 34,
@@ -2296,35 +2323,160 @@ function initAuraHudMockup() {
     userTargetY: 34,
     scale: 1.0,
     targetScale: 1.0,
-    torsoW: 38,
-    torsoH: 64,
-    faceW: 18,
-    faceH: 24,
-    localW: 46,
-    localH: 14,
+    faceW: 20,
+    faceH: 27,
+    targetFaceW: 20,
+    targetFaceH: 27,
+    hasValidDetection: false,
+    lastDetectionTime: 0,
     time: 0,
     lastAnalysis: 0
   };
 
-  // 1. Live UTC Timecode Clock
+  // 1. Live Indian Standard Time (IST) Clock in Top-Left Corner
   function updateLiveClock() {
     if (!clockEl) return;
     const now = new Date();
+    // Compute exact Indian Standard Time (IST = UTC + 5:30)
+    const istOffsetMs = (5 * 60 + 30) * 60 * 1000;
+    const utcMs = now.getTime() + (now.getTimezoneOffset() * 60 * 1000);
+    const istDate = new Date(utcMs + istOffsetMs);
+
     const pad = (n) => String(n).padStart(2, '0');
-    const yyyy = now.getUTCFullYear();
-    const mm = pad(now.getUTCMonth() + 1);
-    const dd = pad(now.getUTCDate());
-    const hh = pad(now.getUTCHours());
-    const min = pad(now.getUTCMinutes());
-    const ss = pad(now.getUTCSeconds());
-    clockEl.textContent = `${yyyy}-${mm}-${dd} ${hh}:${min}:${ss} UTC`;
+    const hh = pad(istDate.getHours());
+    const min = pad(istDate.getMinutes());
+    const ss = pad(istDate.getSeconds());
+    const dd = pad(istDate.getDate());
+    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const mon = months[istDate.getMonth()];
+    const yyyy = istDate.getFullYear();
+
+    clockEl.innerHTML = `<i class="fas fa-clock"></i> <strong>LIVE IST:</strong> ${hh}:${min}:${ss} IST <span style="opacity:0.78; font-size:0.86em; margin-left:3px;">(${dd} ${mon} ${yyyy})</span>`;
   }
   setInterval(updateLiveClock, 1000);
   updateLiveClock();
 
-  // 2. Dynamic Realistic Telemetry Jitter
+  // 1b. Motion Telemetry Engine - Properly updates Status, Source, Latency, and FPS when user is stationary vs moving
+  function applyMotionTelemetry(isStationary, velocity = 0) {
+    isUserStationary = isStationary;
+    const fTracker = document.getElementById('faceEyeTracker');
+    const fTag = document.getElementById('faceTagText');
+    const fSub = document.getElementById('faceBoxSub');
+    const cardPill = document.getElementById('screenCardPill');
+
+    if (isStationary) {
+      // --- NO MOVEMENT STATE: STATUS, SOURCE, LATENCY, FPS PROPERLY UPDATED ---
+      if (globalStatus) {
+        globalStatus.textContent = 'STATIONARY // IDLE';
+        globalStatus.className = 'telemetry-val text-cyan';
+      }
+      if (hudSourceVal) {
+        if (currentScenario === 'webcam') {
+          hudSourceVal.textContent = 'WEBCAM // IDLE STANDBY';
+        } else if (currentScenario === 'campus') {
+          hudSourceVal.textContent = 'RTSP // CAM-04 (IDLE)';
+        } else if (currentScenario === 'qa') {
+          hudSourceVal.textContent = 'QA-LINE // CSI-2 (STATIONARY)';
+        } else if (currentScenario === 'alert') {
+          hudSourceVal.textContent = 'CAM-04 ALARM (LOCKED)';
+        }
+      }
+      if (latencyVal) {
+        latencyVal.textContent = '0ms (STANDBY)';
+        latencyVal.className = 'telemetry-val text-cyan';
+      }
+      if (fpsVal) {
+        fpsVal.innerHTML = '<span class="hud-mini-dot" style="background:#64748b; box-shadow:none;"></span> 30.0';
+        fpsVal.className = 'telemetry-val text-muted';
+      }
+
+      // Visual feedback
+      if (fTracker) {
+        fTracker.classList.remove('active-motion');
+        fTracker.classList.add('stationary');
+      }
+      if (cardPill) {
+        cardPill.innerHTML = '<i class="fas fa-pause-circle"></i> IDLE // NO MOTION';
+        cardPill.className = 'screen-pill pill-clean';
+      }
+      if (fTag && currentScenario === 'webcam') {
+        fTag.textContent = 'FACE [LOCKED] • IDLE';
+      }
+      if (fSub && currentScenario === 'webcam') {
+        fSub.textContent = 'GAZE: FIXED • STATIONARY (IDLE)';
+      }
+      if (hudMotionState) {
+        hudMotionState.textContent = 'STATIONARY // IDLE';
+        hudMotionState.className = 'm-strip-val text-cyan';
+      }
+      if (hudMotionVelocity) hudMotionVelocity.textContent = '0.00 m/s';
+      if (hudMotionBadgeText) hudMotionBadgeText.textContent = 'MOTION: STATIONARY • 0.00 m/s (STANDBY)';
+      if (hudMotionDot) hudMotionDot.classList.remove('active-motion');
+    } else {
+      // --- ACTIVE MOVEMENT STATE ---
+      const velDisplay = (velocity > 0 ? velocity : (0.24 + Math.random() * 0.15)).toFixed(2);
+      if (globalStatus) {
+        if (currentScenario === 'alert') {
+          globalStatus.textContent = 'ALERT TRIGGERED';
+          globalStatus.className = 'telemetry-val text-alert';
+        } else if (currentScenario === 'qa') {
+          globalStatus.textContent = '1 DEFECT DETECTED';
+          globalStatus.className = 'telemetry-val text-alert';
+        } else {
+          globalStatus.textContent = 'ACTIVE TRACKING';
+          globalStatus.className = 'telemetry-val text-emerald';
+        }
+      }
+      if (hudSourceVal) {
+        if (currentScenario === 'webcam') {
+          hudSourceVal.textContent = 'WEBCAM // ACTIVE STREAM';
+        } else if (currentScenario === 'campus') {
+          hudSourceVal.textContent = 'RTSP // CAM-04 (ACTIVE)';
+        } else if (currentScenario === 'qa') {
+          hudSourceVal.textContent = 'QA-LINE // CSI-2 (ACTIVE)';
+        } else if (currentScenario === 'alert') {
+          hudSourceVal.textContent = 'CAM-04 (INCIDENT MOTION)';
+        }
+      }
+      if (latencyVal) {
+        const lat = currentScenario === 'alert' ? 6 : (currentScenario === 'qa' ? 7 : (currentScenario === 'webcam' ? Math.floor(8 + Math.random() * 4) : 12));
+        latencyVal.textContent = `${lat}ms`;
+        latencyVal.className = 'telemetry-val text-cyan';
+      }
+      if (fpsVal) {
+        const baseFps = 60.0;
+        const currentFps = (baseFps - Math.random() * 0.4).toFixed(1);
+        fpsVal.innerHTML = `<span class="hud-mini-dot"></span> ${currentFps}`;
+        fpsVal.className = 'telemetry-val text-emerald';
+      }
+
+      if (fTracker) {
+        fTracker.classList.remove('stationary');
+        fTracker.classList.add('active-motion');
+      }
+      if (cardPill) {
+        cardPill.innerHTML = '<i class="fas fa-microchip"></i> ACTIVE TRACKING';
+        cardPill.className = 'screen-pill pill-ai';
+      }
+      if (fTag && currentScenario === 'webcam') {
+        fTag.textContent = 'FACE [TRACKED] • 99.8%';
+      }
+      if (fSub && currentScenario === 'webcam') {
+        fSub.textContent = `GAZE: FOCUSED • VEL: ${velDisplay}m/s`;
+      }
+      if (hudMotionState) {
+        hudMotionState.textContent = 'ACTIVE TRACKING';
+        hudMotionState.className = 'm-strip-val text-emerald';
+      }
+      if (hudMotionVelocity) hudMotionVelocity.textContent = `${velDisplay} m/s`;
+      if (hudMotionBadgeText) hudMotionBadgeText.textContent = `MOTION: ACTIVE • ${velDisplay} m/s`;
+      if (hudMotionDot) hudMotionDot.classList.add('active-motion');
+    }
+  }
+
+  // 2. Dynamic Realistic Telemetry Jitter (active only when user is moving)
   setInterval(() => {
-    if (currentScenario === 'alert') return;
+    if (isUserStationary || currentScenario === 'alert') return;
 
     // Dynamic FPS counter ~60 FPS
     if (fpsVal) {
@@ -2333,27 +2485,18 @@ function initAuraHudMockup() {
       fpsVal.innerHTML = `<span class="hud-mini-dot"></span> ${fps}`;
     }
 
-    // Sub-15ms inference latency on live webcam
+    // Sub-15ms inference latency
     if (latencyVal) {
       if (currentScenario === 'webcam') {
-        const lat = Math.floor(8 + Math.random() * 5); // 8ms to 12ms (sub-15ms)
+        const lat = Math.floor(8 + Math.random() * 5);
         latencyVal.textContent = `${lat}ms`;
       } else if (currentScenario === 'campus') {
-        const lat = Math.floor(13 + Math.random() * 2);
+        const lat = Math.floor(12 + Math.random() * 2);
         latencyVal.textContent = `${lat}ms`;
       } else if (currentScenario === 'qa') {
-        const lat = Math.floor(10 + Math.random() * 2);
+        const lat = Math.floor(9 + Math.random() * 2);
         latencyVal.textContent = `${lat}ms`;
       }
-    }
-
-    // Micro confidence fluctuation
-    if (bbox1Text && currentScenario === 'campus') {
-      const conf = (98.2 + Math.random() * 0.5).toFixed(1);
-      bbox1Text.textContent = `[OBJECT: PASSENGER | CONFIDENCE: ${conf}%]`;
-    } else if (bbox1Text && currentScenario === 'webcam') {
-      const conf = (99.2 + Math.random() * 0.5).toFixed(1);
-      bbox1Text.textContent = `[OBJECT: OPERATOR | CONFIDENCE: ${conf}%]`;
     }
   }, 1600);
 
@@ -2423,7 +2566,7 @@ function initAuraHudMockup() {
   function openMovementReportModal() {
     if (!movementReportModalOverlay) return;
 
-    const elapsedMs = motionTracker.sessionStartTime ? (Date.now() - motionTracker.sessionStartTime) : 0;
+    const elapsedMs = motionTracker.sessionDuration || (motionTracker.sessionStartTime ? (Date.now() - motionTracker.sessionStartTime) : 0);
     const durationStr = formatTrackingTime(elapsedMs);
 
     if (reportModalSubtitle) {
@@ -2488,41 +2631,115 @@ function initAuraHudMockup() {
   }
 
   function exportJsonReport() {
-    const elapsedMs = motionTracker.sessionStartTime ? (Date.now() - motionTracker.sessionStartTime) : 0;
-    const avgVel = motionTracker.velocities.length > 0 
-      ? (motionTracker.velocities.reduce((a, b) => a + b, 0) / motionTracker.velocities.length) 
-      : 0.12;
-    const totalSamples = motionTracker.counts.stable + motionTracker.counts.lateral + motionTracker.counts.axial;
-    const stablePct = totalSamples > 0 ? Math.round((motionTracker.counts.stable / totalSamples) * 100) : 75;
-    const lateralPct = totalSamples > 0 ? Math.round((motionTracker.counts.lateral / totalSamples) * 100) : 18;
-    const axialPct = Math.max(0, 100 - stablePct - lateralPct);
+    let reportData = null;
+    let fileName = '';
 
-    const reportData = {
-      session_id: motionTracker.sessionId,
-      system: "Zevionix AURA Autonomous Vision Perception Core",
-      protocol: "Air-Gapped Local WebRTC Ingest",
-      timestamp_utc: new Date().toISOString(),
-      duration_seconds: Math.floor(elapsedMs / 1000),
-      duration_formatted: formatTrackingTime(elapsedMs),
-      kpi_metrics: {
-        movement_events_count: motionTracker.events.length,
-        peak_velocity_mps: Number(motionTracker.peakVelocity.toFixed(2)),
-        mean_velocity_mps: Number(avgVel.toFixed(2)),
-        operator_stability_score: `${(Math.max(88, Math.min(99.9, stablePct + 10))).toFixed(1)}%`
-      },
-      profile_distribution: {
-        steady_fixation_pct: stablePct,
-        lateral_repositioning_pct: lateralPct,
-        proximity_axial_shift_pct: axialPct
-      },
-      audit_events: motionTracker.events
-    };
+    if (currentScenario === 'qa') {
+      fileName = 'aura-qa-optical-audit-zx8821.json';
+      reportData = {
+        session_id: 'AURA-QA-7721',
+        system: "Zevionix AURA Industrial Optical Inspection Engine",
+        hardware_enclave: "NVIDIA Jetson AGX Orin (FP8 TensorRT)",
+        inspection_line: "SMT Assembly Line 03 // CSI-2 60FPS",
+        batch_id: "#ZX-8821",
+        timestamp_utc: new Date().toISOString(),
+        kpi_metrics: {
+          inspection_duration: "04:12",
+          total_components_checked: 128,
+          defects_detected_count: 1,
+          lead_bridge_anomaly: "SMT Lead Bridge Pin #14 (+0.03mm deviation)",
+          overall_yield_percentage: "99.2%",
+          pin_pitch_tolerance: "0.8mm nominal (+/-0.01mm spec)"
+        },
+        audit_components: [
+          { time: "00:01", test: "COMPONENT_QA", component: "NVIDIA AGX BGA Chip Alignment", deviation: "0.00mm", result: "99.8% PASS" },
+          { time: "00:03", test: "DEFECT_FLAGGED", component: "Pin #14 SMT Lead Bridging", deviation: "+0.03mm", result: "98.9% FLAGGED CRITICAL" },
+          { time: "00:04", test: "COMPONENT_ARRAY", component: "Capacitor Bank C1-C12", deviation: "Nominal", result: "100.0% PASS" },
+          { time: "00:07", test: "TRACE_INSPECT", component: "VCC Power Trace Impedance", deviation: "50.2 Ohm", result: "99.4% PASS" }
+        ]
+      };
+    } else if (currentScenario === 'alert') {
+      fileName = 'aura-incident-forensics-9042.json';
+      reportData = {
+        incident_id: "AURA-INC-9042",
+        system: "Zevionix AURA Autonomous Incident Response Mesh",
+        sensor_node: "CAM-04 // CORRIDOR NORTH (RTSP 1080p@60FPS)",
+        timestamp_utc: new Date().toISOString(),
+        threat_classification: "CRITICAL_ANOMALY // OPERATOR ELEVATION DROP",
+        forensics_telemetry: {
+          detection_latency: "T+0.0s (Sub-ms inference)",
+          peak_drop_acceleration: "4.2 m/s²",
+          coralgenz_protocol_sync: "T+0.2s Verified",
+          squad_dispatch_id: "Rapid Response Unit #04 (ETA 45s)",
+          perimeter_lock_status: "100% Air-Gapped Zero-Trust Containment"
+        },
+        incident_event_timeline: [
+          { time: "T+0.0s", event: "ANOMALY_TRIGGER", details: "Sudden elevation drop in transit zone", accel: "4.2 m/s²", confidence: "94.2% DETECTED" },
+          { time: "T+0.2s", event: "CORALGENZ_PROTOCOL", details: "Zero-Trust payload encrypted & routed to mesh", latency: "0.3ms", status: "99.9% VERIFIED" },
+          { time: "T+0.4s", event: "DISPATCH_SQUAD", details: "Automated dispatch transmitted to Nearest Squad #4", eta: "45s", status: "CONFIRMED" },
+          { time: "T+0.8s", event: "PERIMETER_LOCK", details: "Zone access locked to contain secondary hazard", leakage: "0.00%", status: "LOCKED" }
+        ]
+      };
+    } else if (currentScenario === 'campus') {
+      fileName = 'aura-campus-corridor-audit.json';
+      reportData = {
+        session_id: "AURA-CAMPUS-04",
+        system: "Zevionix AURA Campus Spatial Perception Engine",
+        sensor_node: "CAM-04 // MAIN CORRIDOR (RTSP 1080p@60FPS)",
+        timestamp_utc: new Date().toISOString(),
+        kpi_metrics: {
+          monitoring_duration: "12:45",
+          tracked_objects_count: 2,
+          transit_normal_percentage: "98.0%",
+          mean_transit_velocity: "1.1 m/s",
+          floor_hazard_clearance: "99.8% CLEAR (Risk 0.02%)"
+        },
+        transit_events: [
+          { time: "10:32", type: "TRACK_OBJECT", target: "Passenger moving through corridor gate 4", velocity: "1.2 m/s", status: "98.4% PASS" },
+          { time: "10:35", type: "BADGE_VERIFY", target: "Personnel ID Badge verified via facial mesh", velocity: "1.1 m/s", status: "96.1% PASS" },
+          { time: "10:38", type: "HAZARD_SCAN", target: "Corridor floor trajectory clear of obstacles", risk: "0.02%", status: "99.8% CLEAR" }
+        ]
+      };
+    } else {
+      // Live Webcam Multi-Face Session Report
+      const elapsedMs = motionTracker.sessionDuration || (motionTracker.sessionStartTime ? (Date.now() - motionTracker.sessionStartTime) : 0);
+      const avgVel = motionTracker.velocities.length > 0 
+        ? (motionTracker.velocities.reduce((a, b) => a + b, 0) / motionTracker.velocities.length) 
+        : 0.12;
+      const totalSamples = motionTracker.counts.stable + motionTracker.counts.lateral + motionTracker.counts.axial;
+      const stablePct = totalSamples > 0 ? Math.round((motionTracker.counts.stable / totalSamples) * 100) : 75;
+      const lateralPct = totalSamples > 0 ? Math.round((motionTracker.counts.lateral / totalSamples) * 100) : 18;
+      const axialPct = Math.max(0, 100 - stablePct - lateralPct);
+
+      fileName = `aura-multi-face-biometric-${motionTracker.sessionId.toLowerCase()}.json`;
+      reportData = {
+        session_id: motionTracker.sessionId,
+        system: "Zevionix AURA Multi-Face Biometric & Spatial Perception Core",
+        protocol: "Air-Gapped Client-Side Enclave WebRTC",
+        timestamp_utc: new Date().toISOString(),
+        duration_seconds: Math.floor(elapsedMs / 1000),
+        duration_formatted: formatTrackingTime(elapsedMs),
+        kpi_metrics: {
+          multi_face_support_active: true,
+          movement_events_count: motionTracker.events.length,
+          peak_velocity_mps: Number(motionTracker.peakVelocity.toFixed(2)),
+          mean_velocity_mps: Number(avgVel.toFixed(2)),
+          operator_stability_score: `${(Math.max(88, Math.min(99.9, stablePct + 10))).toFixed(1)}%`
+        },
+        profile_distribution: {
+          steady_fixation_pct: stablePct,
+          lateral_repositioning_pct: lateralPct,
+          proximity_axial_shift_pct: axialPct
+        },
+        audit_events: motionTracker.events
+      };
+    }
 
     const blob = new Blob([JSON.stringify(reportData, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `aura-movement-audit-${motionTracker.sessionId.toLowerCase()}.json`;
+    a.download = fileName;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -2548,37 +2765,24 @@ function initAuraHudMockup() {
     }
   });
 
-  // 6. Gracefully Stop Webcam Tracks & Reset Viewport
+  // 6. Gracefully Stop Webcam Tracks & Keep Session Report Available
   function stopWebcam() {
     if (hudViewport) {
       hudViewport.classList.remove('webcam-tracking-active');
       hudViewport.classList.remove('camera-clean-feed');
     }
-    if (auraInferenceViewport) {
-      auraInferenceViewport.classList.remove('webcam-tracking-active');
-    }
-    if (cameraCleanBadge) {
-      cameraCleanBadge.style.display = 'none';
-    }
-    if (twinTelemetryBadge) {
-      twinTelemetryBadge.style.display = 'none';
-    }
-    if (cameraBoxPill) {
-      cameraBoxPill.innerHTML = '<i class="fas fa-eye-slash"></i> CLEAN FEED (UNCLUTTERED)';
-    }
-    if (perceptionBoxPill) {
-      perceptionBoxPill.innerHTML = '<i class="fas fa-microchip"></i> REAL-TIME RESPONSE';
-    }
-    if (inferenceStaticImg) {
-      inferenceStaticImg.style.display = 'block';
-    }
     if (twinCanvasCtx && auraTwinCanvas) {
       twinCanvasCtx.clearRect(0, 0, auraTwinCanvas.width, auraTwinCanvas.height);
     }
     if (webcamStream) {
-      webcamStream.getTracks().forEach(track => {
-        try { track.stop(); } catch (e) { console.warn(e); }
-      });
+      try {
+        const tracks = webcamStream.getTracks();
+        tracks.forEach(track => {
+          try { track.stop(); } catch (e) { console.warn('Track stop error:', e); }
+        });
+      } catch (e) {
+        console.warn('Stream stop error:', e);
+      }
       webcamStream = null;
     }
     if (webcamVideo) {
@@ -2593,28 +2797,313 @@ function initAuraHudMockup() {
       cancelAnimationFrame(perceptionAnimId);
       perceptionAnimId = null;
     }
-    if (faceMeshPoints) {
-      faceMeshPoints.style.display = 'none';
-    }
     if (hudMotionBadge) {
       hudMotionBadge.style.display = 'none';
     }
-    if (hudMovementStrip) {
-      hudMovementStrip.style.display = 'none';
+
+    // Toggle Layers: Hide multi-face layer, restore scenario bbox layer
+    if (webcamMultiFaceLayer) {
+      webcamMultiFaceLayer.style.display = 'none';
     }
+    if (scenarioBboxLayer) {
+      scenarioBboxLayer.style.display = 'block';
+    }
+
+    // Hide secondary and tertiary face trackers
+    if (faceEyeTracker2) faceEyeTracker2.style.display = 'none';
+    if (faceEyeTracker3) faceEyeTracker3.style.display = 'none';
+
+    // Hide floating Turn Off Camera button inside HUD
+    if (hudTurnOffCamBtn) {
+      hudTurnOffCamBtn.style.display = 'none';
+    }
+
+    // Reset Webcam control button on control bar
     if (btnWebcam) {
-      btnWebcam.classList.remove('active');
+      btnWebcam.classList.remove('active', 'cam-active');
       btnWebcam.innerHTML = '<i class="fas fa-camera"></i> Live Webcam';
+      btnWebcam.title = 'Test edge computer vision live on your own camera';
+    }
+
+    // If report events were recorded during the webcam session, PRESERVE THEM!
+    if (motionTracker.events.length > 0) {
+      const elapsed = motionTracker.sessionDuration || (motionTracker.sessionStartTime ? (Date.now() - motionTracker.sessionStartTime) : 0);
+      motionTracker.sessionDuration = elapsed;
+
+      if (hudMovementStrip) {
+        hudMovementStrip.style.display = 'grid';
+      }
+      const stripLabel1 = document.getElementById('hudStripLabel1');
+      const stripLabel2 = document.getElementById('hudStripLabel2');
+      const stripLabel3 = document.getElementById('hudStripLabel3');
+      if (stripLabel1) stripLabel1.innerHTML = '<i class="fas fa-file-check"></i> REPORT STATUS';
+      if (hudMotionState) {
+        hudMotionState.textContent = 'SESSION SAVED (CAMERA OFF)';
+        hudMotionState.className = 'm-strip-val text-cyan';
+      }
+      if (stripLabel2) stripLabel2.innerHTML = '<i class="fas fa-clock"></i> TOTAL TIME';
+      if (hudMotionVelocity) {
+        hudMotionVelocity.textContent = formatTrackingTime(elapsed);
+      }
+      if (stripLabel3) stripLabel3.innerHTML = '<i class="fas fa-clipboard-check"></i> AUDIT EVENTS';
+      if (hudMotionStability) {
+        hudMotionStability.textContent = `${motionTracker.events.length} LOGGED`;
+      }
+      if (btnGenMovementReport) {
+        btnGenMovementReport.innerHTML = '<i class="fas fa-file-waveform"></i> View Saved Report';
+        btnGenMovementReport.title = 'View completed biometric session report';
+      }
+
+      // Telemetry indicators
+      if (globalStatus) {
+        globalStatus.textContent = 'CAMERA OFF // REPORT SAVED';
+        globalStatus.className = 'telemetry-val text-emerald';
+      }
+      if (hudSourceVal) {
+        hudSourceVal.textContent = 'WEBCAM (SESSION SAVED)';
+      }
+      if (fpsVal) {
+        fpsVal.innerHTML = '<span class="hud-mini-dot" style="background:#64748b; box-shadow:none;"></span> 0.0 (OFF)';
+        fpsVal.className = 'telemetry-val text-muted';
+      }
+      if (latencyVal) {
+        latencyVal.textContent = '0ms (STANDBY)';
+      }
+      if (screenCardPill) {
+        screenCardPill.innerHTML = '<i class="fas fa-check-circle"></i> REPORT PRESERVED';
+        screenCardPill.className = 'screen-pill pill-ai';
+      }
+      if (faceTagText) {
+        faceTagText.textContent = 'CAMERA OFF • REPORT READY';
+      }
+      if (faceBoxSub) {
+        faceBoxSub.textContent = `LAST SESSION DURATION: ${formatTrackingTime(elapsed)}`;
+      }
+      if (faceEyeTracker) {
+        faceEyeTracker.classList.remove('active-motion');
+        faceEyeTracker.classList.add('stationary');
+      }
+    } else {
+      if (hudMovementStrip) {
+        hudMovementStrip.style.display = 'none';
+      }
     }
   }
 
-  // 7. Dynamic Real-Time Bounding Box & Motion Perception Engine
+  // 7. Dynamic Real-Time Bounding Box & Multi-Face Motion Perception Engine
+  let nativeFaceDetector = null;
+  let isNativeDetecting = false;
+  let lastNativeDetectionTime = 0;
+  if (typeof window !== 'undefined' && 'FaceDetector' in window) {
+    try {
+      // Configure Shape Detection API if supported
+      nativeFaceDetector = new window.FaceDetector({ maxDetectedFaces: 4, fastMode: true });
+    } catch (e) {
+      nativeFaceDetector = null;
+    }
+  }
+
+  // High-Precision Neural Pico Face Classifier (Self-contained, air-gapped)
+  let picoClassifier = null;
+  let picoMemory = null;
+  let isPicoInitializing = false;
+
+  function initPicoClassifier() {
+    if (picoClassifier) return Promise.resolve(picoClassifier);
+    if (isPicoInitializing) return Promise.resolve(null);
+    isPicoInitializing = true;
+
+    function tryUnpack(bytes) {
+      if (typeof window !== 'undefined' && window.pico && window.pico.unpack_cascade) {
+        try {
+          picoClassifier = window.pico.unpack_cascade(bytes);
+          picoMemory = window.pico.instantiate_detection_memory(5);
+          console.log('[AURA CV] High-Precision Pico Face Classifier initialized.');
+          return picoClassifier;
+        } catch (err) {
+          console.warn('[AURA CV] Error unpacking cascade:', err);
+        }
+      }
+      return null;
+    }
+
+    // 1. Try embedded Base64 cascade data (instant, zero network latency)
+    if (typeof window !== 'undefined' && window.PICO_CASCADE_BASE64) {
+      try {
+        const binStr = atob(window.PICO_CASCADE_BASE64);
+        const len = binStr.length;
+        const bytes = new Int8Array(len);
+        for (let i = 0; i < len; i++) bytes[i] = binStr.charCodeAt(i);
+        const cls = tryUnpack(bytes);
+        if (cls) {
+          isPicoInitializing = false;
+          return Promise.resolve(cls);
+        }
+      } catch (e) {
+        console.warn('[AURA CV] Base64 decode warning:', e);
+      }
+    }
+
+    // 2. Fetch local binary cascade file
+    return fetch('facefinder')
+      .then(res => res.arrayBuffer())
+      .then(buf => {
+        isPicoInitializing = false;
+        return tryUnpack(new Int8Array(buf));
+      })
+      .catch(err => {
+        isPicoInitializing = false;
+        console.warn('[AURA CV] Binary cascade fetch warning:', err);
+        return null;
+      });
+  }
+
+  // Pre-warm neural classifier
+  initPicoClassifier();
+
+  // Multi-Face State Registry (Up to 3 concurrent faces)
+  const multiFaceList = [
+    {
+      id: 1,
+      el: faceEyeTracker,
+      tagEl: faceTagText,
+      eyeLEl: eyeDotLeft,
+      eyeREl: eyeDotRight,
+      x: 50, y: 34, targetX: 50, targetY: 34,
+      w: 22, h: 28, targetW: 22, targetH: 28,
+      visible: false,
+      wasVisible: false,
+      label: 'FACE #01 [OPERATOR]'
+    },
+    {
+      id: 2,
+      el: faceEyeTracker2,
+      tagEl: faceTagText2,
+      eyeLEl: eyeDotLeft2,
+      eyeREl: eyeDotRight2,
+      x: 70, y: 34, targetX: 70, targetY: 34,
+      w: 20, h: 26, targetW: 20, targetH: 26,
+      visible: false,
+      wasVisible: false,
+      label: 'FACE #02 [SUBJECT]'
+    },
+    {
+      id: 3,
+      el: faceEyeTracker3,
+      tagEl: faceTagText3,
+      eyeLEl: eyeDotLeft3,
+      eyeREl: eyeDotRight3,
+      x: 30, y: 34, targetX: 30, targetY: 34,
+      w: 20, h: 26, targetW: 20, targetH: 26,
+      visible: false,
+      wasVisible: false,
+      label: 'FACE #03 [SUBJECT]'
+    }
+  ];
+
+  function updateMultiFaceTelemetry(count) {
+    if (currentScenario !== 'webcam') return;
+
+    if (count === 0) {
+      // 0 Subjects detected: Motion tracker hidden, awaiting operator
+      if (globalStatus) {
+        globalStatus.textContent = 'SCANNING // AWAITING OPERATOR';
+        globalStatus.className = 'telemetry-val text-muted';
+      }
+      if (hudSourceVal) {
+        hudSourceVal.textContent = 'WEBCAM // SEARCHING FRAME';
+      }
+      if (screenCardTitle) {
+        screenCardTitle.textContent = 'LOCAL WEBCAM // AIR-GAPPED VISION SENSOR';
+      }
+      if (screenCardPill) {
+        screenCardPill.innerHTML = '<i class="fas fa-radar"></i> SEARCHING FOR SUBJECT';
+        screenCardPill.className = 'screen-pill pill-ai';
+      }
+      if (hudMotionBadgeText) {
+        hudMotionBadgeText.textContent = 'AWAITING SUBJECT • 0 FACES IN FRAME';
+      }
+      if (hudMotionDot) {
+        hudMotionDot.style.background = '#64748b';
+      }
+      if (hudMotionState) {
+        hudMotionState.textContent = 'AWAITING OPERATOR';
+        hudMotionState.className = 'm-strip-val text-muted';
+      }
+      if (hudMotionVelocity) {
+        hudMotionVelocity.textContent = '0.00 m/s (IDLE)';
+      }
+    } else if (count === 1) {
+      // Single Operator Face Tracked
+      if (globalStatus && !isUserStationary) {
+        globalStatus.textContent = '1 OPERATOR DETECTED';
+        globalStatus.className = 'telemetry-val text-emerald';
+      }
+      if (hudSourceVal && !isUserStationary) {
+        hudSourceVal.textContent = 'WEBCAM // ACTIVE STREAM';
+      }
+      if (screenCardTitle) {
+        screenCardTitle.textContent = 'LOCAL WEBCAM // BIOMETRIC FACE & EYE TRACKING';
+      }
+      if (screenCardPill) {
+        screenCardPill.innerHTML = '<i class="fas fa-shield-halved"></i> 1 FACE ACTIVE';
+        screenCardPill.className = 'screen-pill pill-ai';
+      }
+      if (hudMotionBadgeText) {
+        hudMotionBadgeText.textContent = 'OPERATOR #01 TRACKED • SPATIAL LOCK';
+      }
+      if (hudMotionDot) {
+        hudMotionDot.style.background = '#0284c7';
+      }
+      if (hudMotionState) {
+        hudMotionState.textContent = 'OPERATOR LOCKED';
+        hudMotionState.className = 'm-strip-val text-emerald';
+      }
+    } else {
+      // Multiple Faces Tracked (2 or 3)
+      if (globalStatus) {
+        globalStatus.textContent = `${count} FACES DETECTED`;
+        globalStatus.className = 'telemetry-val text-emerald';
+      }
+      if (hudSourceVal) {
+        hudSourceVal.textContent = `WEBCAM // MULTI-FACE (${count} ACTIVE)`;
+      }
+      if (screenCardTitle) {
+        screenCardTitle.textContent = `LOCAL WEBCAM // MULTI-FACE TRACKING (${count} DETECTED)`;
+      }
+      if (screenCardPill) {
+        screenCardPill.innerHTML = `<i class="fas fa-users-viewfinder"></i> ${count} FACES ACTIVE`;
+        screenCardPill.className = 'screen-pill pill-ai';
+      }
+      if (hudMotionBadgeText) {
+        hudMotionBadgeText.textContent = `FACES DETECTED: ${count} • SPATIAL TRACKING SYNCED`;
+      }
+      if (hudMotionDot) {
+        hudMotionDot.style.background = '#10b981';
+      }
+      if (hudMotionState) {
+        hudMotionState.textContent = `${count} SUBJECTS TRACKED`;
+        hudMotionState.className = 'm-strip-val text-emerald';
+      }
+    }
+  }
+
   function startPerceptionEngine() {
     if (perceptionAnimId) cancelAnimationFrame(perceptionAnimId);
 
-    // Setup offscreen canvas for lightweight optical motion differencing & presence tracking
-    const CV_WIDTH = 80;
-    const CV_HEIGHT = 45;
+    // Warm up Pico classifier
+    initPicoClassifier();
+
+    // High-fidelity CV processing canvas at 240x135 (exact 16:9 sub-pixel resolution at 60FPS)
+    const CV_WIDTH = 240;
+    const CV_HEIGHT = 135;
+    const CELL_SIZE = 4;
+    const COLS = 60; // 240 / 4
+    const ROWS = 34; // 135 / 4 approx
+    const TOTAL_CELLS = COLS * ROWS;
+    const II_W = CV_WIDTH + 1;
+    const II_H = CV_HEIGHT + 1;
+
     if (!offscreenCanvas) {
       offscreenCanvas = document.createElement('canvas');
       offscreenCanvas.width = CV_WIDTH;
@@ -2622,7 +3111,6 @@ function initAuraHudMockup() {
       offscreenCtx = offscreenCanvas.getContext('2d', { willReadFrequently: true });
     }
 
-    // Setup Box 2 Digital Twin Canvas
     if (auraTwinCanvas) {
       auraTwinCanvas.width = 640;
       auraTwinCanvas.height = 360;
@@ -2630,363 +3118,515 @@ function initAuraHudMockup() {
     }
 
     trackingState.userX = 50;
-    trackingState.userY = 34;
+    trackingState.userY = 32;
     trackingState.userTargetX = 50;
-    trackingState.userTargetY = 34;
-    trackingState.scale = 1.0;
-    trackingState.targetScale = 1.0;
+    trackingState.userTargetY = 32;
+    trackingState.faceW = 20;
+    trackingState.faceH = 26;
+    trackingState.targetFaceW = 20;
+    trackingState.targetFaceH = 26;
+    trackingState.hasValidDetection = false;
+    trackingState.lastDetectionTime = 0;
     trackingState.time = performance.now();
     trackingState.lastAnalysis = 0;
     motionTracker.prevLuminance = null;
+    isNativeDetecting = false;
+
+    // Reset multiFaceList: all strictly hidden until an actual face is detected
+    multiFaceList.forEach(face => {
+      face.visible = false;
+      face.wasVisible = false;
+      if (face.el) face.el.style.display = 'none';
+    });
+
+    // Pre-allocated typed arrays for zero-GC 60FPS performance
+    const cellSkin = new Int16Array(TOTAL_CELLS);
+    const cellMotion = new Int16Array(TOTAL_CELLS);
+    const cellVisited = new Uint8Array(TOTAL_CELLS);
+    const bfsQueue = new Int16Array(TOTAL_CELLS);
+    const integralImg = new Int32Array(II_W * II_H);
+    let currLuminance = new Uint8Array(CV_WIDTH * CV_HEIGHT);
+
+    let noDetectionCount = 0;
+    let lastPicoDetectTime = 0;
+
+    function rectSumAvg(x, y, w, h) {
+      const x1 = Math.max(0, Math.min(CV_WIDTH, Math.floor(x)));
+      const y1 = Math.max(0, Math.min(CV_HEIGHT, Math.floor(y)));
+      const x2 = Math.max(0, Math.min(CV_WIDTH, Math.floor(x + w)));
+      const y2 = Math.max(0, Math.min(CV_HEIGHT, Math.floor(y + h)));
+      const area = Math.max(1, (x2 - x1) * (y2 - y1));
+      const sum = integralImg[y2 * II_W + x2] - integralImg[y1 * II_W + x2] - integralImg[y2 * II_W + x1] + integralImg[y1 * II_W + x1];
+      return sum / area;
+    }
 
     function renderPerception(now) {
       if (currentScenario !== 'webcam') return;
 
-      const elapsed = now - trackingState.time;
+      // Ensure webcam video has loaded frames and valid dimensions
+      if (!webcamVideo || webcamVideo.readyState < 2 || webcamVideo.videoWidth === 0) {
+        perceptionAnimId = requestAnimationFrame(renderPerception);
+        return;
+      }
 
-      // Periodic optical sampling from video stream (~40ms intervals / 25 FPS motion analysis)
-      if (now - trackingState.lastAnalysis > 40 && webcamVideo && webcamVideo.readyState >= 2) {
-        trackingState.lastAnalysis = now;
+      // Calculate exact visible viewport source rectangle to correct for CSS object-fit: cover cropping
+      const vw = webcamVideo.videoWidth || 1280;
+      const vh = webcamVideo.videoHeight || 720;
+      const vpWidth = (hudViewport && hudViewport.clientWidth) || 1280;
+      const vpHeight = (hudViewport && hudViewport.clientHeight) || 720;
+      const vpAspect = vpWidth / Math.max(1, vpHeight);
+      const vidAspect = vw / Math.max(1, vh);
+
+      let srcX = 0, srcY = 0, srcW = vw, srcH = vh;
+      if (vidAspect > vpAspect) {
+        // Video is wider than viewport -> left/right cropped
+        srcW = vh * vpAspect;
+        srcX = (vw - srcW) / 2;
+      } else {
+        // Video is taller than viewport (e.g. 4:3 camera in 16:9 container) -> top/bottom cropped
+        srcH = vw / vpAspect;
+        srcY = (vh - srcH) / 2;
+      }
+
+      // 1. Hardware-accelerated FaceDetector API (if enabled by browser flags)
+      let hadNativeSuccess = false;
+      if (nativeFaceDetector && !isNativeDetecting && (now - lastNativeDetectionTime > 40)) {
+        isNativeDetecting = true;
+        lastNativeDetectionTime = now;
+        nativeFaceDetector.detect(webcamVideo).then(faces => {
+          isNativeDetecting = false;
+          if (currentScenario !== 'webcam') return;
+
+          if (faces && faces.length > 0) {
+            hadNativeSuccess = true;
+            noDetectionCount = 0;
+            const count = Math.min(faces.length, 3);
+
+            for (let i = 0; i < count; i++) {
+              const bb = faces[i].boundingBox;
+              const normCenterX = (bb.x + bb.width / 2 - srcX) / srcW;
+              const normCenterY = (bb.y + bb.height * 0.48 - srcY) / srcH;
+              const normW = bb.width / srcW;
+              const normH = bb.height / srcH;
+
+              const screenX = (1 - normCenterX) * 100;
+              const screenY = normCenterY * 100;
+
+              const face = multiFaceList[i];
+              face.targetX = Math.max(6, Math.min(94, screenX));
+              face.targetY = Math.max(8, Math.min(84, screenY));
+              face.targetW = Math.max(14, Math.min(48, normW * 100));
+              face.targetH = Math.max(18, Math.min(62, normH * 100));
+              face.visible = true;
+            }
+
+            for (let i = count; i < multiFaceList.length; i++) {
+              multiFaceList[i].visible = false;
+            }
+
+            trackingState.userTargetX = multiFaceList[0].targetX;
+            trackingState.userTargetY = multiFaceList[0].targetY;
+            trackingState.hasValidDetection = true;
+            trackingState.lastDetectionTime = performance.now();
+            updateMultiFaceTelemetry(count);
+          }
+        }).catch(() => {
+          isNativeDetecting = false;
+        });
+      }
+
+      // 2. High-Precision Client-Side Neural Computer Vision (Pico Face Detection)
+      if (offscreenCtx) {
         try {
-          if (offscreenCtx) {
-            offscreenCtx.drawImage(webcamVideo, 0, 0, CV_WIDTH, CV_HEIGHT);
-            const imgData = offscreenCtx.getImageData(0, 0, CV_WIDTH, CV_HEIGHT).data;
-            const currLuminance = new Uint8Array(CV_WIDTH * CV_HEIGHT);
+          // Draw only the visible portion corresponding to object-fit: cover
+          offscreenCtx.drawImage(webcamVideo, srcX, srcY, srcW, srcH, 0, 0, CV_WIDTH, CV_HEIGHT);
+          const imgData = offscreenCtx.getImageData(0, 0, CV_WIDTH, CV_HEIGHT).data;
 
-            let movedPixelsCount = 0;
-            let sumMovedX = 0;
-            let sumMovedY = 0;
+          let totalMotion = 0;
+          let totalSkin = 0;
 
-            let skinPixelsCount = 0;
-            let sumSkinX = 0;
-            let sumSkinY = 0;
+          // Compute grayscale luminance, motion difference, and integral image
+          for (let y = 0; y < CV_HEIGHT; y++) {
+            const rowOffset = y * CV_WIDTH;
+            const iiRowOffset = (y + 1) * II_W;
+            const iiPrevRowOffset = y * II_W;
+            let rowIntegralSum = 0;
 
-            let sumSilhX = 0;
-            let sumSilhY = 0;
-            let totalSilhWeight = 0;
+            for (let x = 0; x < CV_WIDTH; x++) {
+              const idx = (rowOffset + x) << 2;
+              const r = imgData[idx];
+              const g = imgData[idx + 1];
+              const b = imgData[idx + 2];
 
-            for (let y = 0; y < CV_HEIGHT; y++) {
-              for (let x = 0; x < CV_WIDTH; x++) {
-                const idx = (y * CV_WIDTH + x) * 4;
-                const r = imgData[idx];
-                const g = imgData[idx + 1];
-                const b = imgData[idx + 2];
-                // Quick integer luminance
-                const lum = (r * 77 + g * 150 + b * 29) >> 8;
-                currLuminance[y * CV_WIDTH + x] = lum;
+              const lum = (r * 77 + g * 150 + b * 29) >> 8;
+              currLuminance[rowOffset + x] = lum;
 
-                // Frame-to-frame optical motion differencing
-                if (motionTracker.prevLuminance) {
-                  const diff = Math.abs(lum - motionTracker.prevLuminance[y * CV_WIDTH + x]);
-                  if (diff > 14) {
-                    movedPixelsCount++;
-                    sumMovedX += x;
-                    sumMovedY += y;
+              rowIntegralSum += lum;
+              integralImg[iiRowOffset + x + 1] = integralImg[iiPrevRowOffset + x + 1] + rowIntegralSum;
+
+              if (motionTracker.prevLuminance) {
+                const diff = Math.abs(lum - motionTracker.prevLuminance[rowOffset + x]);
+                if (diff > 14) totalMotion += diff;
+              }
+
+              // Skin color check
+              const cb = 128 + ((-r * 43 - g * 85 + b * 128) >> 8);
+              const cr = 128 + ((r * 128 - g * 107 - b * 21) >> 8);
+              if (lum >= 25 && lum <= 248 && cr >= 130 && cr <= 182 && cb >= 74 && cb <= 136) {
+                totalSkin++;
+              }
+            }
+          }
+
+          let detectedFaces = [];
+
+          // Primary Detector: Neural Cascade (Pico)
+          if (picoClassifier && typeof window !== 'undefined' && window.pico) {
+            if (now - lastPicoDetectTime >= 30) {
+              lastPicoDetectTime = now;
+              const image = {
+                pixels: currLuminance,
+                nrows: CV_HEIGHT,
+                ncols: CV_WIDTH,
+                ldim: CV_WIDTH
+              };
+              const params = {
+                shiftfactor: 0.1,
+                minsize: 22,
+                maxsize: 110,
+                scalefactor: 1.15
+              };
+              let rawDets = window.pico.run_cascade(image, picoClassifier, params);
+              if (picoMemory) {
+                rawDets = picoMemory(rawDets);
+              }
+              let clusters = window.pico.cluster_detections(rawDets, 0.2);
+
+              // Quality score threshold: 8.0 filters noise while immediately catching human faces
+              const validPicoDets = clusters.filter(d => d[3] >= 8.0);
+              if (validPicoDets.length > 0) {
+                // Sort by face size descending (largest primary face first)
+                validPicoDets.sort((a, b) => b[2] - a[2]);
+                const count = Math.min(validPicoDets.length, 3);
+
+                for (let i = 0; i < count; i++) {
+                  const [r, c, s, q] = validPicoDets[i];
+                  // Mirror X for mirrored webcam preview:
+                  const screenCenterX = (1 - (c / CV_WIDTH)) * 100;
+                  // Screen Y: pico box center is slightly lower than eye level (around nose bridge)
+                  const screenCenterY = ((r - s * 0.02) / CV_HEIGHT) * 100;
+
+                  // Anatomical proportions (hairline to chin = 1.20 * s, cheek to cheek = 0.94 * s)
+                  const normW = (s * 0.94) / CV_WIDTH;
+                  const normH = (s * 1.20) / CV_HEIGHT;
+
+                  const face = multiFaceList[i];
+                  face.targetX = Math.max(6, Math.min(94, screenCenterX));
+                  face.targetY = Math.max(8, Math.min(84, screenCenterY));
+                  face.targetW = Math.max(14, Math.min(48, normW * 100));
+                  face.targetH = Math.max(18, Math.min(62, normH * 100));
+                  face.visible = true;
+                  face.confidence = Math.min(99.9, (89 + Math.min(10.5, q * 0.5))).toFixed(1);
+
+                  if (face.tagEl) {
+                    if (i === 0) {
+                      face.tagEl.innerHTML = `<i class="fas fa-user-check"></i> FACE #01 [OPERATOR] • ${face.confidence}%`;
+                    } else if (i === 1) {
+                      face.tagEl.innerHTML = `<i class="fas fa-user-plus"></i> FACE #02 [SUBJECT] • ${face.confidence}%`;
+                    } else {
+                      face.tagEl.innerHTML = `<i class="fas fa-user-shield"></i> FACE #03 [SUBJECT] • ${face.confidence}%`;
+                    }
                   }
                 }
 
-                // Skin chrominance detection (robust across webcam lighting & skin tones)
-                const isSkin = (r > 50 && g > 30 && b > 20 && r > g && r > b && (r - g) > 8 && (r - g) < 135 && (r - b) > 8);
-                if (isSkin) {
-                  skinPixelsCount++;
-                  // Prioritize upper 75% for face/head
-                  const weight = y < 32 ? 1.5 : 0.8;
-                  sumSkinX += x * weight;
-                  sumSkinY += y * weight;
+                for (let i = count; i < multiFaceList.length; i++) {
+                  multiFaceList[i].visible = false;
                 }
 
-                // Silhouette centroid weighting (upper 75% of frame)
-                if (y < 34 && x > 4 && x < CV_WIDTH - 4) {
-                  const silhWeight = Math.abs(lum - 128) + 10;
-                  sumSilhX += x * silhWeight;
-                  sumSilhY += y * silhWeight;
-                  totalSilhWeight += silhWeight;
-                }
-              }
-            }
+                trackingState.userTargetX = multiFaceList[0].targetX;
+                trackingState.userTargetY = multiFaceList[0].targetY;
+                trackingState.hasValidDetection = true;
+                trackingState.lastDetectionTime = now;
+                noDetectionCount = 0;
+                updateMultiFaceTelemetry(count);
 
-            // Real-time Motion Analysis & Classification
-            if (motionTracker.prevLuminance) {
-              const motionRatio = movedPixelsCount / (CV_WIDTH * CV_HEIGHT);
-
-              if (movedPixelsCount > 18) {
-                const motionCentroidX = sumMovedX / movedPixelsCount;
-                const motionCentroidY = sumMovedY / movedPixelsCount;
-                // Note: video is horizontally mirrored (scaleX(-1)), so deltaScreenX = -deltaRawX
-                const deltaRawX = motionCentroidX - motionTracker.lastCentroidX;
-                const deltaY = motionCentroidY - motionTracker.lastCentroidY;
-                const deltaX = -deltaRawX; // User mirrored perspective
-
-                motionTracker.lastCentroidX = motionCentroidX;
-                motionTracker.lastCentroidY = motionCentroidY;
-
-                const displacement = Math.hypot(deltaX, deltaY);
-                const vel = Math.min(1.4, Math.max(0.06, (displacement * 0.09) + (motionRatio * 1.2)));
-                motionTracker.currentVelocity = vel;
-                if (vel > motionTracker.peakVelocity) motionTracker.peakVelocity = vel;
-                motionTracker.velocities.push(vel);
-
-                let direction = 'LATERAL MOTION';
-                if (deltaX > 1.6) {
-                  direction = 'LATERAL SHIFT (RIGHT)';
-                  motionTracker.counts.lateral++;
-                } else if (deltaX < -1.6) {
-                  direction = 'LATERAL SHIFT (LEFT)';
-                  motionTracker.counts.lateral++;
-                } else if (deltaY < -1.4) {
-                  direction = 'PROXIMITY ADVANCE (APPROACH)';
-                  motionTracker.counts.axial++;
-                } else if (deltaY > 1.4) {
-                  direction = 'PROXIMITY RECEDE (BACK)';
-                  motionTracker.counts.axial++;
-                } else if (vel > 0.40) {
-                  direction = 'RAPID REPOSITIONING';
-                  motionTracker.counts.lateral++;
-                } else {
-                  direction = 'MICRO POSTURE SHIFT';
-                  motionTracker.counts.stable++;
-                }
-
-                motionTracker.currentDirection = direction;
-
-                // Log distinct movement events (debounced > 1.2s)
-                if (vel > 0.16 && (now - motionTracker.lastLogTimestamp > 1200)) {
+                if (count > 1 && (now - motionTracker.lastLogTimestamp > 2500)) {
                   motionTracker.lastLogTimestamp = now;
-                  logMotionEvent(direction, `Displacement dx: ${deltaX.toFixed(1)}px, dy: ${deltaY.toFixed(1)}px (Active area: ${(motionRatio * 100).toFixed(0)}%)`, `${vel.toFixed(2)} m/s`, '99.2%');
+                  logMotionEvent('MULTI_FACE_LOCK', `${count} Faces simultaneously tracked in air-gapped local memory`, '0.22 m/s', '99.4%');
                 }
-
-                // Update HUD Motion Elements
-                if (hudMotionState) hudMotionState.textContent = direction;
-                if (hudMotionVelocity) hudMotionVelocity.textContent = `${vel.toFixed(2)} m/s`;
-                if (hudMotionBadgeText) hudMotionBadgeText.textContent = `${direction} • ${vel.toFixed(2)} m/s`;
-                if (hudMotionDot) hudMotionDot.classList.add('active-motion');
               } else {
-                // Stationary Focus State
-                const subtleVel = 0.02 + Math.random() * 0.02;
-                motionTracker.currentVelocity = subtleVel;
-                motionTracker.currentDirection = 'STATIONARY FOCUS';
-                motionTracker.counts.stable++;
+                noDetectionCount++;
+                if (noDetectionCount >= 3) {
+                  for (let i = 0; i < multiFaceList.length; i++) {
+                    multiFaceList[i].visible = false;
+                  }
+                  trackingState.hasValidDetection = false;
+                  updateMultiFaceTelemetry(0);
+                }
+              }
+            }
+          } else {
+            // Secondary Fallback: 2D Spatial BFS & Integral Haar contrast engine if classifier is warming up
+            cellSkin.fill(0);
+            cellMotion.fill(0);
+            cellVisited.fill(0);
 
-                if (hudMotionState) hudMotionState.textContent = 'STATIONARY FOCUS';
-                if (hudMotionVelocity) hudMotionVelocity.textContent = `${subtleVel.toFixed(2)} m/s`;
-                if (hudMotionBadgeText) hudMotionBadgeText.textContent = `STATIONARY FOCUS • ${subtleVel.toFixed(2)} m/s`;
-                if (hudMotionDot) hudMotionDot.classList.remove('active-motion');
+            for (let y = 0; y < CV_HEIGHT; y++) {
+              const gy = Math.floor(y / CELL_SIZE);
+              const gridRowOffset = gy * COLS;
+              const rowOffset = y * CV_WIDTH;
+              for (let x = 0; x < CV_WIDTH; x++) {
+                const idx = (rowOffset + x) << 2;
+                const r = imgData[idx], g = imgData[idx + 1], b = imgData[idx + 2];
+                const cb = 128 + ((-r * 43 - g * 85 + b * 128) >> 8);
+                const cr = 128 + ((r * 128 - g * 107 - b * 21) >> 8);
+                const lum = currLuminance[rowOffset + x];
+                if (lum >= 25 && lum <= 248 && cr >= 130 && cr <= 182 && cb >= 74 && cb <= 136 && (r > g || Math.abs(r - g) < 8) && (r > b + 6)) {
+                  const gx = Math.floor(x / CELL_SIZE);
+                  cellSkin[gridRowOffset + gx]++;
+                }
+              }
+            }
+
+            if (totalSkin >= 50) {
+              const rawClusters = [];
+              for (let gy = 0; gy < ROWS; gy++) {
+                for (let gx = 0; gx < COLS; gx++) {
+                  const startIdx = gy * COLS + gx;
+                  if (cellSkin[startIdx] < 3 || cellVisited[startIdx]) continue;
+                  let minGx = gx, maxGx = gx, minGy = gy, maxGy = gy;
+                  let clusterPixels = 0;
+                  let head = 0, tail = 0;
+                  bfsQueue[tail++] = startIdx;
+                  cellVisited[startIdx] = 1;
+
+                  while (head < tail) {
+                    const currIdx = bfsQueue[head++];
+                    const cy = Math.floor(currIdx / COLS);
+                    const cx = currIdx % COLS;
+                    clusterPixels += cellSkin[currIdx];
+                    if (cx < minGx) minGx = cx;
+                    if (cx > maxGx) maxGx = cx;
+                    if (cy < minGy) minGy = cy;
+                    if (cy > maxGy) maxGy = cy;
+
+                    for (let dy = -1; dy <= 1; dy++) {
+                      const ny = cy + dy;
+                      if (ny < 0 || ny >= ROWS) continue;
+                      const rOff = ny * COLS;
+                      for (let dx = -1; dx <= 1; dx++) {
+                        if (dx === 0 && dy === 0) continue;
+                        const nx = cx + dx;
+                        if (nx < 0 || nx >= COLS) continue;
+                        const nIdx = rOff + nx;
+                        if (cellSkin[nIdx] >= 3 && !cellVisited[nIdx]) {
+                          cellVisited[nIdx] = 1;
+                          bfsQueue[tail++] = nIdx;
+                        }
+                      }
+                    }
+                  }
+
+                  const cW = (maxGx - minGx + 1) * CELL_SIZE;
+                  const cH = (maxGy - minGy + 1) * CELL_SIZE;
+                  if (clusterPixels >= 45 && cW >= 12 && cH >= 14 && cW <= cH * 1.8) {
+                    const effectiveH = Math.min(cH, cW * 1.34);
+                    const clMinX = minGx * CELL_SIZE;
+                    const clMinY = minGy * CELL_SIZE;
+                    const fhLum = rectSumAvg(clMinX + cW * 0.18, clMinY + effectiveH * 0.12, cW * 0.64, effectiveH * 0.16);
+                    const eyesLum = rectSumAvg(clMinX + cW * 0.18, clMinY + effectiveH * 0.30, cW * 0.64, effectiveH * 0.18);
+                    if (fhLum - eyesLum >= -3.5) {
+                      rawClusters.push({
+                        exactX: (clMinX + (maxGx + 1) * CELL_SIZE) / 2,
+                        exactY: clMinY + (effectiveH * 0.48),
+                        faceW: cW * 1.10,
+                        faceH: effectiveH * 1.12,
+                        pixels: clusterPixels
+                      });
+                    }
+                  }
+                }
               }
 
-              // Update Stability Gauge
-              const totalSamples = motionTracker.counts.stable + motionTracker.counts.lateral + motionTracker.counts.axial;
-              const stability = totalSamples > 0 ? ((motionTracker.counts.stable / totalSamples) * 100) : 98.4;
-              if (hudMotionStability) hudMotionStability.textContent = `${(Math.max(88, Math.min(99.9, stability + 10))).toFixed(1)}%`;
+              if (rawClusters.length > 0) {
+                rawClusters.sort((a, b) => b.pixels - a.pixels);
+                noDetectionCount = 0;
+                const count = Math.min(rawClusters.length, 3);
+                for (let i = 0; i < count; i++) {
+                  const cl = rawClusters[i];
+                  const screenX = (1 - (cl.exactX / CV_WIDTH)) * 100;
+                  const screenY = (cl.exactY / CV_HEIGHT) * 100;
+                  const face = multiFaceList[i];
+                  face.targetX = Math.max(6, Math.min(94, screenX));
+                  face.targetY = Math.max(8, Math.min(84, screenY));
+                  face.targetW = Math.max(14, Math.min(48, (cl.faceW / CV_WIDTH) * 100));
+                  face.targetH = Math.max(18, Math.min(62, (cl.faceH / CV_HEIGHT) * 100));
+                  face.visible = true;
+                }
+                for (let i = count; i < multiFaceList.length; i++) multiFaceList[i].visible = false;
+                trackingState.userTargetX = multiFaceList[0].targetX;
+                trackingState.userTargetY = multiFaceList[0].targetY;
+                trackingState.hasValidDetection = true;
+                trackingState.lastDetectionTime = now;
+                updateMultiFaceTelemetry(count);
+              } else {
+                noDetectionCount++;
+                if (noDetectionCount >= 3) {
+                  for (let i = 0; i < multiFaceList.length; i++) multiFaceList[i].visible = false;
+                  trackingState.hasValidDetection = false;
+                  updateMultiFaceTelemetry(0);
+                }
+              }
+            } else {
+              noDetectionCount++;
+              if (noDetectionCount >= 3) {
+                for (let i = 0; i < multiFaceList.length; i++) multiFaceList[i].visible = false;
+                trackingState.hasValidDetection = false;
+                updateMultiFaceTelemetry(0);
+              }
             }
-
-            // Real-Time Coordinate Targeting (All 3 Bounding Boxes Follow User Movement)
-            let rawTargetX = CV_WIDTH / 2;
-            let rawTargetY = CV_HEIGHT / 2.8;
-            let hasDetection = false;
-
-            if (movedPixelsCount > 20 && skinPixelsCount > 15) {
-              const moveX = sumMovedX / movedPixelsCount;
-              const moveY = sumMovedY / movedPixelsCount;
-              const skinX = sumSkinX / (skinPixelsCount * 1.15);
-              const skinY = sumSkinY / (skinPixelsCount * 1.15);
-              rawTargetX = moveX * 0.65 + skinX * 0.35;
-              rawTargetY = moveY * 0.55 + skinY * 0.45;
-              hasDetection = true;
-            } else if (movedPixelsCount > 22) {
-              rawTargetX = sumMovedX / movedPixelsCount;
-              rawTargetY = sumMovedY / movedPixelsCount;
-              hasDetection = true;
-            } else if (skinPixelsCount > 20) {
-              rawTargetX = sumSkinX / (skinPixelsCount * 1.15);
-              rawTargetY = sumSkinY / (skinPixelsCount * 1.15);
-              hasDetection = true;
-            } else if (totalSilhWeight > 0) {
-              rawTargetX = sumSilhX / totalSilhWeight;
-              rawTargetY = sumSilhY / totalSilhWeight;
-              hasDetection = true;
-            }
-
-            if (hasDetection) {
-              // Video is horizontally mirrored with CSS scaleX(-1), invert raw X for user screen
-              const screenPercentX = (1 - (rawTargetX / CV_WIDTH)) * 100;
-              const screenPercentY = (rawTargetY / CV_HEIGHT) * 100;
-
-              // Responsive target bounds centered on user's actual body across viewport width
-              trackingState.userTargetX = Math.max(18, Math.min(82, screenPercentX));
-              trackingState.userTargetY = Math.max(16, Math.min(50, screenPercentY));
-
-              // Distance / proximity scale
-              const activeCount = Math.max(movedPixelsCount, skinPixelsCount);
-              const areaRatio = activeCount / (CV_WIDTH * CV_HEIGHT);
-              const targetScale = Math.max(0.85, Math.min(1.30, 0.90 + (areaRatio - 0.08) * 1.6));
-              trackingState.targetScale = targetScale;
-            }
-
-            motionTracker.prevLuminance = currLuminance;
           }
+
+          motionTracker.prevLuminance = currLuminance;
         } catch (e) {
-          // Graceful fallback
+          console.warn('Perception CV frame error:', e);
         }
       }
 
-      // Organic micro-breathing harmonics for sub-millimeter realism
-      const swayX = Math.sin(elapsed * 0.0018) * 0.6;
-      const swayY = Math.cos(elapsed * 0.0024) * 0.4;
+      // 3. Critically Damped Instant Tracking Interpolation with Instant Appearance Snap
+      multiFaceList.forEach((face, idx) => {
+        if (!face.el) return;
+        if (face.visible) {
+          // Snap instantly when face first appears to avoid dragging in from default coordinates
+          if (!face.wasVisible) {
+            face.x = face.targetX;
+            face.y = face.targetY;
+            face.w = face.targetW;
+            face.h = face.targetH;
+            face.wasVisible = true;
+          }
 
-      // Real-Time 60FPS Linear Interpolation (Kinematic follow)
-      const lerpSpeed = 0.14;
-      trackingState.userX += (trackingState.userTargetX - trackingState.userX) * lerpSpeed;
-      trackingState.userY += (trackingState.userTargetY - trackingState.userY) * lerpSpeed;
-      trackingState.scale += (trackingState.targetScale - trackingState.scale) * 0.08;
+          face.el.style.display = 'block';
+          const distX = face.targetX - face.x;
+          const distY = face.targetY - face.y;
+          const dist = Math.hypot(distX, distY);
 
-      const curX = trackingState.userX + swayX;
-      const curY = trackingState.userY + swayY;
-      const s = trackingState.scale;
+          // Adaptive responsive critically-damped lerp
+          const lerpSpeed = dist > 4.0 ? 0.75 : (dist > 1.2 ? 0.50 : 0.35);
+          face.x += distX * lerpSpeed;
+          face.y += distY * lerpSpeed;
+          face.w += (face.targetW - face.w) * 0.40;
+          face.h += (face.targetH - face.h) * 0.40;
 
-      // Render Dynamic Operator Digital Twin onto Box 2 Canvas
+          const fLeft = Math.max(1, Math.min(99 - face.w, face.x - face.w / 2));
+          const fTop = Math.max(2, Math.min(98 - face.h, face.y - face.h / 2));
+
+          face.el.style.left = `${fLeft.toFixed(2)}%`;
+          face.el.style.top = `${fTop.toFixed(2)}%`;
+          face.el.style.width = `${face.w.toFixed(2)}%`;
+          face.el.style.height = `${face.h.toFixed(2)}%`;
+
+          // Micro-Gaze Shift for each face's eye dots
+          if (face.eyeLEl && face.eyeREl) {
+            const gazeShiftX = Math.max(-2.5, Math.min(2.5, distX * 0.20));
+            const gazeShiftY = Math.max(-1.8, Math.min(1.8, distY * 0.20));
+            face.eyeLEl.style.transform = `translate(calc(-50% + ${gazeShiftX}px), calc(-50% + ${gazeShiftY}px))`;
+            face.eyeREl.style.transform = `translate(calc(-50% + ${gazeShiftX}px), calc(-50% + ${gazeShiftY}px))`;
+          }
+        } else {
+          face.wasVisible = false;
+          face.el.style.display = 'none';
+        }
+      });
+
+      // 4. Primary Operator Velocity & Direction Tracking
+      const primaryFace = multiFaceList[0];
+      if (primaryFace.visible) {
+        const pDistX = primaryFace.targetX - primaryFace.x;
+        const pDistY = primaryFace.targetY - primaryFace.y;
+        const pDist = Math.hypot(pDistX, pDistY);
+        const vel = Math.min(1.8, Math.max(0.04, pDist * 0.14));
+
+        if (pDist > 1.0) {
+          lastMovementTime = now;
+          motionTracker.currentVelocity = vel;
+          if (vel > motionTracker.peakVelocity) motionTracker.peakVelocity = vel;
+          motionTracker.velocities.push(vel);
+
+          let direction = 'LATERAL TRACKING';
+          if (pDistX > 1.2) {
+            direction = 'LATERAL SHIFT (RIGHT)';
+            motionTracker.counts.lateral++;
+          } else if (pDistX < -1.2) {
+            direction = 'LATERAL SHIFT (LEFT)';
+            motionTracker.counts.lateral++;
+          } else if (pDistY < -1.0) {
+            direction = 'PROXIMITY ADVANCE (APPROACH)';
+            motionTracker.counts.axial++;
+          } else if (pDistY > 1.0) {
+            direction = 'PROXIMITY RECEDE (BACK)';
+            motionTracker.counts.axial++;
+          } else {
+            direction = 'ACTIVE FACE CENTERING';
+            motionTracker.counts.stable++;
+          }
+          motionTracker.currentDirection = direction;
+
+          if (vel > 0.16 && (now - motionTracker.lastLogTimestamp > 1200)) {
+            motionTracker.lastLogTimestamp = now;
+            logMotionEvent(direction, `Operator centroid shift dx: ${pDistX.toFixed(1)}%, dy: ${pDistY.toFixed(1)}%`, `${vel.toFixed(2)} m/s`, '99.8%');
+          }
+          applyMotionTelemetry(false, vel);
+        } else {
+          if (now - lastMovementTime > stationaryThresholdMs) {
+            applyMotionTelemetry(true, 0);
+          }
+        }
+      } else {
+        // No operator detected in frame
+        motionTracker.currentVelocity = 0;
+      }
+
+      // Stability metric
+      const totalSamples = motionTracker.counts.stable + motionTracker.counts.lateral + motionTracker.counts.axial;
+      const stability = totalSamples > 0 ? ((motionTracker.counts.stable / totalSamples) * 100) : 98.4;
+      if (hudMotionStability) hudMotionStability.textContent = `${(Math.max(88, Math.min(99.9, stability + 10))).toFixed(1)}%`;
+
       if (twinCanvasCtx && auraTwinCanvas) {
-        const cw = auraTwinCanvas.width;
-        const ch = auraTwinCanvas.height;
-        twinCanvasCtx.clearRect(0, 0, cw, ch);
-
-        const cx = (curX / 100) * cw;
-        const cy = (curY / 100) * ch;
-
-        // 1. Concentric radar rings centered on operator
-        twinCanvasCtx.save();
-        twinCanvasCtx.strokeStyle = 'rgba(2, 132, 199, 0.25)';
-        twinCanvasCtx.lineWidth = 1.5;
-        twinCanvasCtx.setLineDash([4, 4]);
-        twinCanvasCtx.beginPath();
-        twinCanvasCtx.arc(cx, cy, 28 * s, 0, Math.PI * 2);
-        twinCanvasCtx.stroke();
-        twinCanvasCtx.beginPath();
-        twinCanvasCtx.arc(cx, cy, 56 * s, 0, Math.PI * 2);
-        twinCanvasCtx.stroke();
-        twinCanvasCtx.restore();
-
-        // 2. Crosshair coordinate lines through operator
-        twinCanvasCtx.save();
-        twinCanvasCtx.strokeStyle = 'rgba(2, 132, 199, 0.16)';
-        twinCanvasCtx.lineWidth = 1;
-        twinCanvasCtx.beginPath();
-        twinCanvasCtx.moveTo(cx, 0);
-        twinCanvasCtx.lineTo(cx, ch);
-        twinCanvasCtx.moveTo(0, cy);
-        twinCanvasCtx.lineTo(cw, cy);
-        twinCanvasCtx.stroke();
-        twinCanvasCtx.restore();
-
-        // 3. Operator Avatar Wireframe (Head circle, spine, shoulders)
-        twinCanvasCtx.save();
-        const headRadius = 14 * s;
-        const headY = cy - 12 * s;
-        // Head circle
-        twinCanvasCtx.fillStyle = 'rgba(2, 132, 199, 0.12)';
-        twinCanvasCtx.strokeStyle = '#0284c7';
-        twinCanvasCtx.lineWidth = 2;
-        twinCanvasCtx.beginPath();
-        twinCanvasCtx.arc(cx, headY, headRadius, 0, Math.PI * 2);
-        twinCanvasCtx.fill();
-        twinCanvasCtx.stroke();
-
-        // Head landmarks (5 points)
-        twinCanvasCtx.fillStyle = '#0284c7';
-        twinCanvasCtx.beginPath();
-        twinCanvasCtx.arc(cx - 5 * s, headY - 3 * s, 2, 0, Math.PI * 2); // left eye
-        twinCanvasCtx.arc(cx + 5 * s, headY - 3 * s, 2, 0, Math.PI * 2); // right eye
-        twinCanvasCtx.arc(cx, headY + 1 * s, 2, 0, Math.PI * 2); // nose
-        twinCanvasCtx.arc(cx - 4 * s, headY + 6 * s, 1.8, 0, Math.PI * 2); // mouth l
-        twinCanvasCtx.arc(cx + 4 * s, headY + 6 * s, 1.8, 0, Math.PI * 2); // mouth r
-        twinCanvasCtx.fill();
-
-        // Spine and shoulder bars
-        twinCanvasCtx.strokeStyle = '#059669';
-        twinCanvasCtx.lineWidth = 2.5;
-        twinCanvasCtx.beginPath();
-        twinCanvasCtx.moveTo(cx, headY + headRadius);
-        twinCanvasCtx.lineTo(cx, cy + 32 * s);
-        // Shoulder
-        twinCanvasCtx.moveTo(cx - 22 * s, cy - 2 * s);
-        twinCanvasCtx.lineTo(cx + 22 * s, cy - 2 * s);
-        // Chest bar
-        twinCanvasCtx.moveTo(cx - 18 * s, cy + 12 * s);
-        twinCanvasCtx.lineTo(cx + 18 * s, cy + 12 * s);
-        twinCanvasCtx.stroke();
-
-        // Motion direction arrow if moving
-        if (motionTracker.currentVelocity > 0.08) {
-          twinCanvasCtx.strokeStyle = '#d97706';
-          twinCanvasCtx.lineWidth = 2;
-          const velAngle = motionTracker.currentDirection.includes('LEFT') ? Math.PI : (motionTracker.currentDirection.includes('RIGHT') ? 0 : (motionTracker.currentDirection.includes('APPROACH') ? -Math.PI / 2 : Math.PI / 2));
-          const arrowLen = Math.min(42, motionTracker.currentVelocity * 32);
-          const arrowEndX = cx + Math.cos(velAngle) * arrowLen;
-          const arrowEndY = cy + Math.sin(velAngle) * arrowLen;
-          twinCanvasCtx.beginPath();
-          twinCanvasCtx.moveTo(cx, cy);
-          twinCanvasCtx.lineTo(arrowEndX, arrowEndY);
-          twinCanvasCtx.stroke();
-        }
-        twinCanvasCtx.restore();
-      }
-
-      if (twinTelemetryBadge) {
-        twinTelemetryBadge.style.display = 'flex';
-        twinTelemetryBadge.innerHTML = `<i class="fas fa-crosshairs"></i> SPATIAL MATRIX: [X: ${curX.toFixed(1)}%, Y: ${curY.toFixed(1)}%, Z: ${(1.0 / s).toFixed(2)}m] • VEL: ${motionTracker.currentVelocity.toFixed(2)}m/s`;
-      }
-
-      // 1. [OBJECT: OPERATOR] (#bbox1 in Box 2): Dynamically tracks operator upper body & torso
-      const b1W = Math.max(30, Math.min(52, trackingState.torsoW * s));
-      const b1H = Math.max(50, Math.min(76, trackingState.torsoH * s));
-      const b1Left = Math.max(2, Math.min(98 - b1W, curX - b1W / 2));
-      const b1Top = Math.max(4, Math.min(96 - b1H, curY - 8 * s));
-
-      if (bbox1) {
-        bbox1.style.left = `${b1Left.toFixed(2)}%`;
-        bbox1.style.top = `${b1Top.toFixed(2)}%`;
-        bbox1.style.width = `${b1W.toFixed(2)}%`;
-        bbox1.style.height = `${b1H.toFixed(2)}%`;
-      }
-      if (bbox1Sub) {
-        bbox1Sub.textContent = `VEL: ${motionTracker.currentVelocity.toFixed(2)}m/s • DIR: ${motionTracker.currentDirection}`;
-      }
-
-      // 2. [FACIAL MESH: 468 PTS] (#bbox2 in Box 2): Dynamically tracks operator face/head position
-      const b2W = Math.max(14, Math.min(26, trackingState.faceW * s));
-      const b2H = Math.max(18, Math.min(34, trackingState.faceH * s));
-      const b2Left = Math.max(2, Math.min(98 - b2W, curX - b2W / 2));
-      const b2Top = Math.max(2, Math.min(96 - b2H, curY - 14 * s));
-
-      if (bbox2) {
-        bbox2.style.left = `${b2Left.toFixed(2)}%`;
-        bbox2.style.top = `${b2Top.toFixed(2)}%`;
-        bbox2.style.width = `${b2W.toFixed(2)}%`;
-        bbox2.style.height = `${b2H.toFixed(2)}%`;
-      }
-      if (bbox2Sub) {
-        bbox2Sub.textContent = `LIVENESS: TRUE • 468 PTS • ATTENTION: FOCUSED`;
-      }
-
-      // 3. [LOCAL PERCEPTION: ZERO DATA TRANSMITTED] (#bbox3 in Box 2): Dynamically tracks operator operational envelope
-      const b3W = Math.max(38, Math.min(62, trackingState.localW * s));
-      const b3H = Math.max(12, Math.min(20, trackingState.localH * s));
-      const b3Left = Math.max(2, Math.min(98 - b3W, curX - b3W / 2));
-      const b3Top = Math.max(10, Math.min(98 - b3H, b1Top + b1H - 6 * s));
-
-      if (bbox3) {
-        bbox3.style.left = `${b3Left.toFixed(2)}%`;
-        bbox3.style.top = `${b3Top.toFixed(2)}%`;
-        bbox3.style.width = `${b3W.toFixed(2)}%`;
-        bbox3.style.height = `${b3H.toFixed(2)}%`;
-      }
-      if (bbox3Sub) {
-        bbox3Sub.textContent = `STATUS: EDGE LOCKED (X: ${curX.toFixed(0)}%, Y: ${curY.toFixed(0)}%) • MEMORY_RESIDENT`;
+        twinCanvasCtx.clearRect(0, 0, auraTwinCanvas.width, auraTwinCanvas.height);
       }
 
       perceptionAnimId = requestAnimationFrame(renderPerception);
     }
 
     perceptionAnimId = requestAnimationFrame(renderPerception);
+  }
+
+  // 7b. Interactive Mouse Motion & Stationary Detection for Preset Feeds
+  if (hudViewport) {
+    hudViewport.addEventListener('mousemove', (e) => {
+      lastMovementTime = performance.now();
+      if (isUserStationary) {
+        applyMotionTelemetry(false, 0.35);
+      }
+      if (currentScenario !== 'webcam') {
+        const rect = hudViewport.getBoundingClientRect();
+        const mx = ((e.clientX - rect.left) / rect.width) * 100;
+        const my = ((e.clientY - rect.top) / rect.height) * 100;
+        trackingState.userTargetX = Math.max(25, Math.min(75, mx));
+        trackingState.userTargetY = Math.max(20, Math.min(65, my));
+      }
+    });
+
+    hudViewport.addEventListener('mouseleave', () => {
+      if (currentScenario !== 'webcam') {
+        setTimeout(() => {
+          if (!isUserStationary && currentScenario !== 'webcam') {
+            applyMotionTelemetry(true, 0);
+          }
+        }, 1200);
+      }
+    });
   }
 
   // 8. Request & Start Local Webcam Stream
@@ -3011,22 +3651,15 @@ function initAuraHudMockup() {
     try {
       let stream;
       try {
-        // Request exact 1280x720 video as specified in requirements
         stream = await navigator.mediaDevices.getUserMedia({
-          video: { width: 1280, height: 720 }
+          video: {
+            width: { ideal: 1280, min: 640 },
+            height: { ideal: 720, min: 480 },
+            facingMode: 'user'
+          }
         });
       } catch (constraintErr) {
-        // Graceful fallback if exact 1280x720 constraint is rejected by hardware
-        if (constraintErr.name === 'OverconstrainedError' || constraintErr.name === 'ConstraintNotSatisfiedError') {
-          stream = await navigator.mediaDevices.getUserMedia({
-            video: {
-              width: { ideal: 1280 },
-              height: { ideal: 720 }
-            }
-          });
-        } else {
-          throw constraintErr;
-        }
+        stream = await navigator.mediaDevices.getUserMedia({ video: true });
       }
 
       webcamStream = stream;
@@ -3044,13 +3677,14 @@ function initAuraHudMockup() {
 
       // Initialize motion session
       motionTracker.sessionStartTime = Date.now();
+      motionTracker.sessionDuration = 0;
       motionTracker.events = [];
       motionTracker.velocities = [];
       motionTracker.peakVelocity = 0;
       motionTracker.counts = { stable: 1, lateral: 0, axial: 0 };
       motionTracker.sessionId = 'AURA-MV-' + Math.floor(1000 + Math.random() * 9000);
 
-      logMotionEvent('OPERATOR_LOCK', 'Operator aligned with sensor. Air-gapped biometric lock initialized.', '0.00 m/s', '99.4%');
+      logMotionEvent('OPERATOR_LOCK', 'Primary operator aligned with sensor enclave. Multi-face mesh active.', '0.00 m/s', '99.8%');
 
       applyWebcamHUDState();
       startPerceptionEngine();
@@ -3081,85 +3715,63 @@ function initAuraHudMockup() {
 
   // 9. Apply Live Webcam HUD Overlays & Telemetry
   function applyWebcamHUDState() {
+    // Switch layers: hide scenario boxes, show multi-face layer
+    if (scenarioBboxLayer) {
+      scenarioBboxLayer.style.display = 'none';
+    }
+    if (webcamMultiFaceLayer) {
+      webcamMultiFaceLayer.style.display = 'block';
+    }
+    if (hudIncidentBanner) {
+      hudIncidentBanner.style.display = 'none';
+    }
     if (hudViewport) {
-      hudViewport.classList.add('camera-clean-feed');
+      hudViewport.classList.remove('is-incident-alert', 'is-qa-inspection');
+      hudViewport.classList.add('webcam-tracking-active');
     }
-    if (auraInferenceViewport) {
-      auraInferenceViewport.classList.add('webcam-tracking-active');
-    }
-    if (inferenceStaticImg) {
-      inferenceStaticImg.style.display = 'none';
-    }
-    if (cameraCleanBadge) {
-      cameraCleanBadge.style.display = 'flex';
-    }
-    if (twinTelemetryBadge) {
-      twinTelemetryBadge.style.display = 'flex';
-    }
-    if (cameraBoxPill) {
-      cameraBoxPill.innerHTML = '<i class="fas fa-eye-slash"></i> CLEAN WEBCAM (NO OVERLAYS)';
-    }
-    if (perceptionBoxPill) {
-      perceptionBoxPill.innerHTML = '<i class="fas fa-brain"></i> LIVE INFERENCE RESPONSE';
-    }
-
     if (btnWebcam) {
-      btnWebcam.classList.add('active');
-      btnWebcam.innerHTML = '<span class="webcam-live-indicator"></span> Live Webcam';
+      btnWebcam.classList.add('active', 'cam-active');
+      btnWebcam.innerHTML = '<i class="fas fa-video-slash"></i> Turn Off Camera';
+      btnWebcam.title = 'Turn off live camera (saves session report)';
+    }
+    if (hudTurnOffCamBtn) {
+      hudTurnOffCamBtn.style.display = 'inline-flex';
     }
 
-    // Telemetry status bar updates
-    if (hudSourceVal) hudSourceVal.textContent = 'LOCAL WEBCAM [BOX 1: RAW INGEST]';
-    if (streamTitle) streamTitle.textContent = 'DUAL FEED // BOX 1: RAW INGEST + BOX 2: DIGITAL TWIN';
-    if (hudProtocol) hudProtocol.textContent = 'WEBRTC • 720p@60FPS [AIR-GAPPED]';
-    if (globalStatus) {
-      globalStatus.textContent = 'OPERATOR DETECTED';
-      globalStatus.className = 'telemetry-val text-emerald';
+    if (streamTitle) streamTitle.innerHTML = '<i class="fas fa-camera text-primary"></i> LIVE WEBCAM // AIR-GAPPED INGEST';
+    if (hudProtocol) hudProtocol.textContent = 'WEBRTC • 720p@60FPS [LOCAL]';
+    if (screenCardTitle) screenCardTitle.textContent = 'LOCAL WEBCAM // MULTI-FACE & EYE TRACKING';
+    if (screenCardPill) {
+      screenCardPill.innerHTML = '<i class="fas fa-shield-halved"></i> ACTIVE WEBCAM';
+      screenCardPill.className = 'screen-pill pill-ai';
     }
-    if (latencyVal) latencyVal.textContent = '8ms';
 
-    // Show live motion badge in viewport and motion strip below controls
     if (hudMotionBadge) hudMotionBadge.style.display = 'flex';
     if (hudMovementStrip) hudMovementStrip.style.display = 'grid';
 
-    // Bounding Box 1: Operator Upper-Body / Torso (In Box 2)
-    if (bbox1) {
-      bbox1.classList.remove('alert-pulse');
-      bbox1.style.top = '20%';
-      bbox1.style.left = '31%';
-      bbox1.style.width = '38%';
-      bbox1.style.height = '64%';
-    }
-    if (bbox1Text) bbox1Text.textContent = '[OBJECT: OPERATOR | CONFIDENCE: 99.4%]';
-    if (bbox1Sub) bbox1Sub.textContent = 'TRACK_ID: #0001 • POSE: CALIBRATED • LIVENESS: PASS';
-
-    // Bounding Box 2: Face Mesh with Micro-Landmark Reticles (In Box 2)
-    if (bbox2) {
-      bbox2.style.display = 'block';
-      bbox2.style.top = '18%';
-      bbox2.style.left = '41%';
-      bbox2.style.width = '18%';
-      bbox2.style.height = '24%';
-    }
-    if (bbox2Text) bbox2Text.textContent = '[FACIAL MESH: 468 PTS | 99.8%]';
-    if (bbox2Sub) bbox2Sub.textContent = 'LIVENESS: TRUE • ATTENTION: FOCUSED';
-    if (faceMeshPoints) {
-      faceMeshPoints.style.display = 'block';
+    const stripLabel1 = document.getElementById('hudStripLabel1');
+    const stripLabel2 = document.getElementById('hudStripLabel2');
+    const stripLabel3 = document.getElementById('hudStripLabel3');
+    if (stripLabel1) stripLabel1.innerHTML = '<i class="fas fa-satellite-dish"></i> INGEST STATUS';
+    if (stripLabel2) stripLabel2.innerHTML = '<i class="fas fa-gauge-high"></i> METRICS';
+    if (stripLabel3) stripLabel3.innerHTML = '<i class="fas fa-bullseye"></i> ACCURACY';
+    if (btnGenMovementReport) {
+      btnGenMovementReport.innerHTML = '<i class="fas fa-file-waveform"></i> Generate Report';
+      btnGenMovementReport.title = 'Generate comprehensive scenario telemetry report';
     }
 
-    // Bounding Box 3: Local Memory / Zero-Trust Privacy Telemetry (In Box 2)
-    if (bbox3) {
-      bbox3.style.display = 'block';
-      bbox3.style.top = '78%';
-      bbox3.style.left = '27%';
-      bbox3.style.width = '46%';
-      bbox3.style.height = '14%';
-    }
-    if (bbox3Text) bbox3Text.textContent = '[LOCAL PERCEPTION: ZERO DATA TRANSMITTED]';
-    if (bbox3Sub) bbox3Sub.textContent = 'MEMORY_RESIDENT ONLY • NO SERVER RECORDING';
+    // Ensure all face trackers start hidden until a subject appears
+    multiFaceList.forEach(face => {
+      face.visible = false;
+      face.wasVisible = false;
+      if (face.el) face.el.style.display = 'none';
+    });
+
+    // Initialize telemetry awaiting subject
+    updateMultiFaceTelemetry(0);
   }
 
-  // 10. Scenario Switcher Controller
+  // 10. Scenario Switcher Controller (Campus Corridor, Defect QA, Detect Incident, Live Webcam)
   function setScenario(scenario) {
     if (alertTimer) {
       clearTimeout(alertTimer);
@@ -3168,22 +3780,30 @@ function initAuraHudMockup() {
 
     if (scenario === 'webcam') {
       if (currentScenario === 'webcam') {
-        // Toggle off if already running and restore demo
-        setScenario('campus');
-        return;
+        if (webcamStream) {
+          stopWebcam();
+          setScenario('campus');
+          return;
+        } else {
+          startWebcam();
+          return;
+        }
       }
       currentScenario = 'webcam';
-      allBtns.forEach(btn => btn.classList.remove('active'));
+      allBtns.forEach(btn => btn.classList.remove('active', 'cam-active'));
       startWebcam();
       return;
     }
 
-    // Switching to preset scenario: gracefully stop all camera tracks
+    // Switching to preset scenario
     stopWebcam();
     currentScenario = scenario;
     allBtns.forEach(btn => btn.classList.remove('active'));
 
-    // Audio synthesizer chirp for sensory feedback
+    // Layer switching: activate scenario bounding boxes layer
+    if (webcamMultiFaceLayer) webcamMultiFaceLayer.style.display = 'none';
+    if (scenarioBboxLayer) scenarioBboxLayer.style.display = 'block';
+
     function playScenarioChirp(type) {
       try {
         const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -3198,7 +3818,7 @@ function initAuraHudMockup() {
           osc.type = 'sawtooth';
           osc.frequency.setValueAtTime(880, ctx.currentTime);
           osc.frequency.exponentialRampToValueAtTime(440, ctx.currentTime + 0.18);
-          gain.gain.setValueAtTime(0.08, ctx.currentTime);
+          gain.gain.setValueAtTime(0.09, ctx.currentTime);
           gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.22);
           osc.start(ctx.currentTime);
           osc.stop(ctx.currentTime + 0.24);
@@ -3206,7 +3826,7 @@ function initAuraHudMockup() {
           osc.type = 'sine';
           osc.frequency.setValueAtTime(1400, ctx.currentTime);
           osc.frequency.exponentialRampToValueAtTime(900, ctx.currentTime + 0.12);
-          gain.gain.setValueAtTime(0.06, ctx.currentTime);
+          gain.gain.setValueAtTime(0.07, ctx.currentTime);
           gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.14);
           osc.start(ctx.currentTime);
           osc.stop(ctx.currentTime + 0.15);
@@ -3217,23 +3837,57 @@ function initAuraHudMockup() {
     if (scenario === 'campus') {
       if (btnCampus) btnCampus.classList.add('active');
       if (staticImg) staticImg.src = 'assets/images/aura-cctv-feed.jpg';
-      if (inferenceStaticImg) {
-        inferenceStaticImg.src = 'assets/images/aura-cctv-feed.jpg';
-        inferenceStaticImg.style.display = 'block';
+      if (hudViewport) {
+        hudViewport.classList.remove('is-incident-alert', 'is-qa-inspection');
       }
-      if (cameraCleanBadge) cameraCleanBadge.style.display = 'none';
-      if (twinTelemetryBadge) twinTelemetryBadge.style.display = 'none';
-      if (cameraBoxPill) cameraBoxPill.innerHTML = '<i class="fas fa-eye-slash"></i> CLEAN FEED (UNCLUTTERED)';
-      if (perceptionBoxPill) perceptionBoxPill.innerHTML = '<i class="fas fa-microchip"></i> REAL-TIME RESPONSE';
-      if (hudSourceVal) hudSourceVal.textContent = 'RTSP // CAM-04';
-      if (streamTitle) streamTitle.textContent = 'DUAL CONSOLE // BOX 1: RAW FEED + BOX 2: AI INGESTION';
+      if (hudIncidentBanner) {
+        hudIncidentBanner.style.display = 'none';
+      }
+      if (streamTitle) streamTitle.innerHTML = '<i class="fas fa-video text-primary"></i> LIVE FEED // CAM-04 (MAIN CORRIDOR)';
       if (hudProtocol) hudProtocol.textContent = 'RTSP • 1080p@60FPS';
-      if (globalStatus) {
-        globalStatus.textContent = 'NOMINAL';
-        globalStatus.className = 'telemetry-val text-emerald';
+      if (screenCardTitle) screenCardTitle.textContent = 'CAMPUS CORRIDOR // SPATIAL PERCEPTION MESH';
+      if (screenCardPill) {
+        screenCardPill.innerHTML = '<i class="fas fa-shield-halved"></i> PERIMETER NOMINAL';
+        screenCardPill.className = 'screen-pill pill-ai';
       }
 
-      // Update telemetry strip for Campus mode
+      // Bounding Box 1: Passenger
+      if (bbox1) {
+        bbox1.classList.remove('alert-pulse');
+        bbox1.style.display = 'block';
+        bbox1.style.top = '45%';
+        bbox1.style.left = '42%';
+        bbox1.style.width = '18%';
+        bbox1.style.height = '47%';
+      }
+      if (bbox1Text) bbox1Text.innerHTML = '<i class="fas fa-user-check"></i> [OBJECT: PASSENGER | CONFIDENCE: 98.4%]';
+      if (bbox1Sub) bbox1Sub.textContent = 'TRACK_ID: #4092 • POSE: UPRIGHT';
+
+      // Bounding Box 2: Personnel
+      if (bbox2) {
+        bbox2.classList.remove('alert-pulse');
+        bbox2.style.display = 'block';
+        bbox2.style.top = '41%';
+        bbox2.style.left = '54.5%';
+        bbox2.style.width = '14%';
+        bbox2.style.height = '43%';
+      }
+      if (bbox2Text) bbox2Text.innerHTML = '<i class="fas fa-id-badge"></i> [OBJECT: PERSONNEL | CONFIDENCE: 96.1%]';
+      if (bbox2Sub) bbox2Sub.textContent = 'BADGE: VERIFIED • VEL: 1.1m/s';
+
+      // Bounding Box 3: Hazard Area Clear
+      if (bbox3) {
+        bbox3.style.display = 'block';
+        bbox3.style.top = '76%';
+        bbox3.style.left = '36%';
+        bbox3.style.width = '33%';
+        bbox3.style.height = '18%';
+      }
+      if (bbox3Text) bbox3Text.innerHTML = '<i class="fas fa-shield-halved"></i> [HAZARD: NONE | 99.8% CLEAR]';
+      if (bbox3Sub) bbox3Sub.textContent = 'TRAJECTORY CLEAR • RISK: 0.02%';
+
+      // Telemetry strip
+      if (hudMovementStrip) hudMovementStrip.style.display = 'grid';
       const stripLabel1 = document.getElementById('hudStripLabel1');
       const stripLabel2 = document.getElementById('hudStripLabel2');
       const stripLabel3 = document.getElementById('hudStripLabel3');
@@ -3245,58 +3899,68 @@ function initAuraHudMockup() {
       if (hudMotionStability) hudMotionStability.textContent = '99.8%';
       if (btnGenMovementReport) btnGenMovementReport.innerHTML = '<i class="fas fa-file-waveform"></i> Generate Report';
 
-      if (bbox1) {
-        bbox1.classList.remove('alert-pulse');
-        bbox1.style.top = '45%';
-        bbox1.style.left = '42%';
-        bbox1.style.width = '18%';
-        bbox1.style.height = '47%';
-      }
-      if (bbox1Text) bbox1Text.innerHTML = '<i class="fas fa-user-check"></i> [OBJECT: PASSENGER | CONFIDENCE: 98.4%]';
-      if (bbox1Sub) bbox1Sub.textContent = 'TRACK_ID: #4092 • POSE: UPRIGHT';
-
-      if (bbox2) {
-        bbox2.style.display = 'block';
-        bbox2.style.top = '41%';
-        bbox2.style.left = '54.5%';
-        bbox2.style.width = '14%';
-        bbox2.style.height = '43%';
-      }
-      if (bbox2Text) bbox2Text.innerHTML = '<i class="fas fa-id-badge"></i> [OBJECT: PERSONNEL | CONFIDENCE: 96.1%]';
-      if (bbox2Sub) bbox2Sub.textContent = 'BADGE: VERIFIED • VEL: 1.1m/s';
-
-      if (bbox3) {
-        bbox3.style.display = 'block';
-        bbox3.style.top = '76%';
-        bbox3.style.left = '36%';
-        bbox3.style.width = '33%';
-        bbox3.style.height = '18%';
-      }
-      if (bbox3Text) bbox3Text.innerHTML = '<i class="fas fa-shield-halved"></i> [HAZARD: NONE | 99.8% CLEAR]';
-      if (bbox3Sub) bbox3Sub.textContent = 'TRAJECTORY CLEAR • RISK: 0.02%';
-
+      // Status
+      if (globalStatus) { globalStatus.textContent = 'NOMINAL'; globalStatus.className = 'telemetry-val text-emerald'; }
+      if (hudSourceVal) hudSourceVal.textContent = 'RTSP // CAM-04';
       if (latencyVal) latencyVal.textContent = '14ms';
+
+      applyMotionTelemetry(false, 0.28);
     } else if (scenario === 'qa') {
       playScenarioChirp('qa');
       if (btnQa) btnQa.classList.add('active');
       if (staticImg) staticImg.src = 'assets/images/aura-qa-feed.jpg';
-      if (inferenceStaticImg) {
-        inferenceStaticImg.src = 'assets/images/aura-qa-feed.jpg';
-        inferenceStaticImg.style.display = 'block';
+      if (hudViewport) {
+        hudViewport.classList.remove('is-incident-alert');
+        hudViewport.classList.add('is-qa-inspection');
       }
-      if (cameraCleanBadge) cameraCleanBadge.style.display = 'none';
-      if (twinTelemetryBadge) twinTelemetryBadge.style.display = 'none';
-      if (cameraBoxPill) cameraBoxPill.innerHTML = '<i class="fas fa-eye-slash"></i> CLEAN CSI-2 (RAW OPTICAL)';
-      if (perceptionBoxPill) perceptionBoxPill.innerHTML = '<i class="fas fa-microchip"></i> QA DEFECT INFERENCE';
-      if (hudSourceVal) hudSourceVal.textContent = 'QA-LINE // CSI-2';
-      if (streamTitle) streamTitle.textContent = 'DUAL CONSOLE // BOX 1: CSI-2 SENSOR + BOX 2: DEFECT QA INFERENCE';
+      if (hudIncidentBanner) {
+        hudIncidentBanner.style.display = 'none';
+      }
+      if (streamTitle) streamTitle.innerHTML = '<i class="fas fa-microchip text-primary"></i> QA-LINE // CSI-2 (OPTICAL INSPECTION)';
       if (hudProtocol) hudProtocol.textContent = 'CSI-2 • 1080p@60FPS';
-      if (globalStatus) {
-        globalStatus.textContent = '1 DEFECT DETECTED';
-        globalStatus.className = 'telemetry-val text-alert';
+      if (screenCardTitle) screenCardTitle.textContent = 'CSI-2 OPTICAL INSPECTION // SMT DEFECT QA CORE';
+      if (screenCardPill) {
+        screenCardPill.innerHTML = '<i class="fas fa-triangle-exclamation"></i> 1 DEFECT FLAGGED';
+        screenCardPill.className = 'screen-pill pill-ai';
       }
 
+      // Bounding Box 1: Core BGA Processor Inspection (PASS)
+      if (bbox1) {
+        bbox1.classList.remove('alert-pulse');
+        bbox1.style.display = 'block';
+        bbox1.style.top = '36%';
+        bbox1.style.left = '32%';
+        bbox1.style.width = '22%';
+        bbox1.style.height = '28%';
+      }
+      if (bbox1Text) bbox1Text.innerHTML = '<i class="fas fa-microchip"></i> [BGA_QA: NVIDIA AGX | 99.8% PASS]';
+      if (bbox1Sub) bbox1Sub.textContent = 'SOLDER INTEGRITY: 100% • PIN_PITCH: 0.8mm';
+
+      // Bounding Box 2: Defect Anomaly Flag (SMT Lead Bridge) - Pulsing Alert Red
+      if (bbox2) {
+        bbox2.classList.add('alert-pulse');
+        bbox2.style.display = 'block';
+        bbox2.style.top = '50%';
+        bbox2.style.left = '58%';
+        bbox2.style.width = '18%';
+        bbox2.style.height = '24%';
+      }
+      if (bbox2Text) bbox2Text.innerHTML = '<i class="fas fa-triangle-exclamation"></i> [DEFECT FLAGGED: SMT LEAD BRIDGE #U14]';
+      if (bbox2Sub) bbox2Sub.textContent = 'SEVERITY: HIGH • TOLERANCE DEVIATION: +0.03mm';
+
+      // Bounding Box 3: Passive Component Array Validation (PASS)
+      if (bbox3) {
+        bbox3.style.display = 'block';
+        bbox3.style.top = '64%';
+        bbox3.style.left = '42%';
+        bbox3.style.width = '20%';
+        bbox3.style.height = '18%';
+      }
+      if (bbox3Text) bbox3Text.innerHTML = '<i class="fas fa-check-circle"></i> [SMT_ARRAY: 12/12 PASS]';
+      if (bbox3Sub) bbox3Sub.textContent = 'CAPACITANCE NOMINAL • BATCH: #ZX-8821';
+
       // Update telemetry strip for Defect QA
+      if (hudMovementStrip) hudMovementStrip.style.display = 'grid';
       const stripLabel1 = document.getElementById('hudStripLabel1');
       const stripLabel2 = document.getElementById('hudStripLabel2');
       const stripLabel3 = document.getElementById('hudStripLabel3');
@@ -3308,75 +3972,35 @@ function initAuraHudMockup() {
       if (hudMotionStability) hudMotionStability.textContent = '99.2%';
       if (btnGenMovementReport) btnGenMovementReport.innerHTML = '<i class="fas fa-microchip"></i> Generate QA Report';
 
-      // Bounding Box 1: Core BGA Processor Inspection
-      if (bbox1) {
-        bbox1.classList.remove('alert-pulse');
-        bbox1.style.top = '36%';
-        bbox1.style.left = '32%';
-        bbox1.style.width = '22%';
-        bbox1.style.height = '28%';
-      }
-      if (bbox1Text) bbox1Text.innerHTML = '<i class="fas fa-microchip"></i> [BGA_QA: NVIDIA AGX | 99.8% PASS]';
-      if (bbox1Sub) bbox1Sub.textContent = 'SOLDER INTEGRITY: 100% • PIN_PITCH: 0.8mm';
-
-      // Bounding Box 2: Defect Anomaly Flag (SMT Lead Bridge)
-      if (bbox2) {
-        bbox2.style.display = 'block';
-        bbox2.style.top = '50%';
-        bbox2.style.left = '58%';
-        bbox2.style.width = '18%';
-        bbox2.style.height = '24%';
-      }
-      if (bbox2Text) bbox2Text.innerHTML = '<i class="fas fa-triangle-exclamation"></i> [DEFECT FLAGGED: SMT LEAD BRIDGE #U14]';
-      if (bbox2Sub) bbox2Sub.textContent = 'SEVERITY: HIGH • TOLERANCE DEVIATION: +0.03mm';
-
-      // Bounding Box 3: Passive Component Array Validation
-      if (bbox3) {
-        bbox3.style.display = 'block';
-        bbox3.style.top = '64%';
-        bbox3.style.left = '42%';
-        bbox3.style.width = '20%';
-        bbox3.style.height = '18%';
-      }
-      if (bbox3Text) bbox3Text.innerHTML = '<i class="fas fa-check-circle"></i> [SMT_ARRAY: 12/12 PASS]';
-      if (bbox3Sub) bbox3Sub.textContent = 'CAPACITANCE NOMINAL • BATCH: #ZX-8821';
-
+      // Status
+      if (globalStatus) { globalStatus.textContent = '1 DEFECT DETECTED'; globalStatus.className = 'telemetry-val text-alert'; }
+      if (hudSourceVal) hudSourceVal.textContent = 'QA-LINE // CSI-2';
       if (latencyVal) latencyVal.textContent = '7ms';
+
+      applyMotionTelemetry(false, 0.12);
     } else if (scenario === 'alert') {
       playScenarioChirp('alert');
       if (btnAlert) btnAlert.classList.add('active');
       if (staticImg) staticImg.src = 'assets/images/aura-cctv-feed.jpg';
-      if (inferenceStaticImg) {
-        inferenceStaticImg.src = 'assets/images/aura-cctv-feed.jpg';
-        inferenceStaticImg.style.display = 'block';
+      if (hudViewport) {
+        hudViewport.classList.remove('is-qa-inspection');
+        hudViewport.classList.add('is-incident-alert');
       }
-      if (cameraCleanBadge) cameraCleanBadge.style.display = 'none';
-      if (twinTelemetryBadge) twinTelemetryBadge.style.display = 'none';
-      if (cameraBoxPill) cameraBoxPill.innerHTML = '<i class="fas fa-eye-slash"></i> CLEAN FEED (UNCLUTTERED)';
-      if (perceptionBoxPill) perceptionBoxPill.innerHTML = '<i class="fas fa-triangle-exclamation"></i> THREAT RESPONSE LOCK';
-      if (hudSourceVal) hudSourceVal.textContent = 'CAM-04 ALARM';
-      if (streamTitle) streamTitle.textContent = '⚠️ INCIDENT DETECTED // BOX 1: CAM-04 + BOX 2: THREAT TRACKING';
+      if (hudIncidentBanner) {
+        hudIncidentBanner.style.display = 'flex';
+      }
+      if (streamTitle) streamTitle.innerHTML = '<i class="fas fa-triangle-exclamation text-alert"></i> INCIDENT ALERT // CAM-04 (FALL / ANOMALY)';
       if (hudProtocol) hudProtocol.textContent = 'RTSP • 1080p@60FPS';
-      if (globalStatus) {
-        globalStatus.textContent = 'ALERT TRIGGERED';
-        globalStatus.className = 'telemetry-val text-alert';
+      if (screenCardTitle) screenCardTitle.textContent = 'ANOMALY FORENSICS // AUTONOMOUS INCIDENT INTERVENTION';
+      if (screenCardPill) {
+        screenCardPill.innerHTML = '<i class="fas fa-triangle-exclamation"></i> THREAT RESPONSE ACTIVE';
+        screenCardPill.className = 'screen-pill pill-ai';
       }
 
-      // Update telemetry strip for Incident Detection
-      const stripLabel1 = document.getElementById('hudStripLabel1');
-      const stripLabel2 = document.getElementById('hudStripLabel2');
-      const stripLabel3 = document.getElementById('hudStripLabel3');
-      if (stripLabel1) stripLabel1.innerHTML = '<i class="fas fa-triangle-exclamation"></i> INCIDENT STATUS';
-      if (hudMotionState) { hudMotionState.textContent = 'CRITICAL ALERT'; hudMotionState.className = 'm-strip-val text-alert'; }
-      if (stripLabel2) stripLabel2.innerHTML = '<i class="fas fa-truck-fast"></i> RESPONSE';
-      if (hudMotionVelocity) hudMotionVelocity.textContent = 'UNIT-04 (ETA 45s)';
-      if (stripLabel3) stripLabel3.innerHTML = '<i class="fas fa-shield"></i> PERIMETER';
-      if (hudMotionStability) hudMotionStability.textContent = 'LOCKED (100%)';
-      if (btnGenMovementReport) btnGenMovementReport.innerHTML = '<i class="fas fa-triangle-exclamation"></i> Generate Incident Report';
-
-      // Bounding Box 1: Anomaly Fall Detection
+      // Bounding Box 1: Anomaly Fall Detection - Pulsing Alert Red
       if (bbox1) {
         bbox1.classList.add('alert-pulse');
+        bbox1.style.display = 'block';
         bbox1.style.top = '45%';
         bbox1.style.left = '42%';
         bbox1.style.width = '18%';
@@ -3387,6 +4011,7 @@ function initAuraHudMockup() {
 
       // Bounding Box 2: Automated Security Squad Dispatch
       if (bbox2) {
+        bbox2.classList.remove('alert-pulse');
         bbox2.style.display = 'block';
         bbox2.style.top = '41%';
         bbox2.style.left = '54.5%';
@@ -3407,12 +4032,25 @@ function initAuraHudMockup() {
       if (bbox3Text) bbox3Text.innerHTML = '<i class="fas fa-lock"></i> [ZONE STATUS: CAUTION // INTERVENING]';
       if (bbox3Sub) bbox3Sub.textContent = 'CAMERA MESH LOCKED • VERIFYING AUDIT';
 
+      // Update telemetry strip for Incident Detection
+      if (hudMovementStrip) hudMovementStrip.style.display = 'grid';
+      const stripLabel1 = document.getElementById('hudStripLabel1');
+      const stripLabel2 = document.getElementById('hudStripLabel2');
+      const stripLabel3 = document.getElementById('hudStripLabel3');
+      if (stripLabel1) stripLabel1.innerHTML = '<i class="fas fa-triangle-exclamation"></i> INCIDENT STATUS';
+      if (hudMotionState) { hudMotionState.textContent = 'CRITICAL ALERT'; hudMotionState.className = 'm-strip-val text-alert'; }
+      if (stripLabel2) stripLabel2.innerHTML = '<i class="fas fa-truck-fast"></i> RESPONSE';
+      if (hudMotionVelocity) hudMotionVelocity.textContent = 'UNIT-04 (ETA 45s)';
+      if (stripLabel3) stripLabel3.innerHTML = '<i class="fas fa-shield"></i> PERIMETER';
+      if (hudMotionStability) hudMotionStability.textContent = 'LOCKED (100%)';
+      if (btnGenMovementReport) btnGenMovementReport.innerHTML = '<i class="fas fa-triangle-exclamation"></i> Generate Incident Report';
+
+      // Status
+      if (globalStatus) { globalStatus.textContent = 'ALERT TRIGGERED'; globalStatus.className = 'telemetry-val text-alert'; }
+      if (hudSourceVal) hudSourceVal.textContent = 'CAM-04 ALARM';
       if (latencyVal) latencyVal.textContent = '6ms';
 
-      // Auto-revert after 8 seconds to demonstrate automated recovery
-      alertTimer = setTimeout(() => {
-        setScenario('campus');
-      }, 8000);
+      applyMotionTelemetry(false, 0.44);
     }
   }
 
@@ -3556,7 +4194,9 @@ function initAuraHudMockup() {
       }
       movementReportModalOverlay.style.display = 'flex';
     } else {
-      // Live Webcam session report
+      // Live Webcam session report (Active or Saved)
+      const repTitle = document.getElementById('movementReportModalTitle');
+      if (repTitle) repTitle.textContent = 'AURA Multi-Face Biometric & Spatial Perception Report';
       origOpenReport();
     }
   };
@@ -3566,6 +4206,22 @@ function initAuraHudMockup() {
   if (btnQa) btnQa.addEventListener('click', () => setScenario('qa'));
   if (btnAlert) btnAlert.addEventListener('click', () => setScenario('alert'));
   if (btnWebcam) btnWebcam.addEventListener('click', () => setScenario('webcam'));
+  if (hudTurnOffCamBtn) {
+    hudTurnOffCamBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      stopWebcam();
+      setScenario('campus');
+    });
+  }
+  if (btnAckIncident) {
+    btnAckIncident.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      showNotice('Incident acknowledged. Corridor CAM-04 restored to nominal surveillance.', false, 'fas fa-shield-check');
+      setScenario('campus');
+    });
+  }
 }
 /* ==========================================================================
    17. GLOBAL SPOTLIGHT SEARCH ENGINE (Site-Wide Command Palette & Navigation)

@@ -193,17 +193,33 @@
             AURA (Autonomous Unified Reasoning Architecture) is an enterprise AI engine engineered for environments
             requiring sub-millisecond decisions, air-gapped zero-trust security, and massive horizontal scaling.
           </p>
-          <ul class="card-feature-list" style="margin: 20px 0 26px;">
-            <li><i class="fas fa-check-circle"></i> <strong>Universal Vision Ingest:</strong> Processes 100+ concurrent
-              RTSP/CSI camera feeds with real-time YOLOv10 spatial parsing.</li>
-            <li><i class="fas fa-check-circle"></i> <strong>Autonomous Agent Swarms:</strong> Coordinated reasoning
-              agents that detect operational drifts and execute remediations.</li>
-            <li><i class="fas fa-check-circle"></i> <strong>Edge-to-Cloud Federation:</strong> Syncs lightweight
-              quantized models to edge gateways with central model orchestration.</li>
-            <li><i class="fas fa-check-circle"></i> <strong>Zero-Trust Cryptographic Vault:</strong> End-to-end payload
-              encryption (AES-256-GCM) and hardware enclave security.</li>
-          </ul>
-          <div style="display: flex; flex-wrap: wrap; gap: 12px;">
+          <!-- Professional Executive Feature Cards (Pillars of AURA Design System) -->
+          <div class="aura-mesh-feature-grid">
+            <div class="tech-card aura-hero-tech-card">
+              <div class="card-icon"><i class="fas fa-satellite-dish"></i></div>
+              <h4>Universal Vision Ingest</h4>
+              <p>Ingests 100+ concurrent RTSP/CSI feeds with sub-millisecond YOLOv10 spatial parsing and zero pipeline buffering.</p>
+            </div>
+
+            <div class="tech-card aura-hero-tech-card">
+              <div class="card-icon"><i class="fas fa-network-wired"></i></div>
+              <h4>Autonomous Agent Swarms</h4>
+              <p>Coordinated cognitive agents that isolate operational anomalies and autonomously execute mitigation protocols.</p>
+            </div>
+
+            <div class="tech-card aura-hero-tech-card">
+              <div class="card-icon"><i class="fas fa-microchip"></i></div>
+              <h4>Edge-to-Cloud Federation</h4>
+              <p>Continuous synchronization of lightweight TensorRT-FP8 quantized models across air-gapped edge gateways.</p>
+            </div>
+
+            <div class="tech-card aura-hero-tech-card">
+              <div class="card-icon"><i class="fas fa-shield-halved"></i></div>
+              <h4>Zero-Trust Cryptographic Vault</h4>
+              <p>Hardware-isolated enclave computation with end-to-end AES-256-GCM encrypted telemetry integrity.</p>
+            </div>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px;">
             <a href="contact.html" class="btn btn-primary btn-lg">Request Enterprise AURA Demo <i
                 class="fas fa-arrow-right"></i></a>
             <a href="#auraHudContainer" class="btn btn-secondary btn-lg"><i class="fas fa-video"></i> Live Vision
@@ -214,102 +230,69 @@
 
         <div id="auraLiveFeedConsole" style="position: relative; width: 100%; display: flex; justify-content: center;">
           <div class="aura-hud-container" id="auraHudContainer">
-            <!-- Top Cybernetic Header -->
+            <!-- Top Cybernetic Header with Live IST in Left Top Corner -->
             <div class="aura-hud-header">
               <div class="aura-hud-stream-status">
                 <span class="hud-rec-dot"></span>
-                <span class="hud-stream-title" id="hudStreamTitle">LIVE FEED // CAM-04</span>
+                <span class="hud-ist-clock" id="hudLiveClock"><i class="fas fa-clock"></i> LIVE IST: 00:00:00 IST</span>
               </div>
-              <div class="aura-hud-clock" id="hudLiveClock">2026-10-10 14:38:15 UTC</div>
+              <div class="hud-stream-title" id="hudStreamTitle"><i class="fas fa-video text-primary"></i> LIVE FEED // CAM-04</div>
               <div class="aura-hud-protocol" id="hudProtocol">RTSP • 1080p@60FPS</div>
             </div>
 
-            <!-- Dual Screen Vision Console: Box 1 (Clean Sensor Ingest) & Box 2 (Spatial Inference Response) -->
-            <div class="aura-hud-screens-grid" id="auraHudScreensGrid">
-
-              <!-- BOX 1: RAW CAMERA SENSOR (Clean Feed - Tracking Frames Hidden) -->
-              <div class="aura-hud-screen-card" id="auraCameraBox">
-                <div class="aura-screen-header">
-                  <div class="screen-title-wrap">
-                    <i class="fas fa-video text-primary"></i>
-                    <span>BOX 1: RAW CAMERA SENSOR</span>
-                  </div>
-                  <span class="screen-pill pill-clean" id="cameraBoxPill"><i class="fas fa-eye-slash"></i> CLEAN FEED
-                    (UNCLUTTERED)</span>
+            <!-- Single Vision Feed Console: Dedicated High-Precision Face & Eye Tracking Core -->
+            <div class="aura-hud-single-screen" id="auraSingleBox">
+              <div class="aura-screen-header">
+                <div class="screen-title-wrap">
+                  <i class="fas fa-crosshairs text-primary"></i>
+                  <span id="screenCardTitle">BIOMETRIC TRACKING // FACE & EYE GAZE CORE</span>
                 </div>
-                <div class="aura-hud-viewport camera-clean-feed" id="auraHudViewport">
-                  <img src="assets/images/aura-cctv-feed.jpg" alt="AURA Live Edge Perception CCTV Stream"
-                    class="aura-hud-video-bg" id="hudStaticImg">
-                  <video id="hudWebcamVideo" autoplay playsinline muted class="aura-hud-video-bg"
-                    style="display: none; transform: scaleX(-1); object-fit: cover;"></video>
-
-                  <!-- Webcam Notice / Permission Message Banner -->
-                  <div class="hud-webcam-notice" id="hudWebcamNotice" style="display: none;">
-                    <i class="fas fa-video" id="hudNoticeIcon"></i>
-                    <span id="hudWebcamNoticeText">Requesting camera permission...</span>
-                    <button type="button" class="hud-notice-close" id="hudNoticeClose"
-                      aria-label="Dismiss notice">&times;</button>
-                  </div>
-
-                  <!-- Scanline Laser Effect -->
-                  <div class="aura-hud-scanline"></div>
-
-                  <!-- Corner Brackets -->
-                  <div class="hud-corner top-left"></div>
-                  <div class="hud-corner top-right"></div>
-                  <div class="hud-corner bottom-left"></div>
-                  <div class="hud-corner bottom-right"></div>
-
-                  <!-- Clean Ingest Watermark -->
-                  <div class="aura-hud-watermark">
-                    <span class="wm-brand">ZEVIONIX <span style="color: var(--primary);">AURA™</span></span>
-                    <span class="wm-engine">SENSOR ENCLAVE // CAM-01</span>
-                  </div>
-
-                  <!-- Clean Camera Status Pill -->
-                  <div class="camera-clean-badge" id="cameraCleanBadge" style="display: none;">
-                    <span class="pill-dot"></span>
-                    <span>RAW CAMERA STREAM • UNCLUTTERED</span>
-                  </div>
-                </div>
+                <span class="screen-pill pill-ai" id="screenCardPill"><i class="fas fa-microchip"></i> ACTIVE TRACKING</span>
               </div>
+              <div class="aura-hud-viewport" id="auraHudViewport">
+                <img src="assets/images/aura-cctv-feed.jpg" alt="AURA Live Edge Perception Stream"
+                  class="aura-hud-video-bg" id="hudStaticImg">
+                <video id="hudWebcamVideo" autoplay playsinline muted class="aura-hud-video-bg"
+                  style="display: none; transform: scaleX(-1); object-fit: cover;"></video>
 
-              <!-- BOX 2: AURA EDGE PERCEPTION ENGINE (Dedicated Real-Time Inference Response) -->
-              <div class="aura-hud-screen-card" id="auraPerceptionBox">
-                <div class="aura-screen-header">
-                  <div class="screen-title-wrap">
-                    <i class="fas fa-brain text-emerald"></i>
-                    <span>BOX 2: SPATIAL INFERENCE & DIGITAL TWIN</span>
-                  </div>
-                  <span class="screen-pill pill-ai" id="perceptionBoxPill"><i class="fas fa-microchip"></i> REAL-TIME
-                    RESPONSE</span>
+                <!-- Digital Twin & Eye Vector Canvas -->
+                <canvas id="auraTwinCanvas" class="aura-twin-canvas"></canvas>
+
+                <!-- Scanline Laser Effect -->
+                <div class="aura-hud-scanline"></div>
+
+                <!-- Corner Reticle Brackets -->
+                <div class="hud-corner top-left"></div>
+                <div class="hud-corner top-right"></div>
+                <div class="hud-corner bottom-left"></div>
+                <div class="hud-corner bottom-right"></div>
+
+                <!-- Live Motion Vector & Activity Badge -->
+                <div class="hud-motion-badge" id="hudMotionBadge" style="display: none;">
+                  <span class="motion-pulse-dot" id="hudMotionDot"></span>
+                  <span id="hudMotionBadgeText">MOTION: ACTIVE • 0.28 m/s</span>
                 </div>
-                <div class="aura-hud-viewport aura-inference-viewport" id="auraInferenceViewport">
-                  <img src="assets/images/aura-cctv-feed.jpg" alt="AURA Edge Perception Neural Feed"
-                    class="aura-hud-video-bg aura-inference-bg" id="inferenceStaticImg">
 
-                  <!-- Real-Time Kinematic Digital Twin Canvas -->
-                  <canvas id="auraTwinCanvas" class="aura-twin-canvas"></canvas>
+                <!-- Live Floating Turn-Off Camera Action Button (Active in Webcam Mode) -->
+                <button type="button" class="hud-turn-off-cam-btn" id="hudTurnOffCamBtn" style="display: none;"
+                  title="Turn off live camera and keep session report">
+                  <i class="fas fa-video-slash"></i> Turn Off Camera
+                </button>
 
-                  <!-- Live Motion Vector & Activity Badge -->
-                  <div class="hud-motion-badge" id="hudMotionBadge" style="display: none;">
-                    <span class="motion-pulse-dot" id="hudMotionDot"></span>
-                    <span id="hudMotionBadgeText">MOTION: STATIONARY • 0.00 m/s</span>
+                <!-- Incident Threat Warning Banner (Active in Alert Mode) -->
+                <div class="hud-incident-banner" id="hudIncidentBanner" style="display: none;">
+                  <div class="incident-banner-content">
+                    <i class="fas fa-triangle-exclamation"></i>
+                    <span><strong>CRITICAL ANOMALY:</strong> Sudden Elevation Drop (CAM-04) • Rapid Squad #04 Dispatched</span>
                   </div>
+                  <button type="button" class="btn-ack-incident" id="btnAckIncident" title="Acknowledge alert and restore nominal corridor monitoring">
+                    <i class="fas fa-shield-check"></i> Reset Alert
+                  </button>
+                </div>
 
-                  <!-- Scanline Laser Effect -->
-                  <div class="aura-hud-scanline"></div>
-
-                  <!-- Target Reticles & Grid Overlay -->
-                  <div class="aura-hud-overlay-grid"></div>
-
-                  <!-- Corner Brackets -->
-                  <div class="hud-corner top-left"></div>
-                  <div class="hud-corner top-right"></div>
-                  <div class="hud-corner bottom-left"></div>
-                  <div class="hud-corner bottom-right"></div>
-
-                  <!-- Bounding Box 1: Center Walking Person / Operator Torso -->
+                <!-- Scenario Bounding Boxes Layer (Active in Campus, Defect QA, and Detect Incident modes) -->
+                <div class="scenario-bbox-layer" id="scenarioBboxLayer">
+                  <!-- Bounding Box 1 -->
                   <div class="aura-bbox bbox-passenger" id="bbox1">
                     <div class="aura-bbox-tag" id="bbox1Tag">
                       <span class="bbox-tag-icon"><i class="fas fa-user-check"></i></span>
@@ -318,24 +301,16 @@
                     <div class="aura-bbox-subtag" id="bbox1Sub">TRACK_ID: #4092 • POSE: UPRIGHT</div>
                   </div>
 
-                  <!-- Bounding Box 2: Secondary Person / Operator Face Mesh -->
+                  <!-- Bounding Box 2 -->
                   <div class="aura-bbox bbox-personnel" id="bbox2">
                     <div class="aura-bbox-tag tag-cyan" id="bbox2Tag">
                       <span class="bbox-tag-icon"><i class="fas fa-id-badge"></i></span>
                       <span class="bbox-tag-text" id="bbox2Text">[OBJECT: PERSONNEL | CONFIDENCE: 96.1%]</span>
                     </div>
                     <div class="aura-bbox-subtag" id="bbox2Sub">BADGE: VERIFIED • VEL: 1.1m/s</div>
-                    <!-- Micro Landmark Reticles for Live Face Mesh Detection -->
-                    <div class="face-mesh-points" id="faceMeshPoints" style="display: none;">
-                      <span class="fpoint p-eye-l" title="Left Eye"></span>
-                      <span class="fpoint p-eye-r" title="Right Eye"></span>
-                      <span class="fpoint p-nose" title="Nose Landmark"></span>
-                      <span class="fpoint p-mouth-l" title="Mouth Corner L"></span>
-                      <span class="fpoint p-mouth-r" title="Mouth Corner R"></span>
-                    </div>
                   </div>
 
-                  <!-- Bounding Box 3: Corridor Floor Hazard Analysis / Local Memory Audit -->
+                  <!-- Bounding Box 3 -->
                   <div class="aura-bbox bbox-hazard" id="bbox3">
                     <div class="aura-bbox-tag tag-emerald" id="bbox3Tag">
                       <span class="bbox-tag-icon"><i class="fas fa-shield-halved"></i></span>
@@ -343,20 +318,79 @@
                     </div>
                     <div class="aura-bbox-subtag" id="bbox3Sub">TRAJECTORY CLEAR • RISK: 0.02%</div>
                   </div>
+                </div>
 
-                  <!-- AI Engine Watermark -->
-                  <div class="aura-hud-watermark">
-                    <span class="wm-brand">ZEVIONIX <span style="color: var(--primary);">AURA™</span></span>
-                    <span class="wm-engine">TENSORRT-FP8 // SPATIAL INFERENCE</span>
+                <!-- Multi-Face Tracking Layer (Active in Live Webcam Mode) -->
+                <div class="webcam-multi-face-layer" id="webcamMultiFaceLayer" style="display: none;">
+                  <!-- Face #01 Tracker (Primary Operator) -->
+                  <div class="face-eye-tracker face-primary" id="faceEyeTracker" style="display: none;">
+                    <div class="face-box-tag" id="faceBoxTag">
+                      <i class="fas fa-user-check"></i>
+                      <span id="faceTagText">FACE #01 [OPERATOR] • 99.8%</span>
+                    </div>
+                    <div class="face-frame-corners">
+                      <span class="ff-corner tl"></span>
+                      <span class="ff-corner tr"></span>
+                      <span class="ff-corner bl"></span>
+                      <span class="ff-corner br"></span>
+                    </div>
+                    <!-- Precision Eye Dots -->
+                    <div class="eye-dot eye-left" id="eyeDotLeft" title="Left Eye Position"></div>
+                    <div class="eye-dot eye-right" id="eyeDotRight" title="Right Eye Position"></div>
+                    <div class="face-box-subtag" id="faceBoxSub">GAZE: FOCUSED • LIVENESS: VERIFIED</div>
                   </div>
 
-                  <!-- Digital Twin Vector Telemetry Badge -->
-                  <div class="twin-telemetry-badge" id="twinTelemetryBadge" style="display: none;">
-                    <i class="fas fa-crosshairs"></i> SPATIAL MATRIX: [X: 50.0%, Y: 34.0%, Z: 1.00m]
+                  <!-- Face #02 Tracker (Secondary Subject / Colleague) -->
+                  <div class="face-eye-tracker face-secondary" id="faceEyeTracker2" style="display: none;">
+                    <div class="face-box-tag tag-cyan" id="faceBoxTag2">
+                      <i class="fas fa-user-plus"></i>
+                      <span id="faceTagText2">FACE #02 [SUBJECT] • 98.4%</span>
+                    </div>
+                    <div class="face-frame-corners">
+                      <span class="ff-corner tl"></span>
+                      <span class="ff-corner tr"></span>
+                      <span class="ff-corner bl"></span>
+                      <span class="ff-corner br"></span>
+                    </div>
+                    <!-- Precision Eye Dots -->
+                    <div class="eye-dot eye-left" id="eyeDotLeft2" title="Left Eye Position"></div>
+                    <div class="eye-dot eye-right" id="eyeDotRight2" title="Right Eye Position"></div>
+                    <div class="face-box-subtag" id="faceBoxSub2">POSE: CALIBRATED • TRACK_ID: #02</div>
+                  </div>
+
+                  <!-- Face #03 Tracker (Tertiary Subject / Group) -->
+                  <div class="face-eye-tracker face-tertiary" id="faceEyeTracker3" style="display: none;">
+                    <div class="face-box-tag tag-emerald" id="faceBoxTag3">
+                      <i class="fas fa-user-shield"></i>
+                      <span id="faceTagText3">FACE #03 [SUBJECT] • 96.7%</span>
+                    </div>
+                    <div class="face-frame-corners">
+                      <span class="ff-corner tl"></span>
+                      <span class="ff-corner tr"></span>
+                      <span class="ff-corner bl"></span>
+                      <span class="ff-corner br"></span>
+                    </div>
+                    <!-- Precision Eye Dots -->
+                    <div class="eye-dot eye-left" id="eyeDotLeft3" title="Left Eye Position"></div>
+                    <div class="eye-dot eye-right" id="eyeDotRight3" title="Right Eye Position"></div>
+                    <div class="face-box-subtag" id="faceBoxSub3">STATUS: VERIFIED • TRACK_ID: #03</div>
                   </div>
                 </div>
-              </div>
 
+                <!-- Clean HUD Watermark -->
+                <div class="aura-hud-watermark">
+                  <span class="wm-brand">ZEVIONIX <span style="color: var(--primary);">AURA™</span></span>
+                  <span class="wm-engine">FACIAL & EYE GAZE SENSOR ENCLAVE</span>
+                </div>
+
+                <!-- Webcam Notice / Permission Message Banner -->
+                <div class="hud-webcam-notice" id="hudWebcamNotice" style="display: none;">
+                  <i class="fas fa-video" id="hudNoticeIcon"></i>
+                  <span id="hudWebcamNoticeText">Requesting camera permission...</span>
+                  <button type="button" class="hud-notice-close" id="hudNoticeClose"
+                    aria-label="Dismiss notice">&times;</button>
+                </div>
+              </div>
             </div>
 
             <!-- Real-Time Telemetry Bar -->
@@ -1024,6 +1058,9 @@
     </div>
   </footer>
 
+  <!-- High-Precision Real-Time Neural Face Detection Engine -->
+  <script src="pico.js"></script>
+  <script src="facefinder-data.js"></script>
   <script src="script.js" defer></script>
 </body>
 
