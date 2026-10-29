@@ -445,15 +445,9 @@ function initAuraTelemetrySimulator() {
       topCtx.arc(nx, ny, 6, 0, Math.PI * 2);
       topCtx.fill();
 
-<<<<<<< HEAD
-      // Node label
-      topCtx.fillStyle = '#475569';
-      topCtx.font = '600 10px "JetBrains Mono", monospace';
-=======
       // Node label with mobile bounds protection
-      topCtx.fillStyle = '#94a3b8';
-      topCtx.font = (w < 480 ? '9px' : '10px') + ' "JetBrains Mono", monospace';
->>>>>>> 471d2a1 (update site in mobile view)
+      topCtx.fillStyle = w < 480 ? '#94a3b8' : '#475569';
+      topCtx.font = (w < 480 ? '9px' : '600 10px') + ' "JetBrains Mono", monospace';
       topCtx.textAlign = 'center';
       const labelX = Math.max(38, Math.min(w - 38, nx));
       const labelY = Math.min(h - 6, ny + (w < 480 ? 20 : 24));
@@ -528,21 +522,7 @@ function initAuraTelemetrySimulator() {
     greenGrad.addColorStop(1, 'rgba(5, 150, 105, 0.02)');
     drawSeries(state.history.gpuLoad, '#059669', greenGrad, 100);
 
-<<<<<<< HEAD
     // Draw Graph Legends & Real-time Labels
-    telCtx.fillStyle = '#475569';
-    telCtx.font = '600 10px "JetBrains Mono", monospace';
-    telCtx.textAlign = 'left';
-    telCtx.fillText('THROUGHPUT (EVENTS/S)', 12, 18);
-    telCtx.fillStyle = '#0284c7';
-    telCtx.fillRect(150, 11, 8, 8);
-
-    telCtx.fillStyle = '#475569';
-    telCtx.fillText('GPU COMPUTE (%)', 178, 18);
-    telCtx.fillStyle = '#059669';
-    telCtx.fillRect(285, 11, 8, 8);
-=======
-    // Draw Graph Legends & Real-time Labels (Mobile Responsive)
     if (w < 380) {
       telCtx.fillStyle = '#64748b';
       telCtx.font = '9px "JetBrains Mono", monospace';
@@ -556,19 +536,18 @@ function initAuraTelemetrySimulator() {
       telCtx.fillStyle = '#34d399';
       telCtx.fillRect(110, 9, 6, 6);
     } else {
-      telCtx.fillStyle = '#64748b';
-      telCtx.font = '10px "JetBrains Mono", monospace';
+      telCtx.fillStyle = '#475569';
+      telCtx.font = '600 10px "JetBrains Mono", monospace';
       telCtx.textAlign = 'left';
       telCtx.fillText('THROUGHPUT (EVENTS/S)', 12, 18);
-      telCtx.fillStyle = '#38bdf8';
-      telCtx.fillRect(145, 11, 8, 8);
+      telCtx.fillStyle = '#0284c7';
+      telCtx.fillRect(150, 11, 8, 8);
 
-      telCtx.fillStyle = '#64748b';
-      telCtx.fillText('GPU COMPUTE (%)', 170, 18);
-      telCtx.fillStyle = '#34d399';
-      telCtx.fillRect(270, 11, 8, 8);
+      telCtx.fillStyle = '#475569';
+      telCtx.fillText('GPU COMPUTE (%)', 178, 18);
+      telCtx.fillStyle = '#059669';
+      telCtx.fillRect(285, 11, 8, 8);
     }
->>>>>>> 471d2a1 (update site in mobile view)
 
     requestAnimationFrame(renderTelemetryGraph);
   }
@@ -1067,8 +1046,18 @@ function initAuraLiveWebcamEngine() {
   let frameCount = 0;
 
   function render() {
+    // If container is hidden (e.g. in System View / Desktop), pause render loop
+    if (!container.offsetParent) {
+      requestAnimationFrame(render);
+      return;
+    }
+
     const w = canvas.getBoundingClientRect().width;
     const h = canvas.getBoundingClientRect().height;
+    if (w === 0 || h === 0) {
+      requestAnimationFrame(render);
+      return;
+    }
 
     // Measure FPS
     const now = performance.now();
