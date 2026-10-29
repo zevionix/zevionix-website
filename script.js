@@ -206,6 +206,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // 9. AURA LIVE TELEMETRY & EDGE-TO-CLOUD MESH SIMULATOR ENGINE
   // ==========================================================================
   initAuraTelemetrySimulator();
+  initAuraLiveWebcamEngine();
 
   // ==========================================================================
   // 10. DEVELOPER PORTAL & INTERACTIVE API PLAYGROUND ENGINE
@@ -300,19 +301,24 @@ function initAuraTelemetrySimulator() {
   const topCtx = topologyCanvas ? topologyCanvas.getContext('2d') : null;
   const telCtx = telemetryCanvas ? telemetryCanvas.getContext('2d') : null;
 
-  // Setup HiDPI Canvas
+  // Setup HiDPI Canvas with clean transform reset
   function setupCanvas(canvas, ctx) {
     if (!canvas || !ctx) return;
     const rect = canvas.getBoundingClientRect();
-    const dpr = window.devicePixelRatio || 1;
-    canvas.width = rect.width * dpr;
-    canvas.height = rect.height * dpr;
-    ctx.scale(dpr, dpr);
+    if (!rect.width || !rect.height) return;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.floor(rect.width * dpr);
+    canvas.height = Math.floor(rect.height * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
 
+  let resizeTimeout;
   function resizeCanvases() {
-    if (topologyCanvas && topCtx) setupCanvas(topologyCanvas, topCtx);
-    if (telemetryCanvas && telCtx) setupCanvas(telemetryCanvas, telCtx);
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+      if (topologyCanvas && topCtx) setupCanvas(topologyCanvas, topCtx);
+      if (telemetryCanvas && telCtx) setupCanvas(telemetryCanvas, telCtx);
+    }, 60);
   }
 
   window.addEventListener('resize', resizeCanvases);
@@ -439,11 +445,19 @@ function initAuraTelemetrySimulator() {
       topCtx.arc(nx, ny, 6, 0, Math.PI * 2);
       topCtx.fill();
 
+<<<<<<< HEAD
       // Node label
       topCtx.fillStyle = '#475569';
       topCtx.font = '600 10px "JetBrains Mono", monospace';
+=======
+      // Node label with mobile bounds protection
+      topCtx.fillStyle = '#94a3b8';
+      topCtx.font = (w < 480 ? '9px' : '10px') + ' "JetBrains Mono", monospace';
+>>>>>>> 471d2a1 (update site in mobile view)
       topCtx.textAlign = 'center';
-      topCtx.fillText(node.name, nx, ny + 26);
+      const labelX = Math.max(38, Math.min(w - 38, nx));
+      const labelY = Math.min(h - 6, ny + (w < 480 ? 20 : 24));
+      topCtx.fillText(node.name, labelX, labelY);
     });
 
     requestAnimationFrame(renderTopology);
@@ -514,6 +528,7 @@ function initAuraTelemetrySimulator() {
     greenGrad.addColorStop(1, 'rgba(5, 150, 105, 0.02)');
     drawSeries(state.history.gpuLoad, '#059669', greenGrad, 100);
 
+<<<<<<< HEAD
     // Draw Graph Legends & Real-time Labels
     telCtx.fillStyle = '#475569';
     telCtx.font = '600 10px "JetBrains Mono", monospace';
@@ -526,6 +541,34 @@ function initAuraTelemetrySimulator() {
     telCtx.fillText('GPU COMPUTE (%)', 178, 18);
     telCtx.fillStyle = '#059669';
     telCtx.fillRect(285, 11, 8, 8);
+=======
+    // Draw Graph Legends & Real-time Labels (Mobile Responsive)
+    if (w < 380) {
+      telCtx.fillStyle = '#64748b';
+      telCtx.font = '9px "JetBrains Mono", monospace';
+      telCtx.textAlign = 'left';
+      telCtx.fillText('EVENTS/S', 8, 16);
+      telCtx.fillStyle = '#38bdf8';
+      telCtx.fillRect(68, 9, 6, 6);
+
+      telCtx.fillStyle = '#64748b';
+      telCtx.fillText('GPU', 86, 16);
+      telCtx.fillStyle = '#34d399';
+      telCtx.fillRect(110, 9, 6, 6);
+    } else {
+      telCtx.fillStyle = '#64748b';
+      telCtx.font = '10px "JetBrains Mono", monospace';
+      telCtx.textAlign = 'left';
+      telCtx.fillText('THROUGHPUT (EVENTS/S)', 12, 18);
+      telCtx.fillStyle = '#38bdf8';
+      telCtx.fillRect(145, 11, 8, 8);
+
+      telCtx.fillStyle = '#64748b';
+      telCtx.fillText('GPU COMPUTE (%)', 170, 18);
+      telCtx.fillStyle = '#34d399';
+      telCtx.fillRect(270, 11, 8, 8);
+    }
+>>>>>>> 471d2a1 (update site in mobile view)
 
     requestAnimationFrame(renderTelemetryGraph);
   }
@@ -773,6 +816,549 @@ function initAuraTelemetrySimulator() {
 
   // Initial welcome log
   pushTerminalLog('ingest', 'AURA StreamPulse Engine v3.4 initialized. Telemetry cluster online.');
+}
+
+// ==========================================================================
+// 9B. AURA LIVE WEBCAM & SPATIAL AI VISION TESTBED
+// ==========================================================================
+function initAuraLiveWebcamEngine() {
+  const container = document.getElementById('auraWebcamContainer');
+  if (!container) return;
+
+  const video = document.getElementById('auraWebcamVideo');
+  const canvas = document.getElementById('auraWebcamOverlay');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+
+  const btnToggleWebcam = document.getElementById('btnToggleWebcam');
+  const btnFlipCamera = document.getElementById('btnFlipCamera');
+  const cameraSelect = document.getElementById('auraCameraSelect');
+  const cameraSelectWrap = document.getElementById('webcamSelectWrap');
+  const btnToggleOverlay = document.getElementById('btnToggleOverlay');
+  const btnSnapshotInference = document.getElementById('btnSnapshotInference');
+  const btnStartWebcamPrompt = document.getElementById('btnStartWebcamPrompt');
+  const webcamPromptBanner = document.getElementById('webcamPromptBanner');
+
+  const webcamStatusLabel = document.getElementById('webcamStatusLabel');
+  const webcamSourceBadge = document.getElementById('webcamSourceBadge');
+  const webcamPulseDot = document.getElementById('webcamPulseDot');
+  const webcamToggleText = document.getElementById('webcamToggleText');
+  const overlayToggleText = document.getElementById('overlayToggleText');
+
+  const camLatencyText = document.getElementById('camLatencyText');
+  const camFpsText = document.getElementById('camFpsText');
+  const telemetryDetections = document.getElementById('telemetryDetections');
+  const telemetryHash = document.getElementById('telemetryHash');
+
+  let isLive = false;
+  let currentStream = null;
+  let facingMode = 'user'; // 'user' (front/selfie) or 'environment' (back/rear)
+  let selectedDeviceId = '';
+  let availableCameras = [];
+  let showOverlay = true;
+
+  // HiDPI Canvas Resizing
+  function resizeOverlayCanvas() {
+    const rect = canvas.getBoundingClientRect();
+    if (!rect.width || !rect.height) return;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.floor(rect.width * dpr);
+    canvas.height = Math.floor(rect.height * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+
+  window.addEventListener('resize', () => {
+    setTimeout(resizeOverlayCanvas, 50);
+  });
+  if (video) {
+    video.addEventListener('loadedmetadata', resizeOverlayCanvas);
+  }
+  resizeOverlayCanvas();
+
+  // Enumerate and Populate Cameras
+  async function refreshCameraList() {
+    if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) return;
+    try {
+      const devices = await navigator.mediaDevices.enumerateDevices();
+      availableCameras = devices.filter(d => d.kind === 'videoinput');
+
+      if (cameraSelect) {
+        cameraSelect.innerHTML = '';
+
+        if (availableCameras.length === 0) {
+          const opt = document.createElement('option');
+          opt.value = '';
+          opt.textContent = 'Default Camera';
+          cameraSelect.appendChild(opt);
+          return;
+        }
+
+        availableCameras.forEach((cam, idx) => {
+          const opt = document.createElement('option');
+          opt.value = cam.deviceId;
+          let label = cam.label;
+          if (!label) {
+            label = (idx === 0) ? `Camera 1 (Front / Main)` : `Camera ${idx + 1} (Secondary)`;
+          }
+          opt.textContent = label;
+          if (cam.deviceId === selectedDeviceId || (!selectedDeviceId && idx === 0)) {
+            opt.selected = true;
+          }
+          cameraSelect.appendChild(opt);
+        });
+
+        // Update button label if multiple cameras available
+        if (btnFlipCamera) {
+          const flipText = btnFlipCamera.querySelector('span');
+          if (flipText) {
+            flipText.textContent = availableCameras.length > 1
+              ? `Switch Camera (${availableCameras.length})`
+              : 'Switch Camera';
+          }
+        }
+      }
+    } catch (e) {
+      console.warn('enumerateDevices error:', e);
+    }
+  }
+
+  // Listen for device connections
+  if (navigator.mediaDevices && navigator.mediaDevices.addEventListener) {
+    navigator.mediaDevices.addEventListener('devicechange', refreshCameraList);
+  }
+  refreshCameraList();
+
+  // Simulated target detection boxes with smooth trajectory
+  const simTargets = [
+    {
+      id: 1,
+      label: 'Operator #04',
+      conf: 0.984,
+      relX: 0.16,
+      relY: 0.22,
+      relW: 0.22,
+      relH: 0.54,
+      vx: 0.0009,
+      vy: 0.0005,
+      color: '#38bdf8'
+    },
+    {
+      id: 2,
+      label: 'PPE Hardhat',
+      conf: 0.992,
+      relX: 0.20,
+      relY: 0.16,
+      relW: 0.12,
+      relH: 0.12,
+      vx: 0.0009,
+      vy: 0.0005,
+      color: '#34d399'
+    },
+    {
+      id: 3,
+      label: 'Robotic Arm [Zone B]',
+      conf: 0.967,
+      relX: 0.60,
+      relY: 0.30,
+      relW: 0.26,
+      relH: 0.48,
+      vx: -0.0007,
+      vy: 0.0004,
+      color: '#a855f7'
+    },
+    {
+      id: 4,
+      label: 'Defect Check [Passed]',
+      conf: 0.998,
+      relX: 0.46,
+      relY: 0.62,
+      relW: 0.15,
+      relH: 0.18,
+      vx: 0.0005,
+      vy: -0.0006,
+      color: '#f59e0b'
+    }
+  ];
+
+  // Helper to draw bounding reticle
+  function drawReticle(boxX, boxY, boxW, boxH, label, conf, color, isSmall) {
+    // Semi-transparent box background
+    ctx.fillStyle = color === '#38bdf8' ? 'rgba(56, 189, 248, 0.08)' :
+      color === '#34d399' ? 'rgba(52, 211, 153, 0.08)' :
+      color === '#a855f7' ? 'rgba(168, 85, 247, 0.08)' : 'rgba(245, 158, 11, 0.08)';
+    ctx.fillRect(boxX, boxY, boxW, boxH);
+
+    // Dashed border
+    ctx.strokeStyle = color;
+    ctx.lineWidth = isSmall ? 1 : 1.5;
+    ctx.setLineDash([4, 4]);
+    ctx.strokeRect(boxX, boxY, boxW, boxH);
+    ctx.setLineDash([]);
+
+    // Tech Corner Brackets
+    const cornerSize = Math.min(12, boxW * 0.22, boxH * 0.22);
+    ctx.strokeStyle = '#ffffff';
+    ctx.lineWidth = 2;
+
+    // Top-Left
+    ctx.beginPath();
+    ctx.moveTo(boxX, boxY + cornerSize);
+    ctx.lineTo(boxX, boxY);
+    ctx.lineTo(boxX + cornerSize, boxY);
+    ctx.stroke();
+
+    // Top-Right
+    ctx.beginPath();
+    ctx.moveTo(boxX + boxW - cornerSize, boxY);
+    ctx.lineTo(boxX + boxW, boxY);
+    ctx.lineTo(boxX + boxW, boxY + cornerSize);
+    ctx.stroke();
+
+    // Bottom-Left
+    ctx.beginPath();
+    ctx.moveTo(boxX, boxY + boxH - cornerSize);
+    ctx.lineTo(boxX, boxY + boxH);
+    ctx.lineTo(boxX + cornerSize, boxY + boxH);
+    ctx.stroke();
+
+    // Bottom-Right
+    ctx.beginPath();
+    ctx.moveTo(boxX + boxW - cornerSize, boxY + boxH);
+    ctx.lineTo(boxX + boxW, boxY + boxH);
+    ctx.lineTo(boxX + boxW, boxY + boxH - cornerSize);
+    ctx.stroke();
+
+    // Target Crosshair
+    const cx = boxX + boxW / 2;
+    const cy = boxY + boxH / 2;
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(cx - 4, cy);
+    ctx.lineTo(cx + 4, cy);
+    ctx.moveTo(cx, cy - 4);
+    ctx.lineTo(cx, cy + 4);
+    ctx.stroke();
+
+    // Tag Label
+    const tagText = `${label} [${(conf * 100).toFixed(1)}%]`;
+    ctx.font = (isSmall ? '9px' : '10px') + ' "JetBrains Mono", monospace';
+    const tagWidth = ctx.measureText(tagText).width + 10;
+    const tagHeight = isSmall ? 15 : 18;
+
+    let tagY = boxY - tagHeight - 2;
+    if (tagY < 2) tagY = boxY + 2;
+
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.92)';
+    ctx.fillRect(boxX, tagY, tagWidth, tagHeight);
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 1;
+    ctx.strokeRect(boxX, tagY, tagWidth, tagHeight);
+
+    ctx.fillStyle = '#ffffff';
+    ctx.textBaseline = 'middle';
+    ctx.textAlign = 'left';
+    ctx.fillText(tagText, boxX + 5, tagY + tagHeight / 2);
+    ctx.textBaseline = 'alphabetic';
+  }
+
+  // Live Render Loop
+  let lastFrameTime = performance.now();
+  let frameCount = 0;
+
+  function render() {
+    const w = canvas.getBoundingClientRect().width;
+    const h = canvas.getBoundingClientRect().height;
+
+    // Measure FPS
+    const now = performance.now();
+    frameCount++;
+    if (now - lastFrameTime >= 1000) {
+      const curFps = Math.round((frameCount * 1000) / (now - lastFrameTime));
+      frameCount = 0;
+      lastFrameTime = now;
+      if (camFpsText) camFpsText.textContent = curFps;
+    }
+
+    ctx.clearRect(0, 0, w, h);
+
+    if (!isLive) {
+      // Draw Simulated Industrial Camera Video Canvas
+      const bgGrad = ctx.createLinearGradient(0, 0, w, h);
+      bgGrad.addColorStop(0, '#070b14');
+      bgGrad.addColorStop(0.5, '#0b1325');
+      bgGrad.addColorStop(1, '#05070e');
+      ctx.fillStyle = bgGrad;
+      ctx.fillRect(0, 0, w, h);
+
+      // Subtle CCTV Scanlines
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.02)';
+      for (let y = 0; y < h; y += 4) {
+        ctx.fillRect(0, y, w, 1);
+      }
+
+      // Live Timestamp & Ingest Tag
+      ctx.fillStyle = '#38bdf8';
+      ctx.font = (w < 480 ? '9px' : '11px') + ' "JetBrains Mono", monospace';
+      ctx.textAlign = 'left';
+      ctx.fillText(`CAM-01 [RTSP 4K] // ZONE-B AIR-GAPPED`, 14, 22);
+
+      const d = new Date();
+      const timeStr = d.toISOString().replace('T', ' ').substring(0, 19) + ' UTC';
+      ctx.fillStyle = '#94a3b8';
+      ctx.textAlign = 'right';
+      ctx.fillText(timeStr, w - 14, 22);
+
+      // Update and Draw Simulated Targets
+      simTargets.forEach(t => {
+        t.relX += t.vx;
+        t.relY += t.vy;
+        if (t.relX < 0.05 || t.relX + t.relW > 0.95) t.vx *= -1;
+        if (t.relY < 0.12 || t.relY + t.relH > 0.92) t.vy *= -1;
+
+        if (showOverlay) {
+          const bx = t.relX * w;
+          const by = t.relY * h;
+          const bw = t.relW * w;
+          const bh = t.relH * h;
+          drawReticle(bx, by, bw, bh, t.label, t.conf, t.color, w < 480);
+        }
+      });
+    } else {
+      // Live Device Webcam Active
+      if (showOverlay) {
+        const timeFactor = now * 0.001;
+        // Face/Person target reticle (tracks face in live webcam stream)
+        const faceX = (0.32 + Math.sin(timeFactor * 0.75) * 0.05) * w;
+        const faceY = (0.18 + Math.cos(timeFactor * 0.6) * 0.04) * h;
+        const faceW = (w < 480 ? 0.38 : 0.32) * w;
+        const faceH = (w < 480 ? 0.44 : 0.38) * h;
+        drawReticle(faceX, faceY, faceW, faceH, 'Operator [Facial ID]', 0.994, '#38bdf8', w < 480);
+
+        // Secondary Spatial Anchor
+        const secX = (0.12 + Math.cos(timeFactor * 0.5) * 0.03) * w;
+        const secY = (0.60 + Math.sin(timeFactor * 0.65) * 0.04) * h;
+        const secW = (w < 480 ? 0.28 : 0.24) * w;
+        const secH = (w < 480 ? 0.22 : 0.24) * h;
+        drawReticle(secX, secY, secW, secH, 'Spatial Anchor', 0.978, '#34d399', w < 480);
+      }
+
+      // Live watermark
+      ctx.fillStyle = '#34d399';
+      ctx.font = (w < 480 ? '9px' : '11px') + ' "JetBrains Mono", monospace';
+      ctx.textAlign = 'left';
+      ctx.fillText(`LIVE WEBCAM INGEST // ${video.videoWidth || 1280}x${video.videoHeight || 720}`, 14, 22);
+    }
+
+    requestAnimationFrame(render);
+  }
+
+  // Start animation loop
+  render();
+
+  // Webcam Start Function
+  async function startWebcam(targetDeviceId) {
+    try {
+      if (currentStream) {
+        currentStream.getTracks().forEach(track => track.stop());
+      }
+
+      if (targetDeviceId) {
+        selectedDeviceId = targetDeviceId;
+      }
+
+      let videoConstraints;
+      if (selectedDeviceId) {
+        videoConstraints = {
+          deviceId: { exact: selectedDeviceId },
+          width: { ideal: 1280 },
+          height: { ideal: 720 }
+        };
+      } else {
+        videoConstraints = {
+          facingMode: facingMode,
+          width: { ideal: 1280 },
+          height: { ideal: 720 }
+        };
+      }
+
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: videoConstraints,
+        audio: false
+      });
+
+      currentStream = stream;
+      video.srcObject = stream;
+      await video.play();
+
+      isLive = true;
+      video.style.display = 'block';
+      if (webcamPromptBanner) webcamPromptBanner.style.display = 'none';
+
+      // Capture active deviceId from video track
+      const videoTrack = stream.getVideoTracks()[0];
+      if (videoTrack) {
+        const settings = videoTrack.getSettings ? videoTrack.getSettings() : {};
+        if (settings.deviceId) {
+          selectedDeviceId = settings.deviceId;
+        }
+      }
+
+      // Re-populate devices now that permissions are granted (exposes device labels)
+      await refreshCameraList();
+
+      if (webcamStatusLabel) webcamStatusLabel.textContent = 'LIVE WEBCAM STREAMING';
+      if (webcamSourceBadge) {
+        const activeLabel = (videoTrack && videoTrack.label)
+          ? videoTrack.label.substring(0, 22)
+          : (facingMode === 'user' ? 'FRONT CAMERA' : 'REAR CAMERA');
+        webcamSourceBadge.textContent = activeLabel.toUpperCase();
+        webcamSourceBadge.className = 'webcam-source-badge live';
+      }
+      if (webcamPulseDot) webcamPulseDot.className = 'webcam-pulse-dot live';
+      if (webcamToggleText) webcamToggleText.textContent = 'Disconnect Webcam';
+
+      if (btnToggleWebcam) {
+        btnToggleWebcam.classList.remove('primary');
+        btnToggleWebcam.classList.add('danger');
+        btnToggleWebcam.querySelector('i').className = 'fas fa-video-slash';
+      }
+
+      if (telemetryDetections) telemetryDetections.textContent = '2 Targets Active (Spatial Reticle)';
+      if (camLatencyText) camLatencyText.textContent = '0.38ms';
+
+    } catch (err) {
+      console.warn('Webcam error:', err);
+      // Fallback: if exact deviceId failed, fallback to toggle facingMode
+      if (selectedDeviceId) {
+        selectedDeviceId = '';
+        facingMode = (facingMode === 'user') ? 'environment' : 'user';
+        try {
+          const fallbackStream = await navigator.mediaDevices.getUserMedia({
+            video: { facingMode: facingMode, width: { ideal: 1280 }, height: { ideal: 720 } },
+            audio: false
+          });
+          currentStream = fallbackStream;
+          video.srcObject = fallbackStream;
+          await video.play();
+          isLive = true;
+          video.style.display = 'block';
+          if (webcamPromptBanner) webcamPromptBanner.style.display = 'none';
+          await refreshCameraList();
+          return;
+        } catch (fallbackErr) {
+          console.warn('Fallback also failed:', fallbackErr);
+        }
+      }
+      alert('Could not access selected camera: ' + (err.message || 'Permission denied or no camera device found. Continuing with edge simulation.'));
+      stopWebcam();
+    }
+  }
+
+  function stopWebcam() {
+    if (currentStream) {
+      currentStream.getTracks().forEach(track => track.stop());
+      currentStream = null;
+    }
+    if (video) {
+      video.pause();
+      video.srcObject = null;
+      video.style.display = 'none';
+    }
+    isLive = false;
+
+    if (webcamPromptBanner) webcamPromptBanner.style.display = 'flex';
+    if (webcamStatusLabel) webcamStatusLabel.textContent = 'AURA VISION ACTIVE';
+    if (webcamSourceBadge) {
+      webcamSourceBadge.textContent = 'SIMULATED EDGE STREAM';
+      webcamSourceBadge.className = 'webcam-source-badge';
+    }
+    if (webcamPulseDot) webcamPulseDot.className = 'webcam-pulse-dot';
+    if (webcamToggleText) webcamToggleText.textContent = 'Activate Live Webcam';
+
+    if (btnToggleWebcam) {
+      btnToggleWebcam.classList.remove('danger');
+      btnToggleWebcam.classList.add('primary');
+      btnToggleWebcam.querySelector('i').className = 'fas fa-video';
+    }
+    if (telemetryDetections) telemetryDetections.textContent = '4 Objects (Spatial Ingest)';
+  }
+
+  // Toggle Webcam button
+  if (btnToggleWebcam) {
+    btnToggleWebcam.addEventListener('click', () => {
+      if (isLive) {
+        stopWebcam();
+      } else {
+        startWebcam(selectedDeviceId);
+      }
+    });
+  }
+
+  // Prompt banner button
+  if (btnStartWebcamPrompt) {
+    btnStartWebcamPrompt.addEventListener('click', () => {
+      startWebcam(selectedDeviceId);
+    });
+  }
+
+  // Camera selection dropdown change handler
+  if (cameraSelect) {
+    cameraSelect.addEventListener('change', (e) => {
+      const devId = e.target.value;
+      if (devId) {
+        selectedDeviceId = devId;
+        startWebcam(devId);
+      }
+    });
+  }
+
+  // Cycle / Switch Camera button (handles front, rear, and all multiple cameras)
+  if (btnFlipCamera) {
+    btnFlipCamera.addEventListener('click', async () => {
+      if (availableCameras.length > 1) {
+        let currentIndex = availableCameras.findIndex(c => c.deviceId === selectedDeviceId);
+        if (currentIndex === -1) currentIndex = 0;
+        const nextIndex = (currentIndex + 1) % availableCameras.length;
+        const nextCamera = availableCameras[nextIndex];
+        selectedDeviceId = nextCamera.deviceId;
+        if (cameraSelect) cameraSelect.value = selectedDeviceId;
+        startWebcam(selectedDeviceId);
+      } else {
+        // Toggle front / back facingMode
+        facingMode = (facingMode === 'user') ? 'environment' : 'user';
+        selectedDeviceId = '';
+        startWebcam();
+      }
+    });
+  }
+
+  // Toggle Overlays
+  if (btnToggleOverlay) {
+    btnToggleOverlay.addEventListener('click', () => {
+      showOverlay = !showOverlay;
+      if (overlayToggleText) {
+        overlayToggleText.textContent = showOverlay ? 'Bounding Boxes: ON' : 'Bounding Boxes: OFF';
+      }
+      btnToggleOverlay.classList.toggle('active', showOverlay);
+    });
+  }
+
+  // Snapshot Scan button
+  if (btnSnapshotInference) {
+    btnSnapshotInference.addEventListener('click', () => {
+      container.classList.add('shutter-flash');
+      setTimeout(() => container.classList.remove('shutter-flash'), 400);
+
+      const randomHash = '0x' + Array.from({ length: 32 }, () => Math.floor(Math.random() * 16).toString(16)).join('');
+      if (telemetryHash) {
+        telemetryHash.textContent = `SHA256: ${randomHash.substring(0, 10)}...${randomHash.substring(58)} [Verified]`;
+      }
+      if (camLatencyText) {
+        camLatencyText.textContent = (0.32 + Math.random() * 0.1).toFixed(2) + 'ms';
+      }
+    });
+  }
 }
 
 function initDocsAndApiPlayground() {

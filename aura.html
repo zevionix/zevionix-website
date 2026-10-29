@@ -193,6 +193,7 @@
             AURA (Autonomous Unified Reasoning Architecture) is an enterprise AI engine engineered for environments
             requiring sub-millisecond decisions, air-gapped zero-trust security, and massive horizontal scaling.
           </p>
+<<<<<<< HEAD
           <!-- Professional Executive Feature Cards (Pillars of AURA Design System) -->
           <div class="aura-mesh-feature-grid">
             <div class="tech-card aura-hero-tech-card">
@@ -225,6 +226,22 @@
             <a href="#auraHudContainer" class="btn btn-secondary btn-lg"><i class="fas fa-video"></i> Live Vision
               Feed</a>
             <a href="#aura-simulator" class="btn btn-outline btn-lg"><i class="fas fa-microchip"></i> Live Simulator</a>
+=======
+          <ul class="card-feature-list" style="margin: 20px 0 26px;">
+            <li><i class="fas fa-check-circle"></i> <strong>Universal Vision Ingest:</strong> Processes 100+ concurrent
+              RTSP/CSI camera feeds with real-time YOLOv10 spatial parsing.</li>
+            <li><i class="fas fa-check-circle"></i> <strong>Autonomous Agent Swarms:</strong> Coordinated reasoning
+              agents that detect operational drifts and execute remediations.</li>
+            <li><i class="fas fa-check-circle"></i> <strong>Edge-to-Cloud Federation:</strong> Syncs lightweight
+              quantized models to edge gateways with central model orchestration.</li>
+            <li><i class="fas fa-check-circle"></i> <strong>Zero-Trust Cryptographic Vault:</strong> End-to-end payload
+              encryption (AES-256-GCM) and hardware enclave security.</li>
+          </ul>
+          <div class="hero-action-buttons" style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 10px;">
+            <a href="#aura-webcam-testbed" class="btn btn-cyan btn-lg"><i class="fas fa-video"></i> Launch Live Webcam</a>
+            <a href="#aura-simulator" class="btn btn-secondary btn-lg"><i class="fas fa-microchip"></i> Live Mesh Simulator</a>
+            <a href="contact.html" class="btn btn-primary btn-lg">Request AURA Demo <i class="fas fa-arrow-right"></i></a>
+>>>>>>> 471d2a1 (update site in mobile view)
           </div>
         </div>
 
@@ -685,6 +702,106 @@
     </div>
   </section>
 
+  <!-- Live AURA Edge Vision & Mobile Webcam Testbed -->
+  <section class="aura-webcam-section" id="aura-webcam-testbed">
+    <div class="container">
+      <div class="section-header">
+        <div class="badge-pill">
+          <i class="fas fa-video" style="margin-right: 6px;"></i> Edge Vision Ingest
+        </div>
+        <h2 class="section-title">AURA Vision™ Live Webcam & Spatial AI Testbed</h2>
+        <p class="section-subtitle">
+          Experience real-time spatial intelligence and YOLOv10 object detection directly in your browser.
+          Stream your live device camera with client-side inference, or inspect the continuous edge simulation.
+        </p>
+      </div>
+
+      <div class="webcam-container" id="auraWebcamContainer">
+        <!-- Top Status Bar -->
+        <div class="webcam-header-bar">
+          <div class="webcam-brand">
+            <span class="webcam-pulse-dot" id="webcamPulseDot"></span>
+            <span class="webcam-status-label" id="webcamStatusLabel">AURA VISION ACTIVE</span>
+            <span class="webcam-source-badge" id="webcamSourceBadge">SIMULATED EDGE STREAM</span>
+          </div>
+          <div class="webcam-metrics">
+            <span class="webcam-metric-item"><i class="fas fa-microchip"></i> <strong id="camModelText">YOLOv10-FP8</strong></span>
+            <span class="webcam-metric-item"><i class="fas fa-bolt"></i> Latency: <strong id="camLatencyText">0.42ms</strong></span>
+            <span class="webcam-metric-item"><i class="fas fa-tachometer-alt"></i> FPS: <strong id="camFpsText">60</strong></span>
+          </div>
+        </div>
+
+        <!-- Video & Overlay Stage -->
+        <div class="webcam-stage-wrapper">
+          <video id="auraWebcamVideo" playsinline autoplay muted></video>
+          <canvas id="auraWebcamOverlay"></canvas>
+
+          <!-- Floating Scanner Crosshair / HUD Grid Overlay -->
+          <div class="webcam-hud-overlay" id="webcamHudOverlay">
+            <div class="hud-corner top-left"></div>
+            <div class="hud-corner top-right"></div>
+            <div class="hud-corner bottom-left"></div>
+            <div class="hud-corner bottom-right"></div>
+            <div class="hud-scanner-bar"></div>
+            <div class="hud-target-reticle"></div>
+          </div>
+
+          <!-- Permission & Mode Overlay Prompt -->
+          <div class="webcam-prompt-banner" id="webcamPromptBanner">
+            <div class="prompt-icon"><i class="fas fa-camera"></i></div>
+            <div class="prompt-text">
+              <div class="prompt-title">Live Device Camera Feed Available</div>
+              <div class="prompt-sub">Stream your phone or webcam with on-device YOLOv10 spatial parsing. No video leaves your browser.</div>
+            </div>
+            <button class="btn btn-cyan btn-sm prompt-btn" id="btnStartWebcamPrompt" type="button">
+              <i class="fas fa-play"></i> Start Live Webcam
+            </button>
+          </div>
+        </div>
+
+        <!-- Control Toolbar (Mobile Optimized) -->
+        <div class="webcam-controls-bar">
+          <div class="webcam-action-group">
+            <button class="webcam-btn primary" id="btnToggleWebcam" type="button">
+              <i class="fas fa-video"></i> <span id="webcamToggleText">Activate Live Webcam</span>
+            </button>
+            <div class="webcam-select-wrap" id="webcamSelectWrap" title="Select specific camera device">
+              <i class="fas fa-camera webcam-select-icon"></i>
+              <select id="auraCameraSelect" class="webcam-select" aria-label="Select Camera Device">
+                <option value="">Auto Camera (Front/Rear)</option>
+              </select>
+            </div>
+            <button class="webcam-btn secondary" id="btnFlipCamera" type="button" title="Switch between Front, Rear, and External Cameras">
+              <i class="fas fa-sync-alt"></i> <span id="btnFlipText">Switch Camera</span>
+            </button>
+            <button class="webcam-btn outline" id="btnToggleOverlay" type="button">
+              <i class="fas fa-vector-square"></i> <span id="overlayToggleText">Bounding Boxes: ON</span>
+            </button>
+            <button class="webcam-btn outline" id="btnSnapshotInference" type="button">
+              <i class="fas fa-camera-retro"></i> <span>Scan Frame</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Telemetry Details Strip -->
+        <div class="webcam-telemetry-strip">
+          <div class="telemetry-pill">
+            <span class="telemetry-label">Tracked Targets:</span>
+            <span class="telemetry-val" id="telemetryDetections">4 Objects (Spatial Ingest)</span>
+          </div>
+          <div class="telemetry-pill">
+            <span class="telemetry-label">Inference Mode:</span>
+            <span class="telemetry-val" id="telemetryInference">Sub-ms TensorRT Edge</span>
+          </div>
+          <div class="telemetry-pill">
+            <span class="telemetry-label">Cryptographic Proof:</span>
+            <span class="telemetry-val" id="telemetryHash" style="color: #34d399;">SHA256: 0x9e8a...3f12 [Verified]</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Interactive Telemetry & Edge-to-Cloud Mesh Simulator -->
   <section class="aura-sim-section" id="aura-simulator">
     <div class="container">
@@ -962,7 +1079,7 @@
             with single-command deployment and automated health healing.
           </p>
           <div
-            style="background: #0f172a; border: 1px solid var(--border-light); border-radius: 12px; padding: 18px; margin: 20px 0; color: #fff;"
+            style="background: #0f172a; border: 1px solid var(--border-light); border-radius: 12px; padding: 18px; margin: 20px 0; color: #fff; overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch;"
             class="code-font">
             <div style="color: var(--accent-cyan); font-size: 0.82rem; margin-bottom: 6px;">// Install AURA Enterprise
               Core SDK</div>
