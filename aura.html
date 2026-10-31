@@ -743,10 +743,10 @@
             <div class="prompt-icon"><i class="fas fa-camera"></i></div>
             <div class="prompt-text">
               <div class="prompt-title">Live Device Camera Feed Available</div>
-              <div class="prompt-sub">Stream your phone or webcam with on-device YOLOv10 spatial parsing. No video leaves your browser.</div>
+              <div class="prompt-sub">Stream your phone or webcam with on-device YOLOv10 spatial parsing. Permission required before accessing camera.</div>
             </div>
             <button class="btn btn-cyan btn-sm prompt-btn" id="btnStartWebcamPrompt" type="button">
-              <i class="fas fa-play"></i> Start Live Webcam
+              <i class="fas fa-lock-open"></i> Give Camera Permission
             </button>
           </div>
         </div>
@@ -1166,6 +1166,110 @@
       </div>
     </div>
   </footer>
+
+  <!-- AURA Live Camera Access Permission Request Modal -->
+  <div class="privacy-modal-overlay camera-perm-modal-overlay" id="cameraPermissionModalOverlay" style="display: none;"
+    role="dialog" aria-modal="true" aria-labelledby="cameraPermModalTitle">
+    <div class="privacy-modal-card camera-perm-modal-card">
+      <div class="privacy-modal-header">
+        <div class="privacy-modal-icon-wrap" style="background: #e0f2fe; color: #0284c7; border-color: #bae6fd;">
+          <i class="fas fa-video"></i>
+        </div>
+        <div>
+          <h3 id="cameraPermModalTitle"
+            style="margin: 0; font-size: 1.05rem; color: #0f172a; font-family: 'Plus Jakarta Sans', sans-serif;">
+            Camera Access Permission Required</h3>
+          <p style="margin: 2px 0 0; font-size: 0.76rem; color: #64748b;" id="cameraPermModalSub">
+            AURA Vision™ Spatial Ingest & YOLOv10 Inference
+          </p>
+        </div>
+        <button type="button" class="privacy-modal-close" id="cameraPermModalClose"
+          aria-label="Close dialog">&times;</button>
+      </div>
+
+      <div class="privacy-modal-body">
+        <!-- Initial Permission Prompt View -->
+        <div id="cameraPermPromptState">
+          <p style="font-size: 0.86rem; color: #334155; line-height: 1.55; margin-bottom: 14px;">
+            To test live edge computer vision on your device, <strong>Zevionix AURA Platform</strong> requires your permission to access your camera.
+          </p>
+
+          <ul class="privacy-checklist" style="margin-bottom: 16px;">
+            <li>
+              <i class="fas fa-microchip text-primary"></i>
+              <div>
+                <strong>100% On-Device Neural Inference:</strong>
+                <span>Spatial object detection and tracking are executed entirely within your browser GPU/CPU memory.</span>
+              </div>
+            </li>
+            <li>
+              <i class="fas fa-shield-halved text-emerald"></i>
+              <div>
+                <strong>Zero Cloud Storage / Zero Upload:</strong>
+                <span>No video frames, biometric recordings, or camera streams are sent across the network or stored.</span>
+              </div>
+            </li>
+            <li>
+              <i class="fas fa-sliders text-cyan"></i>
+              <div>
+                <strong>Camera Switch & Instant Revocation:</strong>
+                <span>Easily switch between front/rear cameras or turn off camera access anytime with one tap.</span>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Requesting / Waiting State (Shown while browser prompt is open) -->
+        <div id="cameraPermRequestingState" style="display: none; text-align: center; padding: 18px 10px;">
+          <div class="camera-perm-spinner">
+            <i class="fas fa-circle-notch fa-spin"></i>
+          </div>
+          <h4 style="margin: 12px 0 6px; font-size: 0.98rem; color: #0f172a;">Requesting Camera Permission...</h4>
+          <p style="font-size: 0.82rem; color: #64748b; line-height: 1.5; max-width: 380px; margin: 0 auto 12px;">
+            Please select <strong>"Allow"</strong> on your browser's permission prompt (usually at the top or address bar of your browser).
+          </p>
+          <div class="camera-perm-hint-pill">
+            <i class="fas fa-info-circle"></i> Looking for prompt? Check address bar camera / lock icon.
+          </div>
+        </div>
+
+        <!-- Denied / Blocked State (Shown if user clicks Block or permission fails) -->
+        <div id="cameraPermDeniedState" style="display: none; padding: 8px 0;">
+          <div class="camera-perm-denied-box">
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+              <i class="fas fa-ban" style="color: #ef4444; font-size: 1.2rem;"></i>
+              <strong style="color: #991b1b; font-size: 0.9rem;">Camera Permission Denied or Blocked</strong>
+            </div>
+            <p style="font-size: 0.80rem; color: #7f1d1d; line-height: 1.45; margin: 0 0 10px;">
+              Your browser declined or blocked camera access. To allow camera access:
+            </p>
+            <ol style="font-size: 0.78rem; color: #475569; padding-left: 20px; margin: 0; line-height: 1.55;">
+              <li>Tap the <strong>lock</strong> or <strong>camera icon</strong> in your browser's address bar.</li>
+              <li>Toggle Camera permission to <strong>"Allow"</strong>.</li>
+              <li>Click <strong>"Try Again"</strong> below to refresh sensor access.</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+
+      <div class="privacy-modal-footer">
+        <span class="privacy-audit-badge" id="cameraPermBadge">
+          <i class="fas fa-lock"></i> Air-Gapped Client Ingest
+        </span>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+          <button type="button" class="btn btn-outline btn-sm" id="btnCancelCameraPerm">
+            Cancel / Use Simulation
+          </button>
+          <button type="button" class="btn btn-cyan btn-sm" id="btnConfirmCameraPerm">
+            <i class="fas fa-check"></i> Grant Camera Permission
+          </button>
+          <button type="button" class="btn btn-primary btn-sm" id="btnRetryCameraPerm" style="display: none;">
+            <i class="fas fa-sync-alt"></i> Try Again
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- High-Precision Real-Time Neural Face Detection Engine -->
   <script src="pico.js"></script>

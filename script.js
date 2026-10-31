@@ -798,6 +798,110 @@ function initAuraTelemetrySimulator() {
 }
 
 // ==========================================================================
+// AURA CAMERA ACCESS PERMISSION CONTROLLER
+// Prompts user explicitly with privacy terms before invoking getUserMedia
+// ==========================================================================
+let auraCameraPermissionGranted = false;
+
+function requestAuraCameraPermission(options = {}) {
+  const { onGranted, onDenied, targetDeviceId } = options;
+
+  // If permission was already granted during this active session, proceed immediately
+  if (auraCameraPermissionGranted) {
+    if (typeof onGranted === 'function') onGranted(targetDeviceId);
+    return;
+  }
+
+  const modal = document.getElementById('cameraPermissionModalOverlay');
+  if (!modal) {
+    if (window.confirm("Zevionix AURA Vision requests your permission to access your device camera for real-time spatial AI.\n\nAll frames are processed 100% on your device.\n\nGrant camera permission?")) {
+      auraCameraPermissionGranted = true;
+      if (typeof onGranted === 'function') onGranted(targetDeviceId);
+    } else {
+      if (typeof onDenied === 'function') onDenied();
+    }
+    return;
+  }
+
+  const promptState = document.getElementById('cameraPermPromptState');
+  const requestingState = document.getElementById('cameraPermRequestingState');
+  const deniedState = document.getElementById('cameraPermDeniedState');
+  const btnConfirm = document.getElementById('btnConfirmCameraPerm');
+  const btnCancel = document.getElementById('btnCancelCameraPerm');
+  const btnRetry = document.getElementById('btnRetryCameraPerm');
+  const btnClose = document.getElementById('cameraPermModalClose');
+  const modalSub = document.getElementById('cameraPermModalSub');
+
+  if (promptState) promptState.style.display = 'block';
+  if (requestingState) requestingState.style.display = 'none';
+  if (deniedState) deniedState.style.display = 'none';
+  if (btnConfirm) btnConfirm.style.display = 'inline-flex';
+  if (btnCancel) btnCancel.style.display = 'inline-flex';
+  if (btnRetry) btnRetry.style.display = 'none';
+  if (modalSub) modalSub.textContent = 'AURA Vision™ Spatial Ingest & YOLOv10 Inference';
+
+  modal.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+
+  function closeModal() {
+    modal.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  function handleCancel() {
+    closeModal();
+    if (typeof onDenied === 'function') onDenied();
+  }
+
+  if (btnClose) btnClose.onclick = handleCancel;
+  if (btnCancel) btnCancel.onclick = handleCancel;
+
+  modal.onclick = (e) => {
+    if (e.target === modal) handleCancel();
+  };
+
+  async function proceedWithBrowserPermission() {
+    if (promptState) promptState.style.display = 'none';
+    if (deniedState) deniedState.style.display = 'none';
+    if (requestingState) requestingState.style.display = 'block';
+    if (btnConfirm) btnConfirm.style.display = 'none';
+    if (btnRetry) btnRetry.style.display = 'none';
+
+    try {
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        throw new Error('MediaDevices API not supported in this browser.');
+      }
+
+      let videoConstraints = { width: { ideal: 1280 }, height: { ideal: 720 } };
+      if (targetDeviceId) {
+        videoConstraints.deviceId = { exact: targetDeviceId };
+      } else {
+        videoConstraints.facingMode = 'user';
+      }
+
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: videoConstraints,
+        audio: false
+      });
+
+      auraCameraPermissionGranted = true;
+      closeModal();
+      if (typeof onGranted === 'function') onGranted(targetDeviceId, stream);
+    } catch (err) {
+      console.warn('Camera permission denied or failed:', err);
+      if (requestingState) requestingState.style.display = 'none';
+      if (deniedState) deniedState.style.display = 'block';
+      if (btnRetry) btnRetry.style.display = 'inline-flex';
+      if (btnConfirm) btnConfirm.style.display = 'none';
+      if (typeof onDenied === 'function') onDenied(err);
+    }
+  }
+
+  if (btnConfirm) btnConfirm.onclick = proceedWithBrowserPermission;
+  if (btnRetry) btnRetry.onclick = proceedWithBrowserPermission;
+}
+
+// ==========================================================================
 // 9B. AURA LIVE WEBCAM & SPATIAL AI VISION TESTBED
 // ==========================================================================
 function initAuraLiveWebcamEngine() {
@@ -1146,7 +1250,7 @@ function initAuraLiveWebcamEngine() {
   render();
 
   // Webcam Start Function
-  async function startWebcam(targetDeviceId) {
+  async function startWebcam(targetDeviceId, existingStream) {
     try {
       if (currentStream) {
         currentStream.getTracks().forEach(track => track.stop());
@@ -1156,31 +1260,35 @@ function initAuraLiveWebcamEngine() {
         selectedDeviceId = targetDeviceId;
       }
 
-      let videoConstraints;
-      if (selectedDeviceId) {
-        videoConstraints = {
-          deviceId: { exact: selectedDeviceId },
-          width: { ideal: 1280 },
-          height: { ideal: 720 }
-        };
-      } else {
-        videoConstraints = {
-          facingMode: facingMode,
-          width: { ideal: 1280 },
-          height: { ideal: 720 }
-        };
-      }
+      let stream = existingStream;
+      if (!stream) {
+        let videoConstraints;
+        if (selectedDeviceId) {
+          videoConstraints = {
+            deviceId: { exact: selectedDeviceId },
+            width: { ideal: 1280 },
+            height: { ideal: 720 }
+          };
+        } else {
+          videoConstraints = {
+            facingMode: facingMode,
+            width: { ideal: 1280 },
+            height: { ideal: 720 }
+          };
+        }
 
-      const stream = await navigator.mediaDevices.getUserMedia({
-        video: videoConstraints,
-        audio: false
-      });
+        stream = await navigator.mediaDevices.getUserMedia({
+          video: videoConstraints,
+          audio: false
+        });
+      }
 
       currentStream = stream;
       video.srcObject = stream;
       await video.play();
 
       isLive = true;
+      auraCameraPermissionGranted = true;
       video.style.display = 'block';
       if (webcamPromptBanner) webcamPromptBanner.style.display = 'none';
 
@@ -1231,6 +1339,7 @@ function initAuraLiveWebcamEngine() {
           video.srcObject = fallbackStream;
           await video.play();
           isLive = true;
+          auraCameraPermissionGranted = true;
           video.style.display = 'block';
           if (webcamPromptBanner) webcamPromptBanner.style.display = 'none';
           await refreshCameraList();
@@ -1239,7 +1348,6 @@ function initAuraLiveWebcamEngine() {
           console.warn('Fallback also failed:', fallbackErr);
         }
       }
-      alert('Could not access selected camera: ' + (err.message || 'Permission denied or no camera device found. Continuing with edge simulation.'));
       stopWebcam();
     }
   }
@@ -1273,13 +1381,30 @@ function initAuraLiveWebcamEngine() {
     if (telemetryDetections) telemetryDetections.textContent = '4 Objects (Spatial Ingest)';
   }
 
+  // Trigger webcam activation by explicitly requesting user permission
+  function triggerWebcamWithPermission(devId) {
+    if (isLive) {
+      startWebcam(devId);
+    } else {
+      requestAuraCameraPermission({
+        targetDeviceId: devId,
+        onGranted: (dId, stream) => {
+          startWebcam(dId, stream);
+        },
+        onDenied: () => {
+          stopWebcam();
+        }
+      });
+    }
+  }
+
   // Toggle Webcam button
   if (btnToggleWebcam) {
     btnToggleWebcam.addEventListener('click', () => {
       if (isLive) {
         stopWebcam();
       } else {
-        startWebcam(selectedDeviceId);
+        triggerWebcamWithPermission(selectedDeviceId);
       }
     });
   }
@@ -1287,7 +1412,7 @@ function initAuraLiveWebcamEngine() {
   // Prompt banner button
   if (btnStartWebcamPrompt) {
     btnStartWebcamPrompt.addEventListener('click', () => {
-      startWebcam(selectedDeviceId);
+      triggerWebcamWithPermission(selectedDeviceId);
     });
   }
 
@@ -1297,7 +1422,7 @@ function initAuraLiveWebcamEngine() {
       const devId = e.target.value;
       if (devId) {
         selectedDeviceId = devId;
-        startWebcam(devId);
+        triggerWebcamWithPermission(devId);
       }
     });
   }
@@ -1312,12 +1437,12 @@ function initAuraLiveWebcamEngine() {
         const nextCamera = availableCameras[nextIndex];
         selectedDeviceId = nextCamera.deviceId;
         if (cameraSelect) cameraSelect.value = selectedDeviceId;
-        startWebcam(selectedDeviceId);
+        triggerWebcamWithPermission(selectedDeviceId);
       } else {
         // Toggle front / back facingMode
         facingMode = (facingMode === 'user') ? 'environment' : 'user';
         selectedDeviceId = '';
-        startWebcam();
+        triggerWebcamWithPermission();
       }
     });
   }
@@ -4205,7 +4330,7 @@ function initAuraHudMockup() {
   }
 
   // 8. Request & Start Local Webcam Stream
-  async function startWebcam() {
+  async function startWebcam(existingStream) {
     const isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1' || location.protocol === 'file:';
     const isHttps = location.protocol === 'https:';
 
@@ -4224,20 +4349,23 @@ function initAuraHudMockup() {
     showNotice('Requesting camera permission...', false, 'fas fa-video');
 
     try {
-      let stream;
-      try {
-        stream = await navigator.mediaDevices.getUserMedia({
-          video: {
-            width: { ideal: 1280, min: 640 },
-            height: { ideal: 720, min: 480 },
-            facingMode: 'user'
-          }
-        });
-      } catch (constraintErr) {
-        stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      let stream = existingStream;
+      if (!stream) {
+        try {
+          stream = await navigator.mediaDevices.getUserMedia({
+            video: {
+              width: { ideal: 1280, min: 640 },
+              height: { ideal: 720, min: 480 },
+              facingMode: 'user'
+            }
+          });
+        } catch (constraintErr) {
+          stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        }
       }
 
       webcamStream = stream;
+      auraCameraPermissionGranted = true;
       if (webcamVideo) {
         webcamVideo.srcObject = stream;
         webcamVideo.style.display = 'block';
@@ -4354,19 +4482,24 @@ function initAuraHudMockup() {
     }
 
     if (scenario === 'webcam') {
-      if (currentScenario === 'webcam') {
-        if (webcamStream) {
+      if (currentScenario === 'webcam' && webcamStream) {
+        stopWebcam();
+        setScenario('campus');
+        return;
+      }
+
+      // Explicitly ask for user permission before accessing camera
+      requestAuraCameraPermission({
+        onGranted: (dId, stream) => {
+          currentScenario = 'webcam';
+          allBtns.forEach(btn => btn.classList.remove('active', 'cam-active'));
+          startWebcam(stream);
+        },
+        onDenied: () => {
           stopWebcam();
           setScenario('campus');
-          return;
-        } else {
-          startWebcam();
-          return;
         }
-      }
-      currentScenario = 'webcam';
-      allBtns.forEach(btn => btn.classList.remove('active', 'cam-active'));
-      startWebcam();
+      });
       return;
     }
 
